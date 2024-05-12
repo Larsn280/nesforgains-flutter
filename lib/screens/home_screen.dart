@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:NESForGains/constants.dart';
 
-class HomePage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
+  final String username;
   /* Ignorerar varningen */
   // ignore: use_super_parameters
-  const HomePage({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, required this.username}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,10 +59,11 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/loginPage');
+                    Navigator.pushNamed(context, '/profileScreen');
                   },
-                  child: const Text('Go to Login')),
+                  child: const Text('Go to Profile')),
             ),
+            Text('Username: ${widget.username}'),
           ],
         ),
       ),

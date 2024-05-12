@@ -1,10 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:myflutterapp/widgets/background_container.dart';
 import 'constants.dart';
 import 'screens/home_screen.dart';
-import 'service/myapipage.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
+import 'screens/profile_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -38,10 +39,12 @@ class App extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        '/': (context) => const HomePage(),
-        '/myApiPage': (context) => MyApiPage(),
-        '/loginPage': (context) => const LoginPage(),
-        '/registerPage': (context) => const RegisterPage(),
+        '/': (context) => const LoginScreen(),
+        '/homeScreen': (context) => HomeScreen(
+              username: ModalRoute.of(context)!.settings.arguments.toString(),
+            ),
+        '/registerScreen': (context) => const RegisterScreen(),
+        '/profileScreen': (context) => const ProfileScreen(),
       },
     );
   }

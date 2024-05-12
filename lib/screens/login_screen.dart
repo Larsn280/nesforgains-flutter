@@ -1,17 +1,18 @@
+import 'package:NESForGains/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:NESForGains/constants.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   /* Ignorerar varningen */
   // ignore: use_super_parameters
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -32,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Login Page',
+              'Login Screen',
               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20.0),
@@ -78,18 +79,20 @@ class _LoginPageState extends State<LoginPage> {
                   print('Username: ${_usernameController.text}');
                   // ignore: avoid_print
                   print('Password: ${_passwordController.text}');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          HomeScreen(username: _usernameController.text),
+                    ),
+                  );
                 },
                 child: const Text('Login')),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/registerPage');
+                  Navigator.pushNamed(context, '/registerScreen');
                 },
                 child: const Text('Register')),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/');
-                },
-                child: const Text('Go back Home')),
           ],
         ),
       ),

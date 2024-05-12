@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class MyApiPage extends StatefulWidget {
+class MyApi extends StatefulWidget {
   @override
-  _MyApiPageState createState() => _MyApiPageState();
+  _MyApiState createState() => _MyApiState();
 }
 
-class _MyApiPageState extends State<MyApiPage> {
+class _MyApiState extends State<MyApi> {
   String _data = '';
 
   @override

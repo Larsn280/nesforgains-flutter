@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:NESForGains/constants.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   /* Ignorerar varningen */
   // ignore: use_super_parameters
-  const RegisterPage({Key? key}) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Register Page',
+              'Register Screen',
               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20.0),
@@ -80,7 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: const Text('Register')),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/loginPage');
+                Navigator.pushNamed(context, '/loginScreen');
               },
               child: const Text('Go back to Login'),
             ),
