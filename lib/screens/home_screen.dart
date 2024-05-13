@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
-import 'package:NESForGains/auth.dart';
+import 'package:NESForGains/service/authService.dart';
 import 'package:flutter/material.dart';
 import 'package:NESForGains/constants.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   /* Ignorerar varningen */
@@ -19,8 +16,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    String username = Provider.of<AuthState>(context).username;
-
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,

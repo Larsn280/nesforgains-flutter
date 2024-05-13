@@ -1,4 +1,4 @@
-import 'package:NESForGains/auth.dart';
+import 'package:NESForGains/service/authService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
