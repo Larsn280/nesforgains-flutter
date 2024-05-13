@@ -47,11 +47,9 @@ class App extends StatelessWidget {
         //     : '/',
         routes: {
           '/': (context) {
-            return Builder(builder: (context) {
-              final isLoggedIn =
-                  Provider.of<AuthState>(context).checkLoginStatus();
-              return isLoggedIn ? const HomeScreen() : const LoginScreen();
-            });
+            final isLoggedIn =
+                Provider.of<AuthState>(context).checkLoginStatus();
+            return isLoggedIn ? const HomeScreen() : const LoginScreen();
           },
           // '/': (context) => const LoginScreen(),
           '/homeScreen': (context) => const HomeScreen(),
