@@ -18,3 +18,4 @@ git status
 git log
 git remote add <remote_name> <remote_url>
 git remote -v
+git branch -m <old_branch_name> <new_branch_name>
