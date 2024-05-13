@@ -1,4 +1,6 @@
+import 'package:NESForGains/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -9,6 +11,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    String username = Provider.of<AuthState>(context).username;
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(16.0),
@@ -27,6 +31,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               'Profile Screen',
               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
             ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Text('Welcome $username!', style: TextStyle(fontSize: 16.0)),
           ],
         ),
       ),

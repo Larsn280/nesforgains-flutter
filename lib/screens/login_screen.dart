@@ -1,3 +1,4 @@
+import 'package:NESForGains/auth.dart';
 import 'package:NESForGains/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
@@ -79,13 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   print('Username: ${_usernameController.text}');
                   // ignore: avoid_print
                   print('Password: ${_passwordController.text}');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          HomeScreen(username: _usernameController.text),
-                    ),
-                  );
+                  AuthProvider.of(context)
+                      .login(_usernameController.text.toString());
+                  // Navigator.pushNamed(context, '/homeScreen');
                 },
                 child: const Text('Login')),
             ElevatedButton(

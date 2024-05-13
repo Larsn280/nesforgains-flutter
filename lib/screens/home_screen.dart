@@ -1,11 +1,16 @@
+import 'dart:ffi';
+
+import 'package:NESForGains/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:NESForGains/constants.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String username;
   /* Ignorerar varningen */
   // ignore: use_super_parameters
-  const HomeScreen({Key? key, required this.username}) : super(key: key);
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    String username = Provider.of<AuthState>(context).username;
+
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -55,15 +62,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/profileScreen');
-                  },
-                  child: const Text('Go to Profile')),
+            const SizedBox(
+              height: 32.0,
             ),
-            Text('Username: ${widget.username}'),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/profileScreen');
+                },
+                child: const Text('Go to Profile')),
+            ElevatedButton(
+              onPressed: () {
+                AuthProvider.of(context).logout();
+              },
+              child: const Text('Logout'),
+            ),
           ],
         ),
       ),
