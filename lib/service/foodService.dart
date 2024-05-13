@@ -1,8 +1,18 @@
-class FoodService {
-  String handleFoodSubmitted(String food) {
-    // print('Submitted: $food');
+import 'package:NESForGains/models/nutritionData.dart';
 
-    String processedFood = 'Processed: $food';
-    return processedFood;
+class FoodService {
+  NutritionData handleFoodSubmitted(String food) {
+    int calories = 250;
+    int protein = 20;
+    int carbohydrates = 30;
+    int fat = 10;
+
+    NutritionData processedFoodNutrition = NutritionData(
+        calories: calories,
+        protein: protein,
+        carbohydrates: carbohydrates,
+        fat: fat);
+
+    return processedFoodNutrition;
   }
 }

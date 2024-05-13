@@ -1,3 +1,4 @@
+import 'package:NESForGains/models/nutritionData.dart';
 import 'package:NESForGains/service/authService.dart';
 import 'package:NESForGains/service/foodService.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _consumedController = TextEditingController();
   FoodService foodService = FoodService();
 
+  int calories = 0;
+  int proteine = 0;
+  int carbs = 0;
+  int fat = 0;
+
   @override
   void dispose() {
     _consumedController.dispose();
@@ -24,10 +30,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     String username = Provider.of<AuthState>(context).username;
-    const int calories = 2212;
-    const int proteine = 0;
-    const int carbs = 0;
-    const int fat = 0;
 
     return Scaffold(
       body: Container(
@@ -75,8 +77,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      print(foodService.handleFoodSubmitted(
-                          _consumedController.text.toString()));
+                      NutritionData processedFoodList =
+                          foodService.handleFoodSubmitted(
+                              _consumedController.text.toString());
+                      setState(() {
+                        calories = processedFoodList.calories.toInt();
+                        proteine = processedFoodList.protein.toInt();
+                        carbs = processedFoodList.carbohydrates.toInt();
+                        fat = processedFoodList.fat.toInt();
+                      });
+
+                      // print(foodService
+                      //     .handleFoodSubmitted(
+                      //         _consumedController.text.toString())
+                      //     .calories);
                     },
                     child: const Text('Submit'),
                   ),
@@ -89,13 +103,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 20.0,
                   ),
-                  const Text('Consumed Today: $calories Calories!'),
+                  Text('Consumed Today: $calories Calories!'),
                   const SizedBox(
                     height: 8.0,
                   ),
-                  const Text('Protein: ${proteine}g'),
-                  const Text('Carbs: ${carbs}g'),
-                  const Text('Fat: ${fat}g'),
+                  Text('Protein: ${proteine}g'),
+                  Text('Carbs: ${carbs}g'),
+                  Text('Fat: ${fat}g'),
                 ],
               ),
             ),
