@@ -96,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/homeScreen');
+                      Navigator.pushNamed(context, '/');
                     },
                     child: const Text('Go to Home'),
                   ),

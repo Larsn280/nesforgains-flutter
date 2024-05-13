@@ -1,10 +1,14 @@
+import 'package:NESForGains/database/database.dart';
+import 'package:NESForGains/service/registerService.dart';
 import 'package:flutter/material.dart';
 import 'package:NESForGains/constants.dart';
+import 'package:isar/isar.dart';
 
 class RegisterScreen extends StatefulWidget {
+  final Isar isar;
   /* Ignorerar varningen */
   // ignore: use_super_parameters
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({Key? key, required this.isar}) : super(key: key);
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -13,6 +17,14 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  late RegisterService registerService;
+
+  @override
+  void initState() {
+    super.initState();
+    registerService = RegisterService(widget.isar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +83,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               height: 32.0,
             ),
             ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  bool response = await registerService.isUserExists(
+                      _emailController.text.toString(),
+                      _passwordController.text.toString());
+                  print(response);
                   // ignore: avoid_print
                   print('Username: ${_emailController.text}');
                   // ignore: avoid_print
@@ -80,10 +96,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: const Text('Register')),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/loginScreen');
+                Navigator.pushNamed(context, '/');
               },
               child: const Text('Go back to Login'),
             ),
+            ElevatedButton(
+                onPressed: () async {
+                  String response = await registerService
+                      .doesUserExist(_emailController.text.toString());
+                  print(response);
+                },
+                child: const Text('TEST'))
           ],
         ),
       ),

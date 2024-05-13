@@ -1,6 +1,10 @@
 # Documentation for isar database
 https://isar.dev/
 
+# Builds a table in Isar database on collection model
+
+flutter pub run build_runner build
+
 # Git cli commands:
 
 git clone <repository_url>

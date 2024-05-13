@@ -19,5 +19,5 @@ void main() async {
     print('Failed to initialize Isar.');
   }
 
-  runApp(const App());
+  runApp(App(isar: isar));
 }

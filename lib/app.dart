@@ -1,5 +1,6 @@
 import 'package:NESForGains/service/authService.dart';
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
 // import 'package:myflutterapp/widgets/background_container.dart';
 import 'constants.dart';
@@ -9,7 +10,8 @@ import 'screens/register_screen.dart';
 import 'screens/profile_screen.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  final Isar isar;
+  const App({Key? key, required this.isar}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -53,7 +55,7 @@ class App extends StatelessWidget {
           },
           // '/': (context) => const LoginScreen(),
           '/homeScreen': (context) => const HomeScreen(),
-          '/registerScreen': (context) => const RegisterScreen(),
+          '/registerScreen': (context) => RegisterScreen(isar: isar),
           '/profileScreen': (context) => const ProfileScreen(),
         },
       ),
