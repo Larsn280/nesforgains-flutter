@@ -51,7 +51,7 @@ class App extends StatelessWidget {
           '/': (context) {
             final isLoggedIn =
                 Provider.of<AuthState>(context).checkLoginStatus();
-            return isLoggedIn ? const HomeScreen() : const LoginScreen();
+            return isLoggedIn ? const HomeScreen() : LoginScreen(isar: isar);
           },
           // '/': (context) => const LoginScreen(),
           '/homeScreen': (context) => const HomeScreen(),

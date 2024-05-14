@@ -49,14 +49,4 @@ class RegisterService {
       return '$email was created!';
     }
   }
-
-  // Future<String> doesUserExist(String name) async {
-  //   final user = await _isar.appUsers.filter().emailEqualTo(name).findFirst();
-  //   if (user != null && user.username != '') {
-  //     final userName = user.username;
-  //     return 'User: $userName exists';
-  //   } else {
-  //     return 'User does not exist';
-  //   }
-  // }
 }

@@ -1,12 +1,14 @@
 import 'package:NESForGains/service/auth_service.dart';
+import 'package:NESForGains/service/login_service.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/rendering.dart';
 import 'package:NESForGains/constants.dart';
+import 'package:isar/isar.dart';
 
 class LoginScreen extends StatefulWidget {
+  final Isar isar;
   /* Ignorerar varningen */
   // ignore: use_super_parameters
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key, required this.isar}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -15,6 +17,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  late LoginService loginService;
+
+  @override
+  void initState() {
+    super.initState();
+    loginService = LoginService(widget.isar);
+  }
 
   @override
   void dispose() {
@@ -81,14 +91,14 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 32.0,
             ),
             ElevatedButton(
-                onPressed: () {
-                  // ignore: avoid_print
-                  print('Username: ${_usernameController.text}');
-                  // ignore: avoid_print
-                  print('Password: ${_passwordController.text}');
-                  AuthProvider.of(context)
-                      .login(_usernameController.text.toString());
-                  // Navigator.pushNamed(context, '/homeScreen');
+                onPressed: () async {
+                  final response = await loginService.loginUser(
+                      _usernameController.text.toString(),
+                      _passwordController.text.toString());
+                  if (response.username != '') {
+                    AuthProvider.of(context)
+                        .login(response.username.toString());
+                  }
                 },
                 child: const Text('Login')),
             ElevatedButton(
