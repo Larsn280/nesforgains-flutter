@@ -6,7 +6,9 @@ part 'app_user.g.dart';
 class AppUser {
   Id id = Isar.autoIncrement; // you can also use id = null to auto increment
 
-  String? name;
+  String? email;
+
+  String? username;
 
   String? password;
 

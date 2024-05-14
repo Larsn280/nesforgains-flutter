@@ -83,7 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  bool response = await registerService.isUserExists(
+                  String response = await registerService.createNewUser(
                       _emailController.text.toString(),
                       _passwordController.text.toString());
                   print(response);
@@ -101,9 +101,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  String response = await registerService
-                      .doesUserExist(_emailController.text.toString());
-                  print(response);
+                  // String response = await registerService
+                  //     .doesUserExist(_emailController.text.toString());
+                  // print(response);
                 },
                 child: const Text('TEST'))
           ],
