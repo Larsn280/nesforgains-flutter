@@ -1,4 +1,4 @@
-import 'package:NESForGains/database/collections/user.dart';
+import 'package:NESForGains/database/collections/app_user.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -8,7 +8,7 @@ Future<Isar> setupIsar() async {
 
   // Open Isar instance and pass collection schemas
   final isar = await Isar.open(
-    [UserSchema], // Pass your collection schemas here
+    [AppUserSchema], // Pass your collection schemas here
     directory: dir.path,
   );
 

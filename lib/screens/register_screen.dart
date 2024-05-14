@@ -1,5 +1,4 @@
-import 'package:NESForGains/database/database.dart';
-import 'package:NESForGains/service/registerService.dart';
+import 'package:NESForGains/service/register_service.dart';
 import 'package:flutter/material.dart';
 import 'package:NESForGains/constants.dart';
 import 'package:isar/isar.dart';

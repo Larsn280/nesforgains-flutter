@@ -1,4 +1,4 @@
-import 'package:NESForGains/models/nutritionData.dart';
+import 'package:NESForGains/models/nutrition_data.dart';
 
 class FoodService {
   NutritionData handleFoodSubmitted(String food) {

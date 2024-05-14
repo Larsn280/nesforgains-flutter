@@ -1,9 +1,9 @@
 import 'package:isar/isar.dart';
 
-part 'user.g.dart';
+part 'app_user.g.dart';
 
 @collection
-class User {
+class AppUser {
   Id id = Isar.autoIncrement; // you can also use id = null to auto increment
 
   String? name;

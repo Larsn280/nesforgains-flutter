@@ -1,4 +1,4 @@
-import 'package:NESForGains/service/authService.dart';
+import 'package:NESForGains/service/auth_service.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:NESForGains/constants.dart';

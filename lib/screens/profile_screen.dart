@@ -1,6 +1,6 @@
-import 'package:NESForGains/models/nutritionData.dart';
-import 'package:NESForGains/service/authService.dart';
-import 'package:NESForGains/service/foodService.dart';
+import 'package:NESForGains/models/nutrition_data.dart';
+import 'package:NESForGains/service/auth_service.dart';
+import 'package:NESForGains/service/nutrition_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
