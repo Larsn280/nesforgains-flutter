@@ -14,7 +14,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _consumedController = TextEditingController();
-  FoodService foodService = FoodService();
+  NutritionService nutritionService = NutritionService();
 
   int calories = 0;
   int proteine = 0;
@@ -78,7 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ElevatedButton(
                     onPressed: () {
                       NutritionData processedFoodList =
-                          foodService.handleFoodSubmitted(
+                          nutritionService.handleFoodSubmitted(
                               _consumedController.text.toString());
                       setState(() {
                         calories = processedFoodList.calories.toInt();

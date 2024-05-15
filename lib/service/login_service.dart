@@ -19,13 +19,15 @@ class LoginService {
 
     for (final user in usersWithUsername) {
       if (user.password == password) {
-        matchingUsers.add(UserData(username: user.username.toString()));
+        matchingUsers
+            .add(UserData(id: user.id, username: user.username.toString()));
       }
     }
 
     for (final user in usersWithEmail) {
       if (user.password == password) {
-        matchingUsers.add(UserData(username: user.username.toString()));
+        matchingUsers
+            .add(UserData(id: user.id, username: user.username.toString()));
       }
     }
 

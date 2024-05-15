@@ -2,19 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class AuthState extends ChangeNotifier {
+  int id = 0;
   String username = '';
 
   bool _isLoggedIn = false;
 
   bool get isLoggedIn => _isLoggedIn;
 
-  void login(String username) {
+  void login(int id, String username) {
+    this.id = id;
     this.username = username;
     _isLoggedIn = true;
     notifyListeners();
   }
 
   void logout() {
+    id = 0;
     username = '';
     _isLoggedIn = false;
     notifyListeners();

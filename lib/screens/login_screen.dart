@@ -96,8 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       _usernameController.text.toString(),
                       _passwordController.text.toString());
                   if (response.username != '') {
+                    // Håll koll på.
                     AuthProvider.of(context)
-                        .login(response.username.toString());
+                        .login(response.id, response.username.toString());
                   }
                 },
                 child: const Text('Login')),
