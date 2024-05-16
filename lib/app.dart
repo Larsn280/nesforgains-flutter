@@ -56,7 +56,7 @@ class App extends StatelessWidget {
           // '/': (context) => const LoginScreen(),
           '/homeScreen': (context) => const HomeScreen(),
           '/registerScreen': (context) => RegisterScreen(isar: isar),
-          '/profileScreen': (context) => const ProfileScreen(),
+          '/profileScreen': (context) => ProfileScreen(isar: isar),
         },
       ),
     );

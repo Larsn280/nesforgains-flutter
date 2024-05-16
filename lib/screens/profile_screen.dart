@@ -1,31 +1,54 @@
+import 'package:NESForGains/constants.dart';
 import 'package:NESForGains/models/nutrition_data.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:NESForGains/service/nutrition_service.dart';
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
+  final Isar isar;
   /* Ignorerar varningen */
   // ignore: use_super_parameters
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key, required this.isar}) : super(key: key);
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _consumedController = TextEditingController();
-  NutritionService nutritionService = NutritionService();
+
+  late NutritionService nutritionService;
 
   int calories = 0;
   int proteine = 0;
   int carbs = 0;
   int fat = 0;
 
+  List<String> foodItems = [];
+
+  @override
+  void initState() {
+    nutritionService = NutritionService(widget.isar);
+    super.initState();
+    fetchFoodItems();
+  }
+
+  void fetchFoodItems() async {
+    List<String> fetchedFoodItems = await nutritionService.fetchFoodItems();
+    setState(() {
+      foodItems = fetchedFoodItems;
+    });
+  }
+
   @override
   void dispose() {
     _consumedController.dispose();
     super.dispose();
   }
+
+  String? valueChoose;
+  List listItem = ['First', 'Second', 'Third'];
 
   @override
   Widget build(BuildContext context) {
@@ -57,21 +80,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 10.0,
             ),
             Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                padding: const EdgeInsets.only(left: 16, right: 16.0),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: AppConstants.primaryTextColor, width: 1.0),
+                    borderRadius: BorderRadius.circular(15)),
+                child: DropdownButton(
+                  hint: const Text('Select Items: '),
+                  dropdownColor: Colors.black,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 36,
+                  isExpanded: true,
+                  underline: const SizedBox(),
+                  style: const TextStyle(
+                      color: AppConstants.primaryTextColor, fontSize: 22),
+                  value: valueChoose,
+                  onChanged: (newValue) {
+                    setState(() {
+                      valueChoose = newValue.toString();
+                    });
+                  },
+                  items: listItem.map((valueItem) {
+                    return DropdownMenuItem(
+                      value: valueItem,
+                      child: Text(valueItem),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Enter food'),
-                  const SizedBox(height: 8.0),
-                  TextField(
-                    controller: _consumedController,
-                    decoration: const InputDecoration(
-                      // labelText: 'Consumed',
-                      hintText: 'Enter Consumed',
-                    ),
-                    autofocus: true,
-                  ),
                   const SizedBox(
                     height: 8.0,
                   ),
@@ -86,11 +131,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         carbs = processedFoodList.carbohydrates.toInt();
                         fat = processedFoodList.fat.toInt();
                       });
-
-                      // print(foodService
-                      //     .handleFoodSubmitted(
-                      //         _consumedController.text.toString())
-                      //     .calories);
                     },
                     child: const Text('Submit'),
                   ),
@@ -110,6 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Text('Protein: ${proteine}g'),
                   Text('Carbs: ${carbs}g'),
                   Text('Fat: ${fat}g'),
+                  Text('TEST: ${_consumedController.text}')
                 ],
               ),
             ),
