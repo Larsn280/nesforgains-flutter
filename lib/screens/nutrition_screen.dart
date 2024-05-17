@@ -21,7 +21,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
   @override
   void initState() {
     super.initState();
-    _filteredDishes = _allDishes;
     _searchController.addListener(_filterDishes);
   }
 
@@ -35,9 +34,14 @@ class _NutritionScreenState extends State<NutritionScreen> {
   void _filterDishes() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredDishes = _allDishes.where((dish) {
-        return dish.toLowerCase().startsWith(query);
-      }).toList();
+      if (query.isNotEmpty) {
+        _filteredDishes = _allDishes;
+        _filteredDishes = _allDishes.where((dish) {
+          return dish.toLowerCase().startsWith(query);
+        }).toList();
+      } else {
+        _filteredDishes.clear();
+      }
     });
   }
 
