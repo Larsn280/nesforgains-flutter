@@ -72,6 +72,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
   void _postDailyDish(dish) async {
     final response =
         await nutritionService.postDailyDish(dish, AuthProvider.of(context).id);
+    _searchController.clear();
     print(response);
   }
 
@@ -114,7 +115,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
@@ -130,7 +131,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                   ? Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               border: Border.all(
                                   width: 1.0,
@@ -166,9 +167,9 @@ class _NutritionScreenState extends State<NutritionScreen> {
                             labelText: 'Dish',
                             hintText: 'Enter dish',
                           ),
-                          onSubmitted: (value) => {
-                            _postDailyDish(value),
-                          },
+                          // onSubmitted: (value) => {
+                          //   _postDailyDish(value),
+                          // },
                         ),
                         _filteredDishes.isEmpty
                             ? Container() // No dishes to show
@@ -184,7 +185,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                       });
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.all(10.0),
+                                      padding: const EdgeInsets.all(10.0),
                                       color:
                                           const Color.fromARGB(255, 17, 17, 17),
                                       child: Text(dish),
@@ -192,7 +193,16 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                   );
                                 }).toList(),
                               ),
-                        SizedBox(
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            _postDailyDish(_searchController.text);
+                          },
+                          child: const Text('Submit dish'),
+                        ),
+                        const SizedBox(
                           height: 8.0,
                         ),
                         ElevatedButton(
@@ -201,7 +211,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                 display = 'true';
                               });
                             },
-                            child: Text('Add new dish')),
+                            child: const Text('Add new dish')),
                       ],
                     )
                   : Column(
@@ -241,15 +251,15 @@ class _NutritionScreenState extends State<NutritionScreen> {
                             hintText: 'Fat',
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8.0,
                         ),
                         ElevatedButton(
                             onPressed: () {
                               _submitNutritionData();
                             },
-                            child: Text('Submit new food')),
-                        SizedBox(
+                            child: const Text('Submit new dish')),
+                        const SizedBox(
                           height: 8.0,
                         ),
                         ElevatedButton(
@@ -258,7 +268,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                 display = '';
                               });
                             },
-                            child: Text('Go back')),
+                            child: const Text('Go back')),
                       ],
                     ),
             ),
