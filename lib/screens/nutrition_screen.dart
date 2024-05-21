@@ -1,3 +1,4 @@
+import 'package:NESForGains/constants.dart';
 import 'package:NESForGains/models/nutrition_data.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:NESForGains/service/nutrition_service.dart';
@@ -27,6 +28,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
   List<String> _filteredDishes = [];
   String? _selectedDish;
   String display = '';
+  int calories = 0;
+  int proteine = 0;
+  int carbohydrates = 0;
+  int fat = 0;
 
   late NutritionService nutritionService;
 
@@ -52,11 +57,30 @@ class _NutritionScreenState extends State<NutritionScreen> {
     });
   }
 
+  void _fetchDailyIntake() async {
+    final intake = await nutritionService
+        .getDailyNutritionById(AuthProvider.of(context).id);
+    print(intake.calories);
+    setState(() {
+      calories = intake.calories;
+      proteine = intake.protein;
+      carbohydrates = intake.carbohydrates;
+      fat = intake.fat;
+    });
+  }
+
+  void _postDailyDish(dish) async {
+    final response =
+        await nutritionService.postDailyDish(dish, AuthProvider.of(context).id);
+    print(response);
+  }
+
   @override
   void initState() {
     super.initState();
     nutritionService = NutritionService(widget.isar);
     _fetchFoodItems();
+    _fetchDailyIntake();
     _searchController.addListener(_filterDishes);
   }
 
@@ -105,12 +129,46 @@ class _NutritionScreenState extends State<NutritionScreen> {
               child: display.isEmpty
                   ? Column(
                       children: [
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 1.0,
+                                  color: AppConstants.primaryTextColor)),
+                          child: Column(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Total calories today: $calories'),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10.0,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Protein: $proteine'),
+                                  Text('Carbohydrates: $carbohydrates'),
+                                  Text('Fat: $fat'),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30.0,
+                        ),
                         TextField(
                           controller: _searchController,
                           decoration: const InputDecoration(
                             labelText: 'Dish',
                             hintText: 'Enter dish',
                           ),
+                          onSubmitted: (value) => {
+                            _postDailyDish(value),
+                          },
                         ),
                         _filteredDishes.isEmpty
                             ? Container() // No dishes to show
