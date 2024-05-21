@@ -44,10 +44,19 @@ class _NutritionScreenState extends State<NutritionScreen> {
     print(response);
   }
 
+  void _fetchFoodItems() async {
+    final dishList =
+        await nutritionService.fetchFoodItems(AuthProvider.of(context).id);
+    setState(() {
+      _allDishes = dishList;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     nutritionService = NutritionService(widget.isar);
+    _fetchFoodItems();
     _searchController.addListener(_filterDishes);
   }
 

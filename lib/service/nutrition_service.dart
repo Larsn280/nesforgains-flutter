@@ -24,18 +24,22 @@ class NutritionService {
     return processedFoodNutrition;
   }
 
-  Future<List<String>> fetchFoodItems() async {
+  Future<List<String>> fetchFoodItems(int userId) async {
     // Initialize an empty list to store food item names
     List<String> dishItemNames = [];
 
     try {
       // Perform the database query to get all items
-      final dishItems = await _isar.dishs.where().findAll();
+      final dishItems =
+          await _isar.dishs.filter().userIdEqualTo(userId).findAll();
 
       // Check if any items were returned
       if (dishItems.isNotEmpty) {
         // Extract dish names from the list of Dish objects
-        dishItemNames = dishItems.map((dish) => dish.name!).toList();
+        // dishItemNames = dishItems.map((dish) => dish.name!).toList();
+        for (var dish in dishItems) {
+          dishItemNames.add(dish.name.toString());
+        }
       } else {
         print('No items found in the dish table.');
         // Optionally handle the case where the database is empty

@@ -35,7 +35,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void fetchFoodItems() async {
-    List<String> fetchedFoodItems = await nutritionService.fetchFoodItems();
+    List<String> fetchedFoodItems =
+        await nutritionService.fetchFoodItems(AuthProvider.of(context).id);
     setState(() {
       foodItems = fetchedFoodItems;
     });
