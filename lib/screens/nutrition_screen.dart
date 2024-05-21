@@ -1,3 +1,6 @@
+import 'package:NESForGains/models/nutrition_data.dart';
+import 'package:NESForGains/service/auth_service.dart';
+import 'package:NESForGains/service/nutrition_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,13 +17,37 @@ class NutritionScreen extends StatefulWidget {
 
 class _NutritionScreenState extends State<NutritionScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<String> _allDishes = ['Pizza', 'Pasta', 'Salad', 'Soup', 'Sandwich'];
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _caloriesController = TextEditingController();
+  final TextEditingController _proteinController = TextEditingController();
+  final TextEditingController _carbsController = TextEditingController();
+  final TextEditingController _fatController = TextEditingController();
+  // List<String> _allDishes = ['Pizza', 'Pasta', 'Salad', 'Soup', 'Sandwich'];
+  List<String> _allDishes = [];
   List<String> _filteredDishes = [];
   String? _selectedDish;
+  String display = '';
+
+  late NutritionService nutritionService;
+
+  void _submitNutritionData() async {
+    final nutritionData = NutritionData(
+      dish: _nameController.text,
+      calories: int.tryParse(_caloriesController.text) ?? 0,
+      protein: int.tryParse(_proteinController.text) ?? 0,
+      carbohydrates: int.tryParse(_carbsController.text) ?? 0,
+      fat: int.tryParse(_fatController.text) ?? 0,
+    );
+
+    final response = await nutritionService.addfoodItem(
+        nutritionData, AuthProvider.of(context).id);
+    print(response);
+  }
 
   @override
   void initState() {
     super.initState();
+    nutritionService = NutritionService(widget.isar);
     _searchController.addListener(_filterDishes);
   }
 
@@ -28,6 +55,11 @@ class _NutritionScreenState extends State<NutritionScreen> {
   void dispose() {
     _searchController.removeListener(_filterDishes);
     _searchController.dispose();
+    _nameController.dispose();
+    _caloriesController.dispose();
+    _proteinController.dispose();
+    _carbsController.dispose();
+    _fatController.dispose();
     super.dispose();
   }
 
@@ -61,38 +93,107 @@ class _NutritionScreenState extends State<NutritionScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _searchController,
-                    decoration: const InputDecoration(
-                      labelText: 'Dish',
-                      hintText: 'Enter dish',
-                    ),
-                  ),
-                  _filteredDishes.isEmpty
-                      ? Container() // No dishes to show
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: _filteredDishes.map((String dish) {
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _selectedDish = dish;
-                                  _searchController.text = dish;
-                                  _filteredDishes.clear();
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(10.0),
-                                color: Colors.grey[200],
-                                child: Text(dish),
-                              ),
-                            );
-                          }).toList(),
+              child: display.isEmpty
+                  ? Column(
+                      children: [
+                        TextField(
+                          controller: _searchController,
+                          decoration: const InputDecoration(
+                            labelText: 'Dish',
+                            hintText: 'Enter dish',
+                          ),
                         ),
-                ],
-              ),
+                        _filteredDishes.isEmpty
+                            ? Container() // No dishes to show
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: _filteredDishes.map((String dish) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedDish = dish;
+                                        _searchController.text = dish;
+                                        _filteredDishes.clear();
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(10.0),
+                                      color:
+                                          const Color.fromARGB(255, 17, 17, 17),
+                                      child: Text(dish),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                display = 'true';
+                              });
+                            },
+                            child: Text('Add new dish')),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        TextField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Dish name:',
+                            hintText: 'Dish name',
+                          ),
+                        ),
+                        TextField(
+                          controller: _caloriesController,
+                          decoration: const InputDecoration(
+                            labelText: 'Calories:',
+                            hintText: 'Calories',
+                          ),
+                        ),
+                        TextField(
+                          controller: _proteinController,
+                          decoration: const InputDecoration(
+                            labelText: 'Protein:',
+                            hintText: 'Protein',
+                          ),
+                        ),
+                        TextField(
+                          controller: _carbsController,
+                          decoration: const InputDecoration(
+                            labelText: 'Carbohydrates:',
+                            hintText: 'Carbohydrates',
+                          ),
+                        ),
+                        TextField(
+                          controller: _fatController,
+                          decoration: const InputDecoration(
+                            labelText: 'Fat:',
+                            hintText: 'Fat',
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              _submitNutritionData();
+                            },
+                            child: Text('Submit new food')),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                display = '';
+                              });
+                            },
+                            child: Text('Go back')),
+                      ],
+                    ),
             ),
           ],
         ),

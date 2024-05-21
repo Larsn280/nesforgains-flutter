@@ -3,9 +3,9 @@ import 'package:NESForGains/models/nutrition_data.dart';
 import 'package:isar/isar.dart';
 
 class NutritionService {
-  final Isar isar;
+  final Isar _isar;
 
-  NutritionService(this.isar);
+  NutritionService(this._isar);
 
   NutritionData handleFoodSubmitted(String food) {
     String dish = '';
@@ -30,7 +30,7 @@ class NutritionService {
 
     try {
       // Perform the database query to get all items
-      final dishItems = await isar.dishs.where().findAll();
+      final dishItems = await _isar.dishs.where().findAll();
 
       // Check if any items were returned
       if (dishItems.isNotEmpty) {
@@ -46,6 +46,34 @@ class NutritionService {
     }
 
     return dishItemNames;
+  }
+
+  Future<String> addfoodItem(NutritionData data, int userId) async {
+    try {
+      final dishItem = await _isar.dishs
+          .filter()
+          .nameEqualTo(data.dish)
+          .userIdEqualTo(userId)
+          .findFirst();
+
+      if (dishItem == null) {
+        final newDish = Dish()
+          ..name = data.dish.toString()
+          ..calories = data.calories.toInt()
+          ..protein = data.protein.toInt()
+          ..carbohydrates = data.carbohydrates.toInt()
+          ..fat = data.fat.toInt()
+          ..userId = userId;
+        await _isar.writeTxn(() async {
+          await _isar.dishs.put(newDish);
+        });
+        return '${data.dish} was successfully added!';
+      } else {
+        return '${data.dish} already exists';
+      }
+    } catch (e) {
+      return 'Sorry something went wrong adding: ${data.dish}';
+    }
   }
 
 //   Future<List<NutritionData>> getAllItems() async {
