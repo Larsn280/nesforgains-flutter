@@ -36,7 +36,8 @@ class _NutritionScreenState extends State<NutritionScreen> {
   int proteine = 0;
   int carbohydrates = 0;
   int fat = 0;
-  String message = '';
+  String message = 'Choose a dish or add a new one!';
+  Color _textmessageColor = Colors.yellowAccent;
 
   late NutritionService nutritionService;
 
@@ -52,12 +53,13 @@ class _NutritionScreenState extends State<NutritionScreen> {
 
       final response = await nutritionService.addfoodItem(
           nutritionData, AuthProvider.of(context).id);
-      print(response.message);
 
       if (response.checksuccess == true) {
         _fetchFoodItems();
         setState(() {
           display = '';
+          message = response.message;
+          _textmessageColor = Colors.greenAccent;
         });
 
         _nameController.clear();
@@ -67,6 +69,17 @@ class _NutritionScreenState extends State<NutritionScreen> {
         _fatController.clear();
       } else {
         _fetchFoodItems();
+        setState(() {
+          display = '';
+          message = response.message;
+          _textmessageColor = Colors.redAccent;
+        });
+
+        _nameController.clear();
+        _caloriesController.clear();
+        _proteinController.clear();
+        _carbsController.clear();
+        _fatController.clear();
       }
     }
   }
@@ -82,7 +95,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
   void _fetchDailyIntake() async {
     final intake = await nutritionService
         .getDailyNutritionById(AuthProvider.of(context).id);
-    print(intake.calories);
     setState(() {
       calories = intake.calories;
       proteine = intake.protein;
@@ -94,8 +106,18 @@ class _NutritionScreenState extends State<NutritionScreen> {
   void _postDailyDish(dish) async {
     final response =
         await nutritionService.postDailyDish(dish, AuthProvider.of(context).id);
+    if (response.checksuccess == true) {
+      setState(() {
+        message = response.message;
+        _textmessageColor = Colors.greenAccent;
+      });
+    } else {
+      setState(() {
+        message = response.message;
+        _textmessageColor = Colors.redAccent;
+      });
+    }
     _searchController.clear();
-    print(response);
     _fetchDailyIntake();
   }
 
@@ -182,7 +204,16 @@ class _NutritionScreenState extends State<NutritionScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 30.0,
+                            height: 15.0,
+                          ),
+                          message.isNotEmpty
+                              ? Text(
+                                  message,
+                                  style: TextStyle(color: _textmessageColor),
+                                )
+                              : Container(),
+                          const SizedBox(
+                            height: 15.0,
                           ),
                           TextField(
                             controller: _searchController,
@@ -236,6 +267,14 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                 });
                               },
                               child: const Text('Add new dish')),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/');
+                              },
+                              child: const Text('Go to back')),
                         ],
                       )
                     : Form(

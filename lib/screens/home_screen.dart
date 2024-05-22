@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   Navigator.pushNamed(context, '/nutritionScreen');
                 },
-                child: const Text('Go to Profile')),
+                child: const Text('Go to Nutrition')),
             ElevatedButton(
               onPressed: () {
                 AuthProvider.of(context).logout();

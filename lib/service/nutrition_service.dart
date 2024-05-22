@@ -118,8 +118,9 @@ class NutritionService {
     }
   }
 
-  Future<String> postDailyDish(String dish, int userId) async {
+  Future<ResponseData> postDailyDish(String dish, int userId) async {
     try {
+      final ResponseData responseData;
       final dishItem = await _isar.dishs
           .filter()
           .nameEqualTo(dish)
@@ -153,7 +154,9 @@ class NutritionService {
           await _isar.writeTxn(() async {
             await _isar.dailyNutritions.put(currentDailyNutrition);
           });
-          return '$dish was added to your intake!';
+          responseData = ResponseData(
+              checksuccess: true, message: '$dish was added to your intake!');
+          return responseData;
         } else {
           final newDailyNutrition = DailyNutrition()
             ..date = currentDay
@@ -166,10 +169,13 @@ class NutritionService {
             await _isar.dailyNutritions.put(newDailyNutrition);
           });
         }
-
-        return '$dish was added to you intake!';
+        responseData = ResponseData(
+            checksuccess: true, message: '$dish was added to you intake!');
+        return responseData;
       } else {
-        return 'Invalid input';
+        responseData =
+            ResponseData(checksuccess: false, message: 'Invalid input');
+        return responseData;
       }
     } catch (e) {
       throw Exception('Oops something went wrong posting intake!');
