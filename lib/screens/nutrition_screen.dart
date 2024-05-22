@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:NESForGains/constants.dart';
 import 'package:NESForGains/models/nutrition_data.dart';
+import 'package:NESForGains/models/response_data.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:NESForGains/service/nutrition_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +20,7 @@ class NutritionScreen extends StatefulWidget {
 }
 
 class _NutritionScreenState extends State<NutritionScreen> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _caloriesController = TextEditingController();
@@ -32,21 +36,39 @@ class _NutritionScreenState extends State<NutritionScreen> {
   int proteine = 0;
   int carbohydrates = 0;
   int fat = 0;
+  String message = '';
 
   late NutritionService nutritionService;
 
   void _submitNutritionData() async {
-    final nutritionData = NutritionData(
-      dish: _nameController.text,
-      calories: int.tryParse(_caloriesController.text) ?? 0,
-      protein: int.tryParse(_proteinController.text) ?? 0,
-      carbohydrates: int.tryParse(_carbsController.text) ?? 0,
-      fat: int.tryParse(_fatController.text) ?? 0,
-    );
+    if (_formKey.currentState?.validate() ?? false) {
+      final nutritionData = NutritionData(
+        dish: _nameController.text,
+        calories: int.tryParse(_caloriesController.text) ?? 0,
+        protein: int.tryParse(_proteinController.text) ?? 0,
+        carbohydrates: int.tryParse(_carbsController.text) ?? 0,
+        fat: int.tryParse(_fatController.text) ?? 0,
+      );
 
-    final response = await nutritionService.addfoodItem(
-        nutritionData, AuthProvider.of(context).id);
-    print(response);
+      final response = await nutritionService.addfoodItem(
+          nutritionData, AuthProvider.of(context).id);
+      print(response.message);
+
+      if (response.checksuccess == true) {
+        _fetchFoodItems();
+        setState(() {
+          display = '';
+        });
+
+        _nameController.clear();
+        _caloriesController.clear();
+        _proteinController.clear();
+        _carbsController.clear();
+        _fatController.clear();
+      } else {
+        _fetchFoodItems();
+      }
+    }
   }
 
   void _fetchFoodItems() async {
@@ -74,6 +96,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         await nutritionService.postDailyDish(dish, AuthProvider.of(context).id);
     _searchController.clear();
     print(response);
+    _fetchDailyIntake();
   }
 
   @override
@@ -127,151 +150,204 @@ class _NutritionScreenState extends State<NutritionScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              child: display.isEmpty
-                  ? Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1.0,
-                                  color: AppConstants.primaryTextColor)),
-                          child: Column(
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('Total calories today: $calories'),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10.0,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Protein: $proteine'),
-                                  Text('Carbohydrates: $carbohydrates'),
-                                  Text('Fat: $fat'),
-                                ],
-                              ),
-                            ],
+                child: display.isEmpty
+                    ? Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1.0,
+                                    color: AppConstants.primaryTextColor)),
+                            child: Column(
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Total calories today: $calories'),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Protein: $proteine'),
+                                    Text('Carbohydrates: $carbohydrates'),
+                                    Text('Fat: $fat'),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        TextField(
-                          controller: _searchController,
-                          decoration: const InputDecoration(
-                            labelText: 'Dish',
-                            hintText: 'Enter dish',
+                          const SizedBox(
+                            height: 30.0,
                           ),
-                          // onSubmitted: (value) => {
-                          //   _postDailyDish(value),
-                          // },
-                        ),
-                        _filteredDishes.isEmpty
-                            ? Container() // No dishes to show
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: _filteredDishes.map((String dish) {
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        _selectedDish = dish;
-                                        _searchController.text = dish;
-                                        _filteredDishes.clear();
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10.0),
-                                      color:
-                                          const Color.fromARGB(255, 17, 17, 17),
-                                      child: Text(dish),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                        const SizedBox(
-                          height: 8.0,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            _postDailyDish(_searchController.text);
-                          },
-                          child: const Text('Submit dish'),
-                        ),
-                        const SizedBox(
-                          height: 8.0,
-                        ),
-                        ElevatedButton(
+                          TextField(
+                            controller: _searchController,
+                            decoration: const InputDecoration(
+                              labelText: 'Dish',
+                              hintText: 'Enter dish',
+                            ),
+                            // onSubmitted: (value) => {
+                            //   _postDailyDish(value),
+                            // },
+                          ),
+                          _filteredDishes.isEmpty
+                              ? Container() // No dishes to show
+                              : Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: _filteredDishes.map((String dish) {
+                                    return InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _selectedDish = dish;
+                                          _searchController.text = dish;
+                                          _filteredDishes.clear();
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10.0),
+                                        color: const Color.fromARGB(
+                                            255, 17, 17, 17),
+                                        child: Text(dish),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          ElevatedButton(
                             onPressed: () {
-                              setState(() {
-                                display = 'true';
-                              });
+                              _postDailyDish(_searchController.text);
                             },
-                            child: const Text('Add new dish')),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        TextField(
-                          controller: _nameController,
-                          decoration: const InputDecoration(
-                            labelText: 'Dish name:',
-                            hintText: 'Dish name',
+                            child: const Text('Submit dish'),
                           ),
-                        ),
-                        TextField(
-                          controller: _caloriesController,
-                          decoration: const InputDecoration(
-                            labelText: 'Calories:',
-                            hintText: 'Calories',
+                          const SizedBox(
+                            height: 8.0,
                           ),
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  display = 'true';
+                                });
+                              },
+                              child: const Text('Add new dish')),
+                        ],
+                      )
+                    : Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: _nameController,
+                              decoration: const InputDecoration(
+                                labelText: 'Dish name:',
+                                hintText: 'Dish name',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter a dish name';
+                                }
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              controller: _caloriesController,
+                              decoration: const InputDecoration(
+                                labelText: 'Calories:',
+                                hintText: 'Calories',
+                              ),
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter calories';
+                                }
+                                final n = int.tryParse(value);
+                                if (n == null || n < 0) {
+                                  return 'Please enter a valid positive number';
+                                }
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              controller: _proteinController,
+                              decoration: const InputDecoration(
+                                labelText: 'Protein:',
+                                hintText: 'Protein',
+                              ),
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter protein';
+                                }
+                                final n = int.tryParse(value);
+                                if (n == null || n < 0) {
+                                  return 'Please enter a valid positive number';
+                                }
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              controller: _carbsController,
+                              decoration: const InputDecoration(
+                                labelText: 'Carbohydrates:',
+                                hintText: 'Carbohydrates',
+                              ),
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter carbohydrates';
+                                }
+                                final n = int.tryParse(value);
+                                if (n == null || n < 0) {
+                                  return 'Please enter a valid positive number';
+                                }
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              controller: _fatController,
+                              decoration: const InputDecoration(
+                                labelText: 'Fat:',
+                                hintText: 'Fat',
+                              ),
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter fat';
+                                }
+                                final n = int.tryParse(value);
+                                if (n == null || n < 0) {
+                                  return 'Please enter a valid positive number';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 8.0,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  _submitNutritionData();
+                                },
+                                child: const Text('Submit new dish')),
+                            const SizedBox(
+                              height: 8.0,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    display = '';
+                                  });
+                                },
+                                child: const Text('Go back')),
+                          ],
                         ),
-                        TextField(
-                          controller: _proteinController,
-                          decoration: const InputDecoration(
-                            labelText: 'Protein:',
-                            hintText: 'Protein',
-                          ),
-                        ),
-                        TextField(
-                          controller: _carbsController,
-                          decoration: const InputDecoration(
-                            labelText: 'Carbohydrates:',
-                            hintText: 'Carbohydrates',
-                          ),
-                        ),
-                        TextField(
-                          controller: _fatController,
-                          decoration: const InputDecoration(
-                            labelText: 'Fat:',
-                            hintText: 'Fat',
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8.0,
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              _submitNutritionData();
-                            },
-                            child: const Text('Submit new dish')),
-                        const SizedBox(
-                          height: 8.0,
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                display = '';
-                              });
-                            },
-                            child: const Text('Go back')),
-                      ],
-                    ),
-            ),
+                      )),
           ],
         ),
       ),

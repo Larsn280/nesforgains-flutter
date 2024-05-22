@@ -1,6 +1,7 @@
 import 'package:NESForGains/database/collections/daily_nutrition.dart';
 import 'package:NESForGains/database/collections/dish.dart';
 import 'package:NESForGains/models/nutrition_data.dart';
+import 'package:NESForGains/models/response_data.dart';
 import 'package:isar/isar.dart';
 
 class NutritionService {
@@ -53,8 +54,9 @@ class NutritionService {
     return dishItemNames;
   }
 
-  Future<String> addfoodItem(NutritionData data, int userId) async {
+  Future<ResponseData> addfoodItem(NutritionData data, int userId) async {
     try {
+      final ResponseData responseData;
       final dishItem = await _isar.dishs
           .filter()
           .nameEqualTo(data.dish)
@@ -72,12 +74,17 @@ class NutritionService {
         await _isar.writeTxn(() async {
           await _isar.dishs.put(newDish);
         });
-        return '${data.dish} was successfully added!';
+        responseData = ResponseData(
+            checksuccess: true,
+            message: '${data.dish} was successfully added!');
+        return responseData;
       } else {
-        return '${data.dish} already exists';
+        responseData = ResponseData(
+            checksuccess: false, message: '${data.dish} already exists');
+        return responseData;
       }
     } catch (e) {
-      return 'Sorry something went wrong adding: ${data.dish}';
+      throw Exception(e);
     }
   }
 
