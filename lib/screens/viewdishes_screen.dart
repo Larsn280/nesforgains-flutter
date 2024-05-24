@@ -55,7 +55,10 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Dishlist'),
+            Text(
+              'Dishlist',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+            ),
             SizedBox(height: 16.0),
             Container(
               decoration: BoxDecoration(
@@ -66,20 +69,38 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text('Name',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('Calories',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('Protein',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('Carbohydrates',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('Fat',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ],
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            child: Text('Name',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            child: Text('Calories',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            child: Text('Protein',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: Text('Carbohydrates',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            child: Text('Fat',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      ),
                     ),
                     Divider(),
                     SingleChildScrollView(
@@ -93,16 +114,82 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(dish.dish.toString()),
-                                        Text(dish.calories.toString()),
-                                        Text(dish.protein.toString()),
-                                        Text(dish.carbohydrates.toString()),
-                                        Text(dish.fat.toString()),
-                                      ],
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            child: Text(dish.dish.toString()),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.15,
+                                            child:
+                                                Text(dish.calories.toString()),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.15,
+                                            child:
+                                                Text(dish.protein.toString()),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.15,
+                                            child: Text(
+                                                dish.carbohydrates.toString()),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.15,
+                                            child: Text(dish.fat.toString()),
+                                          ),
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: Colors.greenAccent,
+                                            ),
+                                            onPressed: () {
+                                              // Handle edit action
+                                              // For example, navigate to a new screen for editing the item
+                                              // Navigator.push(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //     builder: (context) =>
+                                              //         EditDishScreen(
+                                              //             dish: dish),
+                                              //   ),
+                                              // );
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.redAccent,
+                                            ),
+                                            onPressed: () {
+                                              // Handle delete action
+                                              setState(() {
+                                                alldishes.removeAt(index);
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   );
                                 },
@@ -113,6 +200,9 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
                   ],
                 ),
               ),
+            ),
+            SizedBox(
+              height: 8.0,
             ),
             ElevatedButton(
                 onPressed: () {
