@@ -31,9 +31,9 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
       final response =
           await nutritionService.getAllDishesById(AuthProvider.of(context).id);
       if (response != null) {
-        for (var dish in response) {
-          alldishes.add(dish);
-        }
+        setState(() {
+          alldishes.addAll(response);
+        });
       }
     } catch (e) {
       throw Exception('message: $e');
