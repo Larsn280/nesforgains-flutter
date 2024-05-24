@@ -1,4 +1,5 @@
 import 'package:NESForGains/screens/nutrition_screen.dart';
+import 'package:NESForGains/screens/viewdishes_screen.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
@@ -59,6 +60,7 @@ class App extends StatelessWidget {
           '/registerScreen': (context) => RegisterScreen(isar: isar),
           '/profileScreen': (context) => ProfileScreen(isar: isar),
           '/nutritionScreen': (context) => NutritionScreen(isar: isar),
+          '/viewdishesScreen': (context) => ViewDishesScreen(isar: isar),
         },
       ),
     );

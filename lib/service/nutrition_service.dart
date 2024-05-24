@@ -26,6 +26,30 @@ class NutritionService {
     return processedFoodNutrition;
   }
 
+  Future<List<NutritionData>?> getAllDishesById(int userId) async {
+    List<NutritionData>? allDishItems = [];
+    NutritionData dishItem;
+
+    try {
+      final dishItems =
+          await _isar.dishs.filter().userIdEqualTo(userId).findAll();
+      if (dishItems.isNotEmpty) {
+        for (var dish in dishItems) {
+          dishItem = NutritionData(
+              dish: dish.name,
+              calories: dish.calories ?? 0,
+              protein: dish.protein ?? 0,
+              carbohydrates: dish.carbohydrates ?? 0,
+              fat: dish.fat ?? 0);
+          allDishItems.add(dishItem);
+        }
+      }
+      return allDishItems;
+    } catch (e) {
+      throw Exception('Something went wrong fetching dishes');
+    }
+  }
+
   Future<List<String>> fetchFoodItems(int userId) async {
     // Initialize an empty list to store food item names
     List<String> dishItemNames = [];
