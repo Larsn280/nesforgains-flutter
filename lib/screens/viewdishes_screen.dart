@@ -40,6 +40,19 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
     }
   }
 
+  void _handleDeleteDish(String name) async {
+    try {
+      final response = await nutritionService.deleteDish(name);
+      setState(() {
+        alldishes.clear();
+      });
+      fetchAllDishItems();
+      print(response.checksuccess);
+    } catch (e) {
+      throw Exception('message: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,10 +195,7 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
                                               color: Colors.redAccent,
                                             ),
                                             onPressed: () {
-                                              // Handle delete action
-                                              setState(() {
-                                                alldishes.removeAt(index);
-                                              });
+                                              _handleDeleteDish(dish.dish!);
                                             },
                                           ),
                                         ],
