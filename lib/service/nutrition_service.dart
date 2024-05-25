@@ -142,6 +142,59 @@ class NutritionService {
     }
   }
 
+  // TODO Fixa så att den deletar med id.
+  Future<ResponseData> deleteDish(String name) async {
+    ResponseData responseData;
+    try {
+      if (name != '') {
+        final dishtodelete =
+            await _isar.dishs.filter().nameEqualTo(name).findFirst();
+        await _isar.writeTxn(() async {
+          await _isar.dishs.delete(dishtodelete!.id);
+        });
+        responseData = ResponseData(
+            checksuccess: true, message: '${dishtodelete!.name} was deleted!');
+        return responseData;
+      } else {
+        responseData =
+            ResponseData(checksuccess: false, message: 'Could not delete dish');
+        return responseData;
+      }
+    } catch (e) {
+      throw Exception('$e');
+    }
+  }
+
+  Future<ResponseData> editDish(NutritionData dishdata) async {
+    ResponseData responseData;
+    try {
+      {
+        if (dishdata.dish != '') {
+          final dishtoedit =
+              await _isar.dishs.filter().nameEqualTo(dishdata.dish).findFirst();
+          dishtoedit!.name == dishdata.dish;
+          dishtoedit.calories == dishdata.calories;
+          dishtoedit.protein == dishdata.protein;
+          dishtoedit.carbohydrates == dishdata.carbohydrates;
+          dishtoedit.fat == dishdata.fat;
+
+          await _isar.writeTxn(() async {
+            await _isar.dishs.put(dishtoedit);
+          });
+          responseData = ResponseData(
+              checksuccess: true, message: '${dishdata.dish} was edited');
+          return responseData;
+        } else {
+          responseData =
+              ResponseData(checksuccess: false, message: 'Dish was not edited');
+          return responseData;
+        }
+      }
+    } catch (e) {
+      throw Exception('message: $e');
+    }
+  }
+
   Future<ResponseData> postDailyDish(String dish, int userId) async {
     try {
       final ResponseData responseData;
