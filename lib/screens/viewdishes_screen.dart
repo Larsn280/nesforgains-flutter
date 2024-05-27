@@ -3,7 +3,6 @@ import 'package:NESForGains/models/nutrition_data.dart';
 import 'package:NESForGains/screens/editdish_screen.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:NESForGains/service/nutrition_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
@@ -17,40 +16,34 @@ class ViewDishesScreen extends StatefulWidget {
 }
 
 class _ViewDishesScreenState extends State<ViewDishesScreen> {
+  static const double sizedBoxHeight = 18.0;
   late NutritionService nutritionService;
-  final List<NutritionData> alldishes = [];
 
   @override
   void initState() {
     super.initState();
     nutritionService = NutritionService(widget.isar);
-    fetchAllDishItems();
   }
 
-  void fetchAllDishItems() async {
+  Future<List<NutritionData>> _fetchAllDishItems() async {
     try {
       final response =
           await nutritionService.getAllDishesById(AuthProvider.of(context).id);
-      if (response != null) {
-        setState(() {
-          alldishes.addAll(response);
-        });
-      }
+
+      return response ?? [];
     } catch (e) {
-      throw Exception('message: $e');
+      print('Error fetching dishes: $e');
+      return [];
     }
   }
 
   void _handleDeleteDish(String name) async {
     try {
-      final response = await nutritionService.deleteDish(name);
-      setState(() {
-        alldishes.clear();
-      });
-      fetchAllDishItems();
-      print(response.checksuccess);
+      await nutritionService.deleteDish(name);
+      // Triggar en rebuild av widget trädet.
+      setState(() {});
     } catch (e) {
-      throw Exception('message: $e');
+      print('Error deleting dish: $e');
     }
   }
 
@@ -59,178 +52,141 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16.0),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/moon-2048727_1280.jpg'),
-              fit: BoxFit.cover),
+            image: AssetImage('assets/moon-2048727_1280.jpg'),
+            fit: BoxFit.cover,
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Dishlist',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
-            SizedBox(height: 16.0),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    width: 1.0, color: AppConstants.primaryTextColor),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            child: Text('Name',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            child: Text('Calories',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            child: Text('Protein',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: Text('Carbohydrates',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            child: Text('Fat',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                        ],
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: FutureBuilder<List<NutritionData>>(
+                future: _fetchAllDishItems(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return const Center(child: Text('Error loading dishes'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('No dishes available'));
+                  }
+
+                  final dishes = snapshot.data!;
+                  return Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1.0,
+                        color: AppConstants.primaryTextColor,
                       ),
                     ),
-                    Divider(),
-                    SingleChildScrollView(
-                      child: Container(
-                        height: 400,
-                        child: alldishes.isNotEmpty
-                            ? ListView.builder(
-                                itemCount: alldishes.length,
-                                itemBuilder: (context, index) {
-                                  final dish = alldishes[index];
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0),
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.3,
-                                            child: Text(dish.dish.toString()),
-                                          ),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.15,
-                                            child:
-                                                Text(dish.calories.toString()),
-                                          ),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.15,
-                                            child:
-                                                Text(dish.protein.toString()),
-                                          ),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.15,
-                                            child: Text(
-                                                dish.carbohydrates.toString()),
-                                          ),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.15,
-                                            child: Text(dish.fat.toString()),
-                                          ),
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.edit,
-                                              color: Colors.greenAccent,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditDishScreen(
-                                                              isar: widget.isar,
-                                                              nutritionData:
-                                                                  dish)));
-                                              // Handle edit action
-                                              // For example, navigate to a new screen for editing the item
-                                              // Navigator.push(
-                                              //   context,
-                                              //   MaterialPageRoute(
-                                              //     builder: (context) =>
-                                              //         EditDishScreen(
-                                              //             dish: dish),
-                                              //   ),
-                                              // );
-                                            },
-                                          ),
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.delete,
-                                              color: Colors.redAccent,
-                                            ),
-                                            onPressed: () {
-                                              _handleDeleteDish(dish.dish!);
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              )
-                            : Container(),
-                      ),
+                    child: Column(
+                      children: [
+                        _buildDishHeader(),
+                        const Divider(),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: dishes.length,
+                            itemBuilder: (context, index) {
+                              final dish = dishes[index];
+                              return _buildDishRow(dish);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/');
+                  );
                 },
-                child: const Text('Go back')),
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/');
+              },
+              child: const Text('Go back'),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDishHeader() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          _buildDishColumnHeader('Name', 0.3),
+          _buildDishColumnHeader('Calories', 0.15),
+          _buildDishColumnHeader('Protein', 0.15),
+          _buildDishColumnHeader('Carbohydrates', 0.15),
+          _buildDishColumnHeader('Fat', 0.15),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDishColumnHeader(String title, double widthFactor) {
+    return SizedBox(
+      height: sizedBoxHeight,
+      width: MediaQuery.of(context).size.width * widthFactor,
+      child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+    );
+  }
+
+  Widget _buildDishRow(NutritionData dish) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildDishColumn(dish.dish.toString(), 0.3),
+            _buildDishColumn(dish.calories.toString(), 0.15),
+            _buildDishColumn(dish.protein.toString(), 0.15),
+            _buildDishColumn(dish.carbohydrates.toString(), 0.15),
+            _buildDishColumn(dish.fat.toString(), 0.15),
+            IconButton(
+              icon: const Icon(Icons.edit, color: Colors.greenAccent),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditDishScreen(
+                      isar: widget.isar,
+                      nutritionData: dish,
+                    ),
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.redAccent),
+              onPressed: () {
+                _handleDeleteDish(dish.dish!);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDishColumn(String text, double widthFactor) {
+    return SizedBox(
+      height: sizedBoxHeight,
+      width: MediaQuery.of(context).size.width * widthFactor,
+      child: Text(text),
     );
   }
 }
