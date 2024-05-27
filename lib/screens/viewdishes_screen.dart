@@ -1,5 +1,6 @@
 import 'package:NESForGains/constants.dart';
 import 'package:NESForGains/models/nutrition_data.dart';
+import 'package:NESForGains/screens/editdish_screen.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:NESForGains/service/nutrition_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -177,6 +178,14 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
                                               color: Colors.greenAccent,
                                             ),
                                             onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditDishScreen(
+                                                              isar: widget.isar,
+                                                              nutritionData:
+                                                                  dish)));
                                               // Handle edit action
                                               // For example, navigate to a new screen for editing the item
                                               // Navigator.push(

@@ -66,11 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: const Text('Go to Nutrition')),
             ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/viewdishesScreen');
-                },
-                child: const Text('Go to Dishlist')),
-            ElevatedButton(
               onPressed: () {
                 AuthProvider.of(context).logout();
                 // Navigator.pushNamed(context, '/');

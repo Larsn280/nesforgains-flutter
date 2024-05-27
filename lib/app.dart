@@ -1,3 +1,4 @@
+import 'package:NESForGains/screens/editdish_screen.dart';
 import 'package:NESForGains/screens/nutrition_screen.dart';
 import 'package:NESForGains/screens/viewdishes_screen.dart';
 import 'package:NESForGains/service/auth_service.dart';

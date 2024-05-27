@@ -165,22 +165,28 @@ class NutritionService {
     }
   }
 
-  Future<ResponseData> editDish(NutritionData dishdata) async {
+  Future<ResponseData> editDish(NutritionData dishdata, int userId) async {
     ResponseData responseData;
     try {
       {
         if (dishdata.dish != '') {
-          final dishtoedit =
-              await _isar.dishs.filter().nameEqualTo(dishdata.dish).findFirst();
-          dishtoedit!.name == dishdata.dish;
-          dishtoedit.calories == dishdata.calories;
-          dishtoedit.protein == dishdata.protein;
-          dishtoedit.carbohydrates == dishdata.carbohydrates;
-          dishtoedit.fat == dishdata.fat;
+          final dishtoedit = await _isar.dishs
+              .filter()
+              .nameEqualTo(dishdata.dish)
+              .userIdEqualTo(userId)
+              .findFirst();
 
-          await _isar.writeTxn(() async {
-            await _isar.dishs.put(dishtoedit);
-          });
+          if (dishtoedit != null) {
+            dishtoedit!.name = dishdata.dish;
+            dishtoedit.calories = dishdata.calories;
+            dishtoedit.protein = dishdata.protein;
+            dishtoedit.carbohydrates = dishdata.carbohydrates;
+            dishtoedit.fat = dishdata.fat;
+            await _isar.writeTxn(() async {
+              await _isar.dishs.put(dishtoedit);
+            });
+          }
+
           responseData = ResponseData(
               checksuccess: true, message: '${dishdata.dish} was edited');
           return responseData;
