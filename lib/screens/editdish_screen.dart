@@ -1,3 +1,4 @@
+import 'package:NESForGains/constants.dart';
 import 'package:NESForGains/models/nutrition_data.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:NESForGains/service/nutrition_service.dart';
@@ -74,7 +75,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/moon-2048727_1280.jpg'),
+              image: AssetImage(AppConstants.backgroundimage),
               fit: BoxFit.cover),
         ),
         child: Form(

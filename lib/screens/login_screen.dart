@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/moon-2048727_1280.jpg'),
+            image: AssetImage(AppConstants.backgroundimage),
             fit: BoxFit.cover,
           ),
         ),

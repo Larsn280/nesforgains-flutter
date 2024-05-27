@@ -56,7 +56,7 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/moon-2048727_1280.jpg'),
+            image: AssetImage(AppConstants.backgroundimage),
             fit: BoxFit.cover,
           ),
         ),
