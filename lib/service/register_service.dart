@@ -26,27 +26,31 @@ class RegisterService {
 
   // Om användaren inte finns så skapar vi den här.
   Future<String> createNewUser(String email, String password) async {
-    if (!isValidEmail(email)) {
-      return '$email is invalid email format';
-    }
+    try {
+      if (!isValidEmail(email)) {
+        return '$email is invalid email format';
+      }
 
-    final userExists = await checkIfUserExists(email);
+      final userExists = await checkIfUserExists(email);
 
-    if (userExists) {
-      return 'User with email: $email already exists!';
-    } else {
-      List<String> parts = email.split('@');
-      String newUsername = parts[0];
+      if (userExists) {
+        return 'User with email: $email already exists!';
+      } else {
+        List<String> parts = email.split('@');
+        String newUsername = parts[0];
 
-      final newUser = AppUser()
-        ..email = email.toString()
-        ..username = newUsername.toString()
-        ..password = password.toString()
-        ..age = 0;
-      await _isar.writeTxn(() async {
-        await _isar.appUsers.put(newUser);
-      });
-      return '$email was created!';
+        final newUser = AppUser()
+          ..email = email.toString()
+          ..username = newUsername.toString()
+          ..password = password.toString()
+          ..age = 0;
+        await _isar.writeTxn(() async {
+          await _isar.appUsers.put(newUser);
+        });
+        return '$email was created!';
+      }
+    } catch (e) {
+      throw Exception('Error creating new user: $e');
     }
   }
 }

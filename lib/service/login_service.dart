@@ -8,35 +8,31 @@ class LoginService {
   LoginService(this._isar);
 
   Future<UserData> loginUser(String usernameOrEmail, String password) async {
-    final usersWithUsername = await _isar.appUsers
-        .filter()
-        .usernameEqualTo(usernameOrEmail)
-        .findAll();
-    final usersWithEmail =
-        await _isar.appUsers.filter().emailEqualTo(usernameOrEmail).findAll();
+    try {
+      final users = await _isar.appUsers
+          .filter()
+          .group((q) => q
+              .usernameEqualTo(usernameOrEmail)
+              .or()
+              .emailEqualTo(usernameOrEmail))
+          .findAll();
 
-    List<UserData> matchingUsers = [];
+      // Filter users by password
+      final matchingUsers = users
+          .where((user) => user.password == password)
+          .map((user) =>
+              UserData(id: user.id, username: user.username.toString()))
+          .toList();
 
-    for (final user in usersWithUsername) {
-      if (user.password == password) {
-        matchingUsers
-            .add(UserData(id: user.id, username: user.username.toString()));
+      if (matchingUsers.isEmpty) {
+        throw Exception('Invalid username/email or password.');
+      } else if (matchingUsers.length == 1) {
+        return matchingUsers.first;
+      } else {
+        throw Exception('Multiple users found with the same username/email.');
       }
-    }
-
-    for (final user in usersWithEmail) {
-      if (user.password == password) {
-        matchingUsers
-            .add(UserData(id: user.id, username: user.username.toString()));
-      }
-    }
-
-    if (matchingUsers.isEmpty) {
-      throw Exception('Invalid username/email or password.');
-    } else if (matchingUsers.length == 1) {
-      return matchingUsers.first;
-    } else {
-      throw Exception('Multiple users found with the same username/email.');
+    } catch (e) {
+      throw Exception('Error logging in user: $e');
     }
   }
 }
