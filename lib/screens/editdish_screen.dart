@@ -3,13 +3,14 @@ import 'package:NESForGains/models/nutrition_data.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:NESForGains/service/nutrition_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:isar/isar.dart';
 
 class EditDishScreen extends StatefulWidget {
   final Isar isar;
   final NutritionData nutritionData;
 
+  /* Ignorerar varningen */
+  // ignore: use_super_parameters
   const EditDishScreen(
       {Key? key, required this.isar, required this.nutritionData})
       : super(key: key);
@@ -56,13 +57,13 @@ class _EditDishScreenState extends State<EditDishScreen> {
     super.dispose();
   }
 
-  void _updatedishData(NutritionData newnutritionData) async {
+  void _updateDishData(NutritionData newnutritionData) async {
     try {
       final respose = await nutritionService.editDish(
           newnutritionData, AuthProvider.of(context).id);
       print(respose.checksuccess);
     } catch (e) {
-      throw Exception('Something went wrong');
+      print('Error updating $e');
     }
   }
 
@@ -85,7 +86,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a name';
@@ -109,7 +110,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
               ),
               TextFormField(
                 controller: _proteinController,
-                decoration: InputDecoration(labelText: 'Protein'),
+                decoration: const InputDecoration(labelText: 'Protein'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -123,7 +124,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
               ),
               TextFormField(
                 controller: _carbController,
-                decoration: InputDecoration(labelText: 'Carbohydrates'),
+                decoration: const InputDecoration(labelText: 'Carbohydrates'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -137,7 +138,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
               ),
               TextFormField(
                 controller: _fatController,
-                decoration: InputDecoration(labelText: 'Fat'),
+                decoration: const InputDecoration(labelText: 'Fat'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -161,7 +162,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
                           protein: int.parse(_proteinController.text),
                           carbohydrates: int.parse(_carbController.text),
                           fat: int.parse(_fatController.text));
-                      _updatedishData(newnutritionData);
+                      _updateDishData(newnutritionData);
                     }
                   },
                   child: const Text('Save')),

@@ -50,7 +50,7 @@ class NutritionService {
     }
   }
 
-  Future<List<String>> fetchFoodItems(int userId) async {
+  Future<List<String>> fetchDishItems(int userId) async {
     // Initialize an empty list to store food item names
     List<String> dishItemNames = [];
 
@@ -78,7 +78,7 @@ class NutritionService {
     return dishItemNames;
   }
 
-  Future<ResponseData> addfoodItem(NutritionData data, int userId) async {
+  Future<ResponseData> addDishItem(NutritionData data, int userId) async {
     try {
       final ResponseData responseData;
       final dishItem = await _isar.dishs
