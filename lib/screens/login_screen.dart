@@ -33,6 +33,22 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  //TODO Finns att fixa
+  void _loginUser() async {
+    try {
+      final response = await loginService.loginUser(
+          _usernameController.text.toString(),
+          _passwordController.text.toString());
+      if (response.username != '') {
+        // Håll koll på.
+        AuthProvider.of(context)
+            .login(response.id, response.username.toString());
+      }
+    } catch (e) {
+      print('Error logging in user: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,15 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 32.0,
             ),
             ElevatedButton(
-                onPressed: () async {
-                  final response = await loginService.loginUser(
-                      _usernameController.text.toString(),
-                      _passwordController.text.toString());
-                  if (response.username != '') {
-                    // Håll koll på.
-                    AuthProvider.of(context)
-                        .login(response.id, response.username.toString());
-                  }
+                onPressed: () {
+                  _loginUser();
                 },
                 child: const Text('Login')),
             ElevatedButton(

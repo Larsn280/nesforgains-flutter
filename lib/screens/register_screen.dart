@@ -32,6 +32,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  void _createNewUser() async {
+    try {
+      String response = await registerService.createNewUser(
+          _emailController.text.toString(),
+          _passwordController.text.toString());
+      print(response);
+      // ignore: avoid_print
+      print('Username: ${_emailController.text}');
+      // ignore: avoid_print
+      print('Password: ${_passwordController.text}');
+    } catch (e) {
+      print('Error creating user: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,15 +104,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               height: 32.0,
             ),
             ElevatedButton(
-                onPressed: () async {
-                  String response = await registerService.createNewUser(
-                      _emailController.text.toString(),
-                      _passwordController.text.toString());
-                  print(response);
-                  // ignore: avoid_print
-                  print('Username: ${_emailController.text}');
-                  // ignore: avoid_print
-                  print('Password: ${_passwordController.text}');
+                onPressed: () {
+                  _createNewUser();
                 },
                 child: const Text('Register')),
             ElevatedButton(

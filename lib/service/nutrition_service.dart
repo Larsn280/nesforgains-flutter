@@ -197,7 +197,7 @@ class NutritionService {
         }
       }
     } catch (e) {
-      throw Exception('message: $e');
+      throw Exception('Error editing: $e');
     }
   }
 

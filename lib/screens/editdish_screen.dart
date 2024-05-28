@@ -26,8 +26,11 @@ class _EditDishScreenState extends State<EditDishScreen> {
   late TextEditingController _proteinController;
   late TextEditingController _carbController;
   late TextEditingController _fatController;
+  String message = 'Edit dish or go back';
+  Color _textmessageColor = Colors.yellowAccent;
 
   late NutritionService nutritionService;
+  late NutritionData newNutritionData;
 
   @override
   void initState() {
@@ -57,11 +60,29 @@ class _EditDishScreenState extends State<EditDishScreen> {
     super.dispose();
   }
 
-  void _updateDishData(NutritionData newnutritionData) async {
+  void _editDish() async {
     try {
-      final respose = await nutritionService.editDish(
-          newnutritionData, AuthProvider.of(context).id);
-      print(respose.checksuccess);
+      if (_formKey.currentState!.validate()) {
+        newNutritionData = NutritionData(
+            dish: _nameController.text,
+            calories: int.tryParse(_calorieController.text) ?? 0,
+            protein: int.tryParse(_proteinController.text) ?? 0,
+            carbohydrates: int.tryParse(_carbController.text) ?? 0,
+            fat: int.tryParse(_fatController.text) ?? 0);
+        final respose = await nutritionService.editDish(
+            newNutritionData, AuthProvider.of(context).id);
+        if (respose.checksuccess == true) {
+          setState(() {
+            message = respose.message;
+            _textmessageColor = Colors.greenAccent;
+          });
+        } else {
+          setState(() {
+            message = respose.message;
+            _textmessageColor = Colors.redAccent;
+          });
+        }
+      }
     } catch (e) {
       print('Error updating $e');
     }
@@ -84,6 +105,20 @@ class _EditDishScreenState extends State<EditDishScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Text(
+                'Edit Dish',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+              ),
+              const SizedBox(height: 16.0),
+              message.isNotEmpty
+                  ? Text(
+                      message,
+                      style: TextStyle(color: _textmessageColor),
+                    )
+                  : Container(),
+              const SizedBox(
+                height: 15.0,
+              ),
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(labelText: 'Name'),
@@ -96,7 +131,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
               ),
               TextFormField(
                 controller: _calorieController,
-                decoration: InputDecoration(labelText: 'Calories'),
+                decoration: const InputDecoration(labelText: 'Calories'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -155,15 +190,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      final newnutritionData = NutritionData(
-                          dish: _nameController.text,
-                          calories: int.parse(_calorieController.text),
-                          protein: int.parse(_proteinController.text),
-                          carbohydrates: int.parse(_carbController.text),
-                          fat: int.parse(_fatController.text));
-                      _updateDishData(newnutritionData);
-                    }
+                    _editDish();
                   },
                   child: const Text('Save')),
               const SizedBox(
