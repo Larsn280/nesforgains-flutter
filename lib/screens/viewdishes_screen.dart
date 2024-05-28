@@ -9,6 +9,8 @@ import 'package:isar/isar.dart';
 class ViewDishesScreen extends StatefulWidget {
   final Isar isar;
 
+  /* Ignorerar varningen */
+  // ignore: use_super_parameters
   const ViewDishesScreen({Key? key, required this.isar}) : super(key: key);
 
   @override

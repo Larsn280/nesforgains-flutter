@@ -1,18 +1,15 @@
-import 'dart:ffi';
-
 import 'package:NESForGains/constants.dart';
 import 'package:NESForGains/models/nutrition_data.dart';
-import 'package:NESForGains/models/response_data.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:NESForGains/service/nutrition_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:isar/isar.dart';
 
 class NutritionScreen extends StatefulWidget {
   final Isar isar;
 
+  /* Ignorerar varningen */
+  // ignore: use_super_parameters
   const NutritionScreen({Key? key, required this.isar}) : super(key: key);
 
   @override
@@ -27,10 +24,8 @@ class _NutritionScreenState extends State<NutritionScreen> {
   final TextEditingController _proteinController = TextEditingController();
   final TextEditingController _carbsController = TextEditingController();
   final TextEditingController _fatController = TextEditingController();
-  // List<String> _allDishes = ['Pizza', 'Pasta', 'Salad', 'Soup', 'Sandwich'];
   List<String> _allDishes = [];
   List<String> _filteredDishes = [];
-  String? _selectedDish;
   String display = '';
   int calories = 0;
   int proteine = 0;
@@ -40,6 +35,27 @@ class _NutritionScreenState extends State<NutritionScreen> {
   Color _textmessageColor = Colors.yellowAccent;
 
   late NutritionService nutritionService;
+
+  @override
+  void initState() {
+    super.initState();
+    nutritionService = NutritionService(widget.isar);
+    _fetchFoodItems();
+    _fetchDailyIntake();
+    _searchController.addListener(_filterDishes);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_filterDishes);
+    _searchController.dispose();
+    _nameController.dispose();
+    _caloriesController.dispose();
+    _proteinController.dispose();
+    _carbsController.dispose();
+    _fatController.dispose();
+    super.dispose();
+  }
 
   void _submitNutritionData() async {
     if (_formKey.currentState?.validate() ?? false) {
@@ -121,27 +137,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
     _fetchDailyIntake();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    nutritionService = NutritionService(widget.isar);
-    _fetchFoodItems();
-    _fetchDailyIntake();
-    _searchController.addListener(_filterDishes);
-  }
-
-  @override
-  void dispose() {
-    _searchController.removeListener(_filterDishes);
-    _searchController.dispose();
-    _nameController.dispose();
-    _caloriesController.dispose();
-    _proteinController.dispose();
-    _carbsController.dispose();
-    _fatController.dispose();
-    super.dispose();
-  }
-
   void _filterDishes() {
     final query = _searchController.text.toLowerCase();
     setState(() {
@@ -221,19 +216,15 @@ class _NutritionScreenState extends State<NutritionScreen> {
                             labelText: 'Dish',
                             hintText: 'Enter dish',
                           ),
-                          // onSubmitted: (value) => {
-                          //   _postDailyDish(value),
-                          // },
                         ),
                         _filteredDishes.isEmpty
-                            ? Container() // No dishes to show
+                            ? Container()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: _filteredDishes.map((String dish) {
                                   return InkWell(
                                     onTap: () {
                                       setState(() {
-                                        _selectedDish = dish;
                                         _searchController.text = dish;
                                         _filteredDishes.clear();
                                       });

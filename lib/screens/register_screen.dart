@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     color: AppConstants.primaryTextColor, width: 1.0),
               ),
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -106,13 +106,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               },
               child: const Text('Go back to Login'),
             ),
-            ElevatedButton(
-                onPressed: () async {
-                  // String response = await registerService
-                  //     .doesUserExist(_emailController.text.toString());
-                  // print(response);
-                },
-                child: const Text('TEST'))
           ],
         ),
       ),

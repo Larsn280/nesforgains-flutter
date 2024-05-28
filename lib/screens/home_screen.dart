@@ -68,7 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton(
               onPressed: () {
                 AuthProvider.of(context).logout();
-                // Navigator.pushNamed(context, '/');
               },
               child: const Text('Logout'),
             ),
