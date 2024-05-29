@@ -299,6 +299,12 @@ class _NutritionScreenState extends State<NutritionScreen> {
                       key: _formKey,
                       child: Column(
                         children: [
+                          const Text(
+                            'Add new dish',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20.0),
+                          ),
+                          const SizedBox(height: 16.0),
                           TextFormField(
                             controller: _nameController,
                             decoration: const InputDecoration(

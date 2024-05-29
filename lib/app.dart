@@ -32,10 +32,16 @@ class App extends StatelessWidget {
           inputDecorationTheme: const InputDecorationTheme(
             hintStyle: TextStyle(color: AppConstants.primaryTextColor),
             labelStyle: TextStyle(color: AppConstants.primaryTextColor),
-            enabledBorder: OutlineInputBorder(
+            // enabledBorder: OutlineInputBorder(
+            //   borderSide: BorderSide(color: AppConstants.primaryTextColor),
+            // ),
+            // focusedBorder: OutlineInputBorder(
+            //   borderSide: BorderSide(color: AppConstants.primaryTextColor),
+            // ),
+            enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: AppConstants.primaryTextColor),
             ),
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: AppConstants.primaryTextColor),
             ),
           ),
