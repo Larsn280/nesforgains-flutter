@@ -12,9 +12,9 @@ class LoginService {
       final users = await _isar.appUsers
           .filter()
           .group((q) => q
-              .usernameEqualTo(usernameOrEmail)
+              .usernameEqualTo(usernameOrEmail.toLowerCase())
               .or()
-              .emailEqualTo(usernameOrEmail))
+              .emailEqualTo(usernameOrEmail.toLowerCase()))
           .findAll();
 
       // Filter users by password

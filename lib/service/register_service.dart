@@ -40,8 +40,8 @@ class RegisterService {
         String newUsername = parts[0];
 
         final newUser = AppUser()
-          ..email = email.toString()
-          ..username = newUsername.toString()
+          ..email = email.toLowerCase().toString()
+          ..username = newUsername.toLowerCase().toString()
           ..password = password.toString()
           ..age = 0;
         await _isar.writeTxn(() async {
