@@ -145,13 +145,15 @@ class NutritionService {
     }
   }
 
-  // TODO Fixa så att den deletar med id.
-  Future<ResponseData> deleteDish(String name) async {
+  Future<ResponseData> deleteDish(String name, int userId) async {
     ResponseData responseData;
     try {
       if (name != '') {
-        final dishtodelete =
-            await _isar.dishs.filter().nameEqualTo(name).findFirst();
+        final dishtodelete = await _isar.dishs
+            .filter()
+            .nameEqualTo(name)
+            .userIdEqualTo(userId)
+            .findFirst();
         await _isar.writeTxn(() async {
           await _isar.dishs.delete(dishtodelete!.id);
         });
@@ -291,16 +293,28 @@ class NutritionService {
             .userIdEqualTo(userId)
             .findFirst();
 
+        int checkNutrition(int nutrition, int subtractednutrition) {
+          nutrition = nutrition - subtractednutrition;
+          if (nutrition < 0) {
+            nutrition = 0;
+            return nutrition;
+          }
+          return nutrition;
+        }
+
         if (currentDailyNutrition != null) {
-          currentDailyNutrition.calories =
-              (currentDailyNutrition.calories ?? 0) - (dishItem.calories ?? 0);
+          currentDailyNutrition.calories = checkNutrition(
+              currentDailyNutrition.calories!, dishItem.calories!);
+
           currentDailyNutrition.protein =
-              (currentDailyNutrition.protein ?? 0) - (dishItem.protein ?? 0);
-          currentDailyNutrition.carbohydrates =
-              (currentDailyNutrition.carbohydrates ?? 0) -
-                  (dishItem.carbohydrates ?? 0);
+              checkNutrition(currentDailyNutrition.protein!, dishItem.protein!);
+
+          currentDailyNutrition.carbohydrates = checkNutrition(
+              currentDailyNutrition.carbohydrates!, dishItem.carbohydrates!);
+
           currentDailyNutrition.fat =
-              (currentDailyNutrition.fat ?? 0) - (dishItem.fat ?? 0);
+              checkNutrition(currentDailyNutrition.fat!, dishItem.fat!);
+
           // Save the updated DailyNutrition item
           await _isar.writeTxn(() async {
             await _isar.dailyNutritions.put(currentDailyNutrition);

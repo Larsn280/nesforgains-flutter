@@ -39,9 +39,9 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
     }
   }
 
-  void _handleDeleteDish(String name) async {
+  void _handleDeleteDish(String name, int userId) async {
     try {
-      await nutritionService.deleteDish(name);
+      await nutritionService.deleteDish(name, userId);
       // Triggar en rebuild av widget trädet.
       setState(() {});
     } catch (e) {
@@ -175,7 +175,7 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.redAccent),
               onPressed: () {
-                _handleDeleteDish(dish.dish!);
+                _handleDeleteDish(dish.dish!, AuthProvider.of(context).id);
               },
             ),
           ],
