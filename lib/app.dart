@@ -1,4 +1,3 @@
-import 'package:NESForGains/screens/editdish_screen.dart';
 import 'package:NESForGains/screens/nutrition_screen.dart';
 import 'package:NESForGains/screens/viewdishes_screen.dart';
 import 'package:NESForGains/service/auth_service.dart';
@@ -25,11 +24,11 @@ class App extends StatelessWidget {
         theme: ThemeData(
           colorScheme:
               ColorScheme.fromSeed(seedColor: AppConstants.primaryColor),
-          textSelectionTheme: const TextSelectionThemeData(
+          textSelectionTheme: TextSelectionThemeData(
               cursorColor: AppConstants.primaryTextColor,
               selectionColor: AppConstants.primaryTextColor,
               selectionHandleColor: AppConstants.primaryTextColor),
-          inputDecorationTheme: const InputDecorationTheme(
+          inputDecorationTheme: InputDecorationTheme(
             hintStyle: TextStyle(color: AppConstants.primaryTextColor),
             labelStyle: TextStyle(color: AppConstants.primaryTextColor),
             // enabledBorder: OutlineInputBorder(
@@ -45,7 +44,7 @@ class App extends StatelessWidget {
               borderSide: BorderSide(color: AppConstants.primaryTextColor),
             ),
           ),
-          textTheme: const TextTheme(
+          textTheme: TextTheme(
             bodySmall: TextStyle(color: AppConstants.primaryTextColor),
             bodyMedium: TextStyle(color: AppConstants.primaryTextColor),
             bodyLarge: TextStyle(color: AppConstants.primaryTextColor),

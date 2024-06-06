@@ -2,6 +2,6 @@ import 'package:flutter/material.dart';
 
 class AppConstants {
   static const Color primaryColor = Colors.green;
-  static const Color primaryTextColor = Colors.white;
+  static Color primaryTextColor = Colors.white.withOpacity(0.9);
   static const String backgroundimage = 'assets/the-incredible-hulk.webp';
 }

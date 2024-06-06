@@ -22,12 +22,12 @@ class CounterDisplay extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .titleSmall
-                ?.merge(const TextStyle(color: AppConstants.primaryTextColor))),
+                ?.merge(TextStyle(color: AppConstants.primaryTextColor))),
         Text('$counter',
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
-                ?.merge(const TextStyle(color: AppConstants.primaryTextColor))),
+                ?.merge(TextStyle(color: AppConstants.primaryTextColor))),
       ],
     );
   }

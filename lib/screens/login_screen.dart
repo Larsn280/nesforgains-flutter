@@ -70,12 +70,12 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20.0),
-            Container(
+            SizedBox(
               width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: AppConstants.primaryTextColor, width: 1.0),
-              ),
+              // decoration: BoxDecoration(
+              //   border: Border.all(
+              //       color: AppConstants.primaryTextColor, width: 1.0),
+              // ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(

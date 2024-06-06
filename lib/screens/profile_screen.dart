@@ -95,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   iconSize: 36,
                   isExpanded: true,
                   underline: const SizedBox(),
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: AppConstants.primaryTextColor, fontSize: 22),
                   value: valueChoose,
                   onChanged: (newValue) {

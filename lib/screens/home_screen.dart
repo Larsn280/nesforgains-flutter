@@ -36,10 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 20.0),
             Container(
               width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: AppConstants.primaryTextColor, width: 1.0),
-              ),
+              // decoration: BoxDecoration(
+              //   border: Border.all(
+              //       color: AppConstants.primaryTextColor, width: 1.0),
+              // ),
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Column(

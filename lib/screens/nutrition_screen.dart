@@ -191,17 +191,24 @@ class _NutritionScreenState extends State<NutritionScreen> {
                   ? Column(
                       children: [
                         Container(
+                          width: MediaQuery.of(context).size.width,
                           padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1.0,
-                                  color: AppConstants.primaryTextColor)),
+                          // decoration: BoxDecoration(
+                          //     border: Border.all(
+                          //         width: 1.0,
+                          //         color: AppConstants.primaryTextColor)),
                           child: Column(
                             children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Total calories today: $calories'),
+                                  Text(
+                                    'Total calories today: $calories g',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
                                 ],
                               ),
                               const SizedBox(
@@ -210,16 +217,31 @@ class _NutritionScreenState extends State<NutritionScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Protein: $proteine'),
-                                  Text('Carbohydrates: $carbohydrates'),
-                                  Text('Fat: $fat'),
+                                  Text(
+                                    'Protein: $proteine g',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
+                                  Text(
+                                    'Carbohydrates: $carbohydrates g',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
+                                  Text(
+                                    'Fat: $fat g',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0),
+                                  ),
                                 ],
                               ),
                             ],
                           ),
                         ),
                         const SizedBox(
-                          height: 15.0,
+                          height: 18.0,
                         ),
                         message.isNotEmpty
                             ? Text(
@@ -228,7 +250,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                               )
                             : Container(),
                         const SizedBox(
-                          height: 15.0,
+                          height: 8.0,
                         ),
                         TextField(
                           controller: _searchController,
@@ -259,7 +281,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                 }).toList(),
                               ),
                         const SizedBox(
-                          height: 8.0,
+                          height: 12.0,
                         ),
                         ElevatedButton(
                           onPressed: () {
