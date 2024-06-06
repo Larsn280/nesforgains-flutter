@@ -3,6 +3,7 @@ import 'package:NESForGains/models/nutrition_data.dart';
 import 'package:NESForGains/service/auth_service.dart';
 import 'package:NESForGains/service/nutrition_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:isar/isar.dart';
 
 class NutritionScreen extends StatefulWidget {
@@ -153,6 +154,28 @@ class _NutritionScreenState extends State<NutritionScreen> {
     }
   }
 
+  void _putDailyDish(dish) async {
+    try {
+      final response = await nutritionService.putDailyDish(
+          dish, AuthProvider.of(context).id);
+      if (response.checksuccess == true) {
+        setState(() {
+          message = response.message;
+          _textmessageColor = Colors.greenAccent;
+        });
+      } else {
+        setState(() {
+          message = response.message;
+          _textmessageColor = Colors.redAccent;
+        });
+      }
+      _searchController.clear();
+      _fetchDailyIntake();
+    } catch (e) {
+      print('Error posting: $e');
+    }
+  }
+
   void _filterDishes() {
     try {
       final query = _searchController.text.toLowerCase();
@@ -283,22 +306,44 @@ class _NutritionScreenState extends State<NutritionScreen> {
                         const SizedBox(
                           height: 12.0,
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            _postDailyDish(_searchController.text);
-                          },
-                          child: const Text('Submit dish'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 45.0,
+                              height: 45.0,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  // Define the action to be taken when the button is pressed
+                                  _postDailyDish(_searchController.text);
+                                },
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.green,
+                                child: const Icon(Icons.add),
+                              ),
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    display = 'true';
+                                  });
+                                },
+                                child: const Text('Add new dish')),
+                            SizedBox(
+                              width: 45.0,
+                              height: 45.0,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  // Define the action to be taken when the button is pressed
+                                  _putDailyDish(_searchController.text);
+                                },
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.red,
+                                child: const Icon(Icons.remove),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          height: 8.0,
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                display = 'true';
-                              });
-                            },
-                            child: const Text('Add new dish')),
                         const SizedBox(
                           height: 8.0,
                         ),

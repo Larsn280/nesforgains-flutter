@@ -44,6 +44,9 @@ class NutritionService {
           allDishItems.add(dishItem);
         }
       }
+
+      allDishItems.sort((a, b) => a.dish!.compareTo(b.dish!));
+
       return allDishItems;
     } catch (e) {
       throw Exception('Something went wrong fetching dishes');
@@ -165,19 +168,20 @@ class NutritionService {
     }
   }
 
-  Future<ResponseData> editDish(NutritionData dishdata, int userId) async {
+  Future<ResponseData> editDish(
+      NutritionData dishdata, String olddishname, int userId) async {
     ResponseData responseData;
     try {
       {
         if (dishdata.dish != '') {
           final dishtoedit = await _isar.dishs
               .filter()
-              .nameEqualTo(dishdata.dish)
+              .nameEqualTo(olddishname)
               .userIdEqualTo(userId)
               .findFirst();
 
           if (dishtoedit != null) {
-            dishtoedit!.name = dishdata.dish;
+            dishtoedit.name = dishdata.dish;
             dishtoedit.calories = dishdata.calories;
             dishtoedit.protein = dishdata.protein;
             dishtoedit.carbohydrates = dishdata.carbohydrates;
@@ -239,6 +243,71 @@ class NutritionService {
           });
           responseData = ResponseData(
               checksuccess: true, message: '$dish was added to your intake!');
+          return responseData;
+        } else {
+          final newDailyNutrition = DailyNutrition()
+            ..date = currentDay
+            ..calories = dishItem.calories
+            ..protein = dishItem.protein
+            ..carbohydrates = dishItem.carbohydrates
+            ..fat = dishItem.fat
+            ..userId = userId;
+          await _isar.writeTxn(() async {
+            await _isar.dailyNutritions.put(newDailyNutrition);
+          });
+        }
+        responseData = ResponseData(
+            checksuccess: true, message: '$dish was added to you intake!');
+        return responseData;
+      } else {
+        responseData =
+            ResponseData(checksuccess: false, message: 'Invalid input');
+        return responseData;
+      }
+    } catch (e) {
+      throw Exception('Oops something went wrong posting intake!');
+    }
+  }
+
+  Future<ResponseData> putDailyDish(String dish, int userId) async {
+    try {
+      final ResponseData responseData;
+      final dishItem = await _isar.dishs
+          .filter()
+          .nameEqualTo(dish)
+          .userIdEqualTo(userId)
+          .findFirst();
+
+      if (dishItem != null) {
+        // Get the current date
+        final currentDate = DateTime.now();
+        // Set time components to 0
+        final currentDay =
+            DateTime(currentDate.year, currentDate.month, currentDate.day);
+
+        final currentDailyNutrition = await _isar.dailyNutritions
+            .filter()
+            .dateEqualTo(currentDay)
+            .userIdEqualTo(userId)
+            .findFirst();
+
+        if (currentDailyNutrition != null) {
+          currentDailyNutrition.calories =
+              (currentDailyNutrition.calories ?? 0) - (dishItem.calories ?? 0);
+          currentDailyNutrition.protein =
+              (currentDailyNutrition.protein ?? 0) - (dishItem.protein ?? 0);
+          currentDailyNutrition.carbohydrates =
+              (currentDailyNutrition.carbohydrates ?? 0) -
+                  (dishItem.carbohydrates ?? 0);
+          currentDailyNutrition.fat =
+              (currentDailyNutrition.fat ?? 0) - (dishItem.fat ?? 0);
+          // Save the updated DailyNutrition item
+          await _isar.writeTxn(() async {
+            await _isar.dailyNutritions.put(currentDailyNutrition);
+          });
+          responseData = ResponseData(
+              checksuccess: true,
+              message: '$dish was removed from your intake!');
           return responseData;
         } else {
           final newDailyNutrition = DailyNutrition()

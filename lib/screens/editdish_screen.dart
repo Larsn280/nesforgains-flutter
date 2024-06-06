@@ -26,6 +26,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
   late TextEditingController _proteinController;
   late TextEditingController _carbController;
   late TextEditingController _fatController;
+  String olddishname = '';
   String message = 'Edit dish or go back';
   Color _textmessageColor = Colors.yellowAccent;
 
@@ -37,6 +38,9 @@ class _EditDishScreenState extends State<EditDishScreen> {
     super.initState();
     // Initialize the controllers with existing data
     _nameController = TextEditingController(text: widget.nutritionData.dish);
+    setState(() {
+      olddishname = widget.nutritionData.dish.toString();
+    });
     _calorieController =
         TextEditingController(text: widget.nutritionData.calories.toString());
     _proteinController =
@@ -70,7 +74,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
             carbohydrates: int.tryParse(_carbController.text) ?? 0,
             fat: int.tryParse(_fatController.text) ?? 0);
         final respose = await nutritionService.editDish(
-            newNutritionData, AuthProvider.of(context).id);
+            newNutritionData, olddishname, AuthProvider.of(context).id);
         if (respose.checksuccess == true) {
           setState(() {
             message = respose.message;
