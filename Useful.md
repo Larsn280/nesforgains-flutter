@@ -4,6 +4,8 @@ https://isar.dev/
 # Builds a table in Isar database on collection model
 
 flutter pub run build_runner build
+flutter pub get
+flutter pub upgrade --major-versions
 
 # Git cli commands:
 
