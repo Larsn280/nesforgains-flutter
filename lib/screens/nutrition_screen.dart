@@ -227,6 +227,15 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      const Text(
+                                        'Nutrition Screen',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25.0),
+                                      ),
+                                      const SizedBox(
+                                        height: 16.0,
+                                      ),
                                       Text(
                                         'Total calories today: $calories g',
                                         style: const TextStyle(

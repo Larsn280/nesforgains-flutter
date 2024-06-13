@@ -35,7 +35,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
     super.dispose();
   }
 
-  void _inputTrainingData() async {
+  void _submitTrainingdata() async {
     try {
       if (_formKey.currentState!.validate()) {
         print('success');
@@ -259,7 +259,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      _inputTrainingData();
+                      _submitTrainingdata();
                     },
                     child: const Text('Submit trainingdata'),
                   ),
