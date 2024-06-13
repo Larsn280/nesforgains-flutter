@@ -1,7 +1,5 @@
 import 'package:NESForGains/constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:isar/isar.dart';
 
@@ -20,7 +18,11 @@ class _TrainingScreenState extends State<TrainingScreen> {
   final TextEditingController _setController = TextEditingController();
   final TextEditingController _weigthController = TextEditingController();
   String? selectedNumber;
-  final List<String> numbers =
+  final List<String> reps =
+      List<String>.generate(50, (index) => (index + 1).toString());
+  final List<String> sets =
+      List<String>.generate(50, (index) => (index + 1).toString());
+  final List<String> weigth =
       List<String>.generate(50, (index) => (index + 1).toString());
 
   @override
@@ -80,129 +82,150 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   Form(
                     key: _formKey,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppConstants.primaryTextColor),
+                        Container(
+                          width: 100,
+                          // padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppConstants.primaryTextColor),
+                          ),
+                          child: DropdownButtonFormField<String>(
+                            dropdownColor:
+                                const Color.fromARGB(255, 17, 17, 17),
+                            value: selectedNumber,
+                            hint: Text(
+                              'Reps',
+                              style: TextStyle(
+                                  color: AppConstants.primaryTextColor,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            child: DropdownButtonFormField<String>(
-                              dropdownColor:
-                                  const Color.fromARGB(255, 17, 17, 17),
-                              value: selectedNumber,
-                              hint: Text(
-                                'Select Reps',
-                                style: TextStyle(
-                                    color: AppConstants.primaryTextColor),
-                              ),
-                              items: numbers.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                        color: AppConstants.primaryTextColor),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedNumber = newValue;
-                                  _repController.text = newValue ?? '';
-                                });
-                              },
-                              isExpanded: true,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                              menuMaxHeight:
-                                  200, // Set the maximum height for the dropdown menu
+                            items: reps
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  '$value reps',
+                                  style: TextStyle(
+                                      color: AppConstants.primaryTextColor),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedNumber = newValue;
+                                _repController.text = newValue ?? '';
+                              });
+                            },
+                            isExpanded: true,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
                             ),
+
+                            menuMaxHeight:
+                                200, // Set the maximum height for the dropdown menu
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppConstants.primaryTextColor),
-                            ),
-                            child: DropdownButtonFormField<String>(
-                              dropdownColor:
-                                  const Color.fromARGB(255, 17, 17, 17),
-                              value: selectedNumber,
-                              hint: Text(
-                                'Select Sets',
-                                style: TextStyle(
-                                    color: AppConstants.primaryTextColor),
-                              ),
-                              items: numbers.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                        color: AppConstants.primaryTextColor),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedNumber = newValue;
-                                  _repController.text = newValue ?? '';
-                                });
-                              },
-                              isExpanded: true,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                              menuMaxHeight:
-                                  200, // Set the maximum height for the dropdown menu
-                            ),
+                        const SizedBox(
+                          child: Text(
+                            'X',
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppConstants.primaryTextColor),
+                        Container(
+                          width: 100,
+                          // padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppConstants.primaryTextColor),
+                          ),
+                          child: DropdownButtonFormField<String>(
+                            dropdownColor:
+                                const Color.fromARGB(255, 17, 17, 17),
+                            value: selectedNumber,
+                            hint: Text(
+                              'Sets',
+                              style: TextStyle(
+                                  color: AppConstants.primaryTextColor,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            child: DropdownButtonFormField<String>(
-                              dropdownColor:
-                                  const Color.fromARGB(255, 17, 17, 17),
-                              value: selectedNumber,
-                              hint: Text(
-                                'Select Weigth',
-                                style: TextStyle(
-                                    color: AppConstants.primaryTextColor),
-                              ),
-                              items: numbers.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                        color: AppConstants.primaryTextColor),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedNumber = newValue;
-                                  _repController.text = newValue ?? '';
-                                });
-                              },
-                              isExpanded: true,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                              menuMaxHeight:
-                                  200, // Set the maximum height for the dropdown menu
+                            items: sets
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  '$value sets',
+                                  style: TextStyle(
+                                      color: AppConstants.primaryTextColor),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedNumber = newValue;
+                                _repController.text = newValue ?? '';
+                              });
+                            },
+                            isExpanded: true,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
                             ),
+                            menuMaxHeight:
+                                200, // Set the maximum height for the dropdown menu
+                          ),
+                        ),
+                        const SizedBox(
+                          child: Text(
+                            'X',
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          width: 100,
+                          // padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppConstants.primaryTextColor),
+                          ),
+                          child: DropdownButtonFormField<String>(
+                            dropdownColor:
+                                const Color.fromARGB(255, 17, 17, 17),
+                            value: selectedNumber,
+                            hint: Text(
+                              'Weigth',
+                              style: TextStyle(
+                                  color: AppConstants.primaryTextColor,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            items: weigth
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  '$value kg',
+                                  style: TextStyle(
+                                      color: AppConstants.primaryTextColor),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedNumber = newValue;
+                                _repController.text = newValue ?? '';
+                              });
+                            },
+                            isExpanded: true,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            menuMaxHeight:
+                                200, // Set the maximum height for the dropdown menu
                           ),
                         ),
                       ],
