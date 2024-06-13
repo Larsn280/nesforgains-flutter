@@ -17,13 +17,15 @@ class _TrainingScreenState extends State<TrainingScreen> {
   final TextEditingController _repController = TextEditingController();
   final TextEditingController _setController = TextEditingController();
   final TextEditingController _weigthController = TextEditingController();
-  String? selectedNumber;
+  String? selectedReps;
+  String? selectedSets;
+  String? selectedWeigth;
   final List<String> reps =
       List<String>.generate(50, (index) => (index + 1).toString());
   final List<String> sets =
       List<String>.generate(50, (index) => (index + 1).toString());
   final List<String> weigth =
-      List<String>.generate(50, (index) => (index + 1).toString());
+      List<String>.generate(500, (index) => (index + 1).toString());
 
   @override
   void dispose() {
@@ -82,11 +84,11 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   Form(
                     key: _formKey,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
                           width: 100,
-                          // padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           decoration: BoxDecoration(
                             border: Border.all(
                                 color: AppConstants.primaryTextColor),
@@ -94,12 +96,12 @@ class _TrainingScreenState extends State<TrainingScreen> {
                           child: DropdownButtonFormField<String>(
                             dropdownColor:
                                 const Color.fromARGB(255, 17, 17, 17),
-                            value: selectedNumber,
+                            value: selectedReps,
                             hint: Text(
                               'Reps',
                               style: TextStyle(
                                   color: AppConstants.primaryTextColor,
-                                  fontSize: 12.0,
+                                  fontSize: 14.0,
                                   fontWeight: FontWeight.bold),
                             ),
                             items: reps
@@ -115,7 +117,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                             }).toList(),
                             onChanged: (String? newValue) {
                               setState(() {
-                                selectedNumber = newValue;
+                                selectedReps = newValue;
                                 _repController.text = newValue ?? '';
                               });
                             },
@@ -137,7 +139,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                         ),
                         Container(
                           width: 100,
-                          // padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           decoration: BoxDecoration(
                             border: Border.all(
                                 color: AppConstants.primaryTextColor),
@@ -145,12 +147,12 @@ class _TrainingScreenState extends State<TrainingScreen> {
                           child: DropdownButtonFormField<String>(
                             dropdownColor:
                                 const Color.fromARGB(255, 17, 17, 17),
-                            value: selectedNumber,
+                            value: selectedSets,
                             hint: Text(
                               'Sets',
                               style: TextStyle(
                                   color: AppConstants.primaryTextColor,
-                                  fontSize: 12.0,
+                                  fontSize: 14.0,
                                   fontWeight: FontWeight.bold),
                             ),
                             items: sets
@@ -166,8 +168,8 @@ class _TrainingScreenState extends State<TrainingScreen> {
                             }).toList(),
                             onChanged: (String? newValue) {
                               setState(() {
-                                selectedNumber = newValue;
-                                _repController.text = newValue ?? '';
+                                selectedSets = newValue;
+                                _setController.text = newValue ?? '';
                               });
                             },
                             isExpanded: true,
@@ -187,7 +189,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                         ),
                         Container(
                           width: 100,
-                          // padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           decoration: BoxDecoration(
                             border: Border.all(
                                 color: AppConstants.primaryTextColor),
@@ -195,12 +197,12 @@ class _TrainingScreenState extends State<TrainingScreen> {
                           child: DropdownButtonFormField<String>(
                             dropdownColor:
                                 const Color.fromARGB(255, 17, 17, 17),
-                            value: selectedNumber,
+                            value: selectedWeigth,
                             hint: Text(
                               'Weigth',
                               style: TextStyle(
                                   color: AppConstants.primaryTextColor,
-                                  fontSize: 12.0,
+                                  fontSize: 14.0,
                                   fontWeight: FontWeight.bold),
                             ),
                             items: weigth
@@ -216,8 +218,8 @@ class _TrainingScreenState extends State<TrainingScreen> {
                             }).toList(),
                             onChanged: (String? newValue) {
                               setState(() {
-                                selectedNumber = newValue;
-                                _repController.text = newValue ?? '';
+                                selectedWeigth = newValue;
+                                _weigthController.text = newValue ?? '';
                               });
                             },
                             isExpanded: true,
