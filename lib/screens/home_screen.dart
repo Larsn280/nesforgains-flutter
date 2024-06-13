@@ -66,6 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: const Text('Go to Nutrition')),
             ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/trainingScreen');
+                },
+                child: const Text('Go to Training')),
+            ElevatedButton(
               onPressed: () {
                 AuthProvider.of(context).logout();
               },

@@ -342,7 +342,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/');
                                 },
-                                child: const Text('Go to back')),
+                                child: const Text('Go back')),
                           ],
                         )
                       : Form(
