@@ -84,7 +84,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   Form(
                     key: _formKey,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
                           width: 100,
@@ -93,41 +93,48 @@ class _TrainingScreenState extends State<TrainingScreen> {
                             border: Border.all(
                                 color: AppConstants.primaryTextColor),
                           ),
-                          child: DropdownButtonFormField<String>(
-                            dropdownColor:
-                                const Color.fromARGB(255, 17, 17, 17),
-                            value: selectedReps,
-                            hint: Text(
-                              'Reps',
-                              style: TextStyle(
-                                  color: AppConstants.primaryTextColor,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            items: reps
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  '$value reps',
-                                  style: TextStyle(
-                                      color: AppConstants.primaryTextColor),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedReps = newValue;
-                                _repController.text = newValue ?? '';
-                              });
-                            },
-                            isExpanded: true,
-                            decoration: const InputDecoration(
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                                inputDecorationTheme:
+                                    const InputDecorationTheme(
                               border: InputBorder.none,
-                            ),
+                            )),
+                            child: DropdownButtonFormField<String>(
+                              dropdownColor:
+                                  const Color.fromARGB(255, 17, 17, 17),
+                              value: selectedReps,
+                              hint: Text(
+                                'Reps',
+                                style: TextStyle(
+                                    color: AppConstants.primaryTextColor,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              items: reps.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    '$value reps',
+                                    style: TextStyle(
+                                        color: AppConstants.primaryTextColor),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedReps = newValue;
+                                  _repController.text = newValue ?? '';
+                                });
+                              },
+                              isExpanded: true,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                              ),
 
-                            menuMaxHeight:
-                                200, // Set the maximum height for the dropdown menu
+                              menuMaxHeight:
+                                  200, // Set the maximum height for the dropdown menu
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -144,40 +151,47 @@ class _TrainingScreenState extends State<TrainingScreen> {
                             border: Border.all(
                                 color: AppConstants.primaryTextColor),
                           ),
-                          child: DropdownButtonFormField<String>(
-                            dropdownColor:
-                                const Color.fromARGB(255, 17, 17, 17),
-                            value: selectedSets,
-                            hint: Text(
-                              'Sets',
-                              style: TextStyle(
-                                  color: AppConstants.primaryTextColor,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            items: sets
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  '$value sets',
-                                  style: TextStyle(
-                                      color: AppConstants.primaryTextColor),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedSets = newValue;
-                                _setController.text = newValue ?? '';
-                              });
-                            },
-                            isExpanded: true,
-                            decoration: const InputDecoration(
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                                inputDecorationTheme:
+                                    const InputDecorationTheme(
                               border: InputBorder.none,
+                            )),
+                            child: DropdownButtonFormField<String>(
+                              dropdownColor:
+                                  const Color.fromARGB(255, 17, 17, 17),
+                              value: selectedSets,
+                              hint: Text(
+                                'Sets',
+                                style: TextStyle(
+                                    color: AppConstants.primaryTextColor,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              items: sets.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    '$value sets',
+                                    style: TextStyle(
+                                        color: AppConstants.primaryTextColor),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedSets = newValue;
+                                  _setController.text = newValue ?? '';
+                                });
+                              },
+                              isExpanded: true,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                              menuMaxHeight:
+                                  200, // Set the maximum height for the dropdown menu
                             ),
-                            menuMaxHeight:
-                                200, // Set the maximum height for the dropdown menu
                           ),
                         ),
                         const SizedBox(
@@ -194,40 +208,47 @@ class _TrainingScreenState extends State<TrainingScreen> {
                             border: Border.all(
                                 color: AppConstants.primaryTextColor),
                           ),
-                          child: DropdownButtonFormField<String>(
-                            dropdownColor:
-                                const Color.fromARGB(255, 17, 17, 17),
-                            value: selectedWeigth,
-                            hint: Text(
-                              'Weigth',
-                              style: TextStyle(
-                                  color: AppConstants.primaryTextColor,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            items: weigth
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  '$value kg',
-                                  style: TextStyle(
-                                      color: AppConstants.primaryTextColor),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedWeigth = newValue;
-                                _weigthController.text = newValue ?? '';
-                              });
-                            },
-                            isExpanded: true,
-                            decoration: const InputDecoration(
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                                inputDecorationTheme:
+                                    const InputDecorationTheme(
                               border: InputBorder.none,
+                            )),
+                            child: DropdownButtonFormField<String>(
+                              dropdownColor:
+                                  const Color.fromARGB(255, 17, 17, 17),
+                              value: selectedWeigth,
+                              hint: Text(
+                                'Weigth',
+                                style: TextStyle(
+                                    color: AppConstants.primaryTextColor,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              items: weigth.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    '$value kg',
+                                    style: TextStyle(
+                                        color: AppConstants.primaryTextColor),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedWeigth = newValue;
+                                  _weigthController.text = newValue ?? '';
+                                });
+                              },
+                              isExpanded: true,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                              menuMaxHeight:
+                                  200, // Set the maximum height for the dropdown menu
                             ),
-                            menuMaxHeight:
-                                200, // Set the maximum height for the dropdown menu
                           ),
                         ),
                       ],
