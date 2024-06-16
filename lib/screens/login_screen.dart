@@ -6,9 +6,8 @@ import 'package:isar/isar.dart';
 
 class LoginScreen extends StatefulWidget {
   final Isar isar;
-  /* Ignorerar varningen */
-  // ignore: use_super_parameters
-  const LoginScreen({Key? key, required this.isar}) : super(key: key);
+
+  const LoginScreen({super.key, required this.isar});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -72,10 +71,6 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20.0),
             SizedBox(
               width: double.infinity,
-              // decoration: BoxDecoration(
-              //   border: Border.all(
-              //       color: AppConstants.primaryTextColor, width: 1.0),
-              // ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(

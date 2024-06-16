@@ -9,11 +9,8 @@ class EditDishScreen extends StatefulWidget {
   final Isar isar;
   final NutritionData nutritionData;
 
-  /* Ignorerar varningen */
-  // ignore: use_super_parameters
   const EditDishScreen(
-      {Key? key, required this.isar, required this.nutritionData})
-      : super(key: key);
+      {super.key, required this.isar, required this.nutritionData});
 
   @override
   State<EditDishScreen> createState() => _EditDishScreenState();

@@ -5,9 +5,8 @@ import 'package:isar/isar.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Isar isar;
-  /* Ignorerar varningen */
-  // ignore: use_super_parameters
-  const RegisterScreen({Key? key, required this.isar}) : super(key: key);
+
+  const RegisterScreen({super.key, required this.isar});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -69,10 +68,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 20.0),
             SizedBox(
               width: double.infinity,
-              // decoration: BoxDecoration(
-              //   border: Border.all(
-              //       color: AppConstants.primaryTextColor, width: 1.0),
-              // ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(

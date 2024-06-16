@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:NESForGains/constants.dart';
 
 class HomeScreen extends StatefulWidget {
-  /* Ignorerar varningen */
-  // ignore: use_super_parameters
   const HomeScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -34,13 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20.0),
-            Container(
+            const SizedBox(
               width: double.infinity,
-              // decoration: BoxDecoration(
-              //   border: Border.all(
-              //       color: AppConstants.primaryTextColor, width: 1.0),
-              // ),
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
