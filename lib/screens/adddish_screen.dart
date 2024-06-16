@@ -61,7 +61,9 @@ class _AddDishScreenState extends State<AddDishScreen> {
           _carbsController.clear();
           _fatController.clear();
 
-          Navigator.pop(context, '${response.message},green');
+          if (mounted) {
+            Navigator.pop(context, '${response.message},green');
+          }
         } else {
           _nameController.clear();
           _caloriesController.clear();
@@ -69,7 +71,9 @@ class _AddDishScreenState extends State<AddDishScreen> {
           _carbsController.clear();
           _fatController.clear();
 
-          Navigator.pop(context, '${response.message},red');
+          if (mounted) {
+            Navigator.pop(context, '${response.message},red');
+          }
         }
       }
     } catch (e) {
