@@ -1,5 +1,5 @@
-import 'package:NESForGains/database/collections/app_user.dart';
-import 'package:NESForGains/models/user_data.dart';
+import 'package:nes_for_gains/database/collections/app_user.dart';
+import 'package:nes_for_gains/models/user_data.dart';
 import 'package:isar/isar.dart';
 
 class LoginService {

@@ -1,6 +1,6 @@
-import 'package:NESForGains/screens/nutrition_screen.dart';
-import 'package:NESForGains/screens/viewdishes_screen.dart';
-import 'package:NESForGains/service/auth_service.dart';
+import 'package:nes_for_gains/screens/nutrition_screen.dart';
+import 'package:nes_for_gains/screens/viewdishes_screen.dart';
+import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +10,7 @@ import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/profile_screen.dart';
-import 'package:NESForGains/screens/training_screen.dart';
+import 'package:nes_for_gains/screens/training_screen.dart';
 
 class App extends StatelessWidget {
   final Isar isar;

@@ -1,7 +1,7 @@
-import 'package:NESForGains/database/collections/daily_nutrition.dart';
-import 'package:NESForGains/database/collections/dish.dart';
-import 'package:NESForGains/models/nutrition_data.dart';
-import 'package:NESForGains/models/response_data.dart';
+import 'package:nes_for_gains/database/collections/daily_nutrition.dart';
+import 'package:nes_for_gains/database/collections/dish.dart';
+import 'package:nes_for_gains/models/nutrition_data.dart';
+import 'package:nes_for_gains/models/response_data.dart';
 import 'package:isar/isar.dart';
 
 class NutritionService {

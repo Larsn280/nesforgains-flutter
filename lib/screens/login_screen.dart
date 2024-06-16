@@ -1,7 +1,7 @@
-import 'package:NESForGains/service/auth_service.dart';
-import 'package:NESForGains/service/login_service.dart';
+import 'package:nes_for_gains/service/auth_service.dart';
+import 'package:nes_for_gains/service/login_service.dart';
 import 'package:flutter/material.dart';
-import 'package:NESForGains/constants.dart';
+import 'package:nes_for_gains/constants.dart';
 import 'package:isar/isar.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -40,8 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
           _passwordController.text.toString());
       if (response.username != '') {
         // Håll koll på.
-        AuthProvider.of(context)
-            .login(response.id, response.username.toString());
+        if (mounted) {
+          AuthProvider.of(context)
+              .login(response.id, response.username.toString());
+        }
       }
     } catch (e) {
       print('Error logging in user: $e');

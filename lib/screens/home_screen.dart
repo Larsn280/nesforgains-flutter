@@ -1,6 +1,6 @@
-import 'package:NESForGains/service/auth_service.dart';
+import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:NESForGains/constants.dart';
+import 'package:nes_for_gains/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({

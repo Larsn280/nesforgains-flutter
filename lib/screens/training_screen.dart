@@ -1,4 +1,4 @@
-import 'package:NESForGains/constants.dart';
+import 'package:nes_for_gains/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:isar/isar.dart';

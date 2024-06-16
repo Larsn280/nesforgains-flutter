@@ -1,6 +1,6 @@
-import 'package:NESForGains/service/register_service.dart';
+import 'package:nes_for_gains/service/register_service.dart';
 import 'package:flutter/material.dart';
-import 'package:NESForGains/constants.dart';
+import 'package:nes_for_gains/constants.dart';
 import 'package:isar/isar.dart';
 
 class RegisterScreen extends StatefulWidget {

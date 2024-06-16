@@ -1,7 +1,7 @@
-import 'package:NESForGains/constants.dart';
-import 'package:NESForGains/models/nutrition_data.dart';
-import 'package:NESForGains/service/auth_service.dart';
-import 'package:NESForGains/service/nutrition_service.dart';
+import 'package:nes_for_gains/constants.dart';
+import 'package:nes_for_gains/models/nutrition_data.dart';
+import 'package:nes_for_gains/service/auth_service.dart';
+import 'package:nes_for_gains/service/nutrition_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:NESForGains/constants.dart';
+import 'package:nes_for_gains/constants.dart';
 
 class CounterDisplay extends StatelessWidget {
   final int counter;
 
   const CounterDisplay({
-    Key? key,
+    super.key,
     required this.counter,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

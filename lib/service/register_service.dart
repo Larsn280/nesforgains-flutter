@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:NESForGains/database/collections/app_user.dart';
+import 'package:nes_for_gains/database/collections/app_user.dart';
 
 class RegisterService {
   final Isar _isar;
