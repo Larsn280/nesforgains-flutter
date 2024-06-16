@@ -14,7 +14,7 @@ import 'package:NESForGains/screens/training_screen.dart';
 
 class App extends StatelessWidget {
   final Isar isar;
-  const App({Key? key, required this.isar}) : super(key: key);
+  const App({super.key, required this.isar});
 
   // This widget is the root of your application.
   @override
@@ -32,12 +32,6 @@ class App extends StatelessWidget {
           inputDecorationTheme: InputDecorationTheme(
             hintStyle: TextStyle(color: AppConstants.primaryTextColor),
             labelStyle: TextStyle(color: AppConstants.primaryTextColor),
-            // enabledBorder: OutlineInputBorder(
-            //   borderSide: BorderSide(color: AppConstants.primaryTextColor),
-            // ),
-            // focusedBorder: OutlineInputBorder(
-            //   borderSide: BorderSide(color: AppConstants.primaryTextColor),
-            // ),
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: AppConstants.primaryTextColor),
             ),
@@ -53,16 +47,12 @@ class App extends StatelessWidget {
           useMaterial3: true,
         ),
         initialRoute: '/',
-        // initialRoute: Provider.of<AuthState>(context).checkLoginStatus()
-        //     ? '/homeScreen'
-        //     : '/',
         routes: {
           '/': (context) {
             final isLoggedIn =
                 Provider.of<AuthState>(context).checkLoginStatus();
             return isLoggedIn ? const HomeScreen() : LoginScreen(isar: isar);
           },
-          // '/': (context) => const LoginScreen(),
           '/homeScreen': (context) => const HomeScreen(),
           '/registerScreen': (context) => RegisterScreen(isar: isar),
           '/profileScreen': (context) => ProfileScreen(isar: isar),

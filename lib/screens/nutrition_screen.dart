@@ -132,6 +132,28 @@ class _NutritionScreenState extends State<NutritionScreen> {
     }
   }
 
+  void _navigatetoadd() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddDishScreen(
+          isar: widget.isar,
+        ),
+      ),
+    );
+    if (result != null) {
+      List<String> split = result.toString().split(',');
+      setState(() {
+        message = split[0];
+        if (split[1] == 'green') {
+          _textmessageColor = Colors.greenAccent;
+        } else {
+          _textmessageColor = Colors.redAccent;
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,6 +251,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                       width: 45.0,
                       height: 45.0,
                       child: FloatingActionButton(
+                        heroTag: 'floatButtonOne',
                         onPressed: () {
                           // Define the action to be taken when the button is pressed
                           _postDailyDish(_searchController.text);
@@ -239,32 +262,15 @@ class _NutritionScreenState extends State<NutritionScreen> {
                       ),
                     ),
                     ElevatedButton(
-                        onPressed: () async {
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddDishScreen(
-                                isar: widget.isar,
-                              ),
-                            ),
-                          );
-                          if (result != null) {
-                            List<String> split = result.toString().split(',');
-                            setState(() {
-                              message = split[0];
-                              if (split[1] == 'green') {
-                                _textmessageColor = Colors.greenAccent;
-                              } else {
-                                _textmessageColor = Colors.redAccent;
-                              }
-                            });
-                          }
+                        onPressed: () {
+                          _navigatetoadd();
                         },
                         child: const Text('Add new dish')),
                     SizedBox(
                       width: 45.0,
                       height: 45.0,
                       child: FloatingActionButton(
+                        heroTag: 'floatButtonTwo',
                         onPressed: () {
                           _putDailyDish(_searchController.text);
                         },
