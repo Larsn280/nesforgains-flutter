@@ -11,13 +11,4 @@ class Dish {
   int? carbohydrates;
   int? fat;
   int? userId;
-
-  Dish({
-    this.name,
-    this.calories,
-    this.protein,
-    this.carbohydrates,
-    this.fat,
-    this.userId,
-  });
 }
