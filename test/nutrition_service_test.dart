@@ -75,5 +75,8 @@ void main() {
 
   tearDownAll(() async {
     await isarTest.close(deleteFromDisk: true);
+    if (dirTest.existsSync()) {
+      dirTest.deleteSync(recursive: true);
+    }
   });
 }
