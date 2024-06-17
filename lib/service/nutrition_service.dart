@@ -49,7 +49,7 @@ class NutritionService {
 
       return allDishItems;
     } catch (e) {
-      throw Exception('Something went wrong fetching dishes');
+      throw Exception('Something went wrong fetching dishes: $e');
     }
   }
 
