@@ -1,60 +1,79 @@
-// test/database_service_test.dart
+import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart'; // Import Mockito for mocking dependencies
 import 'package:isar/isar.dart';
-import 'package:nes_for_gains/models/nutrition_data.dart';
-import 'package:nes_for_gains/service/nutrition_service.dart'; // Adjust path as per your project
-import 'package:nes_for_gains/database/collections/dish.dart'; // Adjust path as per your project
-
-// Mock database service using Mockito
-class MockIsarDatabase extends Mock implements Isar {
-  Future<List<Dish>> findAll() async {
-    // Simulate database response
-    return [
-      Dish(
-        name: 'Dish 1',
-        calories: 100,
-        protein: 10,
-        carbohydrates: 20,
-        fat: 5,
-        userId: 1,
-      ),
-      Dish(
-        name: 'Dish 2',
-        calories: 150,
-        protein: 12,
-        carbohydrates: 25,
-        fat: 8,
-        userId: 1,
-      ),
-    ];
-  }
-}
+import 'package:nes_for_gains/database/collections/app_user.dart';
+import 'package:nes_for_gains/database/collections/daily_nutrition.dart';
+import 'package:nes_for_gains/database/collections/dish.dart';
 
 void main() {
-  group('getAllDishesById', () {
-    test('returns list of NutritionData when dishes found', () async {
-      // Arrange
-      const int userId = 1;
-      final mockIsar = MockIsarDatabase();
-      final nutritionService = NutritionService(mockIsar);
+  late Isar isarTest;
+  late Directory dirTest;
 
-      // Act
-      final result = await nutritionService.getAllDishesById(userId);
+  setUp(() async {
+    dirTest = Directory.systemTemp.createTempSync();
+    await Isar.initializeIsarCore(download: true);
 
-      // Assert
-      expect(result, isA<List<NutritionData>>());
-      expect(result!.length, 2); // Assuming mock database returns 2 dishes
-      expect(result[0].dish, 'Dish 1');
-      expect(result[0].calories, 100);
-      // Add more assertions for other fields as needed
+    if (Isar.instanceNames.isEmpty) {
+      isarTest = await Isar.open(
+          [DishSchema, DailyNutritionSchema, AppUserSchema],
+          directory: dirTest.path, name: 'dishInstance');
+    }
+  });
 
-      // Additional verification: Ensure findAll() was called on mockIsar
-      verify(mockIsar.findAll())
-          .called(1); // Adjust if findAll() should be called more than once
+  test("Open ain instance on the Isar database", () async {
+    final isOpen = isarTest.isOpen;
+    expect(isOpen, true);
+  });
+
+  group("check for dishes", () {
+    final dishOne = Dish()
+      ..name = 'DishOne'
+      ..calories = 20
+      ..protein = 100
+      ..carbohydrates = 50
+      ..fat = 20
+      ..userId = 1;
+
+    final dishTwo = Dish()
+      ..name = 'DishTwo'
+      ..calories = 20
+      ..protein = 100
+      ..carbohydrates = 50
+      ..fat = 20
+      ..userId = 2;
+
+    test('check dishes', () async {
+      await isarTest.writeTxn(() async {
+        await isarTest.dishs.put(dishOne);
+        await isarTest.dishs.put(dishTwo);
+      });
+
+      final check = await isarTest.dishs.get(dishOne.id);
+      expect(check?.id, dishOne.id);
+
+      await isarTest.writeTxn(() async {
+        await isarTest.dishs.clear();
+      });
     });
 
-    // Other test cases as previously discussed...
+    test("read the dish", () async {
+      await isarTest.writeTxn(() async {
+        await isarTest.dishs.put(dishTwo);
+      });
+
+      final retrivedDish = await isarTest.dishs.get(2);
+
+      expect(retrivedDish?.protein, 100);
+      expect(retrivedDish?.id, 2);
+
+      await isarTest.writeTxn(() async {
+        await isarTest.dishs.clear();
+      });
+    });
+  });
+
+  tearDownAll(() async {
+    await isarTest.close(deleteFromDisk: true);
   });
 }
