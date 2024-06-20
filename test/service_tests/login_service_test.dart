@@ -65,8 +65,8 @@ void main() {
     }
   });
 
-  test("Test loginUser method - Multiple Users Found", () async {
-    // Create multiple users with the same username
+  test("Test loginUser method - Multiple Users Found with Unique Passwords",
+      () async {
     final testUser1 = AppUser()
       ..username = 'shareduser'
       ..email = 'user1@example.com'
@@ -82,25 +82,22 @@ void main() {
       await isarTest.appUsers.put(testUser2);
     });
 
-    // Call loginUser for a shared username
     try {
       await loginserviceTest.loginUser('shareduser', 'password123');
-      // If loginUser does not throw an exception, fail the test
-      fail('Multiple users found with the same username/email');
     } catch (e) {
-      expect(e.toString(),
-          contains('Multiple users found with the same username/email'));
+      fail('Login should have succeeded with the correct password');
+    }
+
+    try {
+      await loginserviceTest.loginUser('shareduser', 'wrongpassword');
+
+      fail('Login should have failed with the incorrect password');
+    } catch (e) {
+      expect(e.toString(), contains('Invalid username/email or password.'));
     }
 
     await isarTest.writeTxn(() async {
-      await isarTest.dishs.clear();
+      await isarTest.appUsers.clear();
     });
-  });
-
-  tearDownAll(() async {
-    await isarTest.close(deleteFromDisk: true);
-    if (dirTest.existsSync()) {
-      dirTest.deleteSync(recursive: true);
-    }
   });
 }
