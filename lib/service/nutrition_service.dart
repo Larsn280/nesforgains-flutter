@@ -54,28 +54,21 @@ class NutritionService {
   }
 
   Future<List<String>> fetchDishItems(int userId) async {
-    // Initialize an empty list to store food item names
     List<String> dishItemNames = [];
 
     try {
-      // Perform the database query to get all items
       final dishItems =
           await _isar.dishs.filter().userIdEqualTo(userId).findAll();
 
-      // Check if any items were returned
       if (dishItems.isNotEmpty) {
-        // Extract dish names from the list of Dish objects
-        // dishItemNames = dishItems.map((dish) => dish.name!).toList();
         for (var dish in dishItems) {
           dishItemNames.add(dish.name.toString());
         }
       } else {
         print('No items found in the dish table.');
-        // Optionally handle the case where the database is empty
       }
     } catch (e) {
       print('Error fetching food items: $e');
-      // Handle any potential errors
     }
 
     return dishItemNames;
@@ -154,11 +147,17 @@ class NutritionService {
             .nameEqualTo(name)
             .userIdEqualTo(userId)
             .findFirst();
-        await _isar.writeTxn(() async {
-          await _isar.dishs.delete(dishtodelete!.id);
-        });
-        responseData = ResponseData(
-            checksuccess: true, message: '${dishtodelete!.name} was deleted!');
+        if (dishtodelete != null) {
+          await _isar.writeTxn(() async {
+            await _isar.dishs.delete(dishtodelete!.id);
+          });
+          responseData = ResponseData(
+              checksuccess: true,
+              message: '${dishtodelete!.name} was deleted!');
+          return responseData;
+        }
+        responseData =
+            ResponseData(checksuccess: false, message: 'Could not delete dish');
         return responseData;
       } else {
         responseData =
@@ -259,7 +258,7 @@ class NutritionService {
           });
         }
         responseData = ResponseData(
-            checksuccess: true, message: '$dish was added to you intake!');
+            checksuccess: true, message: '$dish was added to your intake!');
         return responseData;
       } else {
         responseData =

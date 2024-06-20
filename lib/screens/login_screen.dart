@@ -79,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextField(
+                      key: const ValueKey('username'),
                       controller: _usernameController,
                       decoration: const InputDecoration(
                         labelText: 'Username',
@@ -89,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 16.0,
                     ),
                     TextField(
+                      key: const ValueKey('password'),
                       controller: _passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -104,11 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 32.0,
             ),
             ElevatedButton(
+                key: const ValueKey('loginButton'),
                 onPressed: () {
                   _loginUser();
                 },
                 child: const Text('Login')),
             ElevatedButton(
+                key: const ValueKey('registerButton'),
                 onPressed: () {
                   Navigator.pushNamed(context, '/registerScreen');
                 },

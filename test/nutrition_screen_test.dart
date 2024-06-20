@@ -31,7 +31,8 @@ void main() {
   });
 
   group('NutritionScreen Widget Tests', () {
-    testWidgets('Test initial state', (WidgetTester tester) async {
+    testWidgets('Test initial state nutritionScreen',
+        (WidgetTester tester) async {
       // Build NutritionScreen widget
       await tester.pumpWidget(MaterialApp(
         home: NutritionScreen(isar: isarTest),
