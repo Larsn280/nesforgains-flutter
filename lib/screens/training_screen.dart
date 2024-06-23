@@ -67,7 +67,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Traning Screen',
+                    'Training Screen',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
                   ),
