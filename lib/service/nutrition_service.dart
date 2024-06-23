@@ -149,11 +149,10 @@ class NutritionService {
             .findFirst();
         if (dishtodelete != null) {
           await _isar.writeTxn(() async {
-            await _isar.dishs.delete(dishtodelete!.id);
+            await _isar.dishs.delete(dishtodelete.id);
           });
           responseData = ResponseData(
-              checksuccess: true,
-              message: '${dishtodelete!.name} was deleted!');
+              checksuccess: true, message: '${dishtodelete.name} was deleted!');
           return responseData;
         }
         responseData =
