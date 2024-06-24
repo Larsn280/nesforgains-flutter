@@ -116,12 +116,12 @@ class _NutritionScreenState extends State<NutritionScreen> {
 
   void _filterDishes() {
     try {
-      final query = _searchController.text.toLowerCase();
+      final query = _searchController.text.toLowerCase().trim();
       setState(() {
         if (query.isNotEmpty) {
           _filteredDishes = _allDishes;
           _filteredDishes = _allDishes.where((dish) {
-            return dish.toLowerCase().startsWith(query);
+            return dish.toLowerCase().trim().contains(query);
           }).toList();
         } else {
           _filteredDishes.clear();
@@ -151,6 +151,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
           _textmessageColor = Colors.redAccent;
         }
       });
+      _fetchDishItems();
     }
   }
 
