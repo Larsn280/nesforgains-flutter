@@ -160,6 +160,12 @@ class _NutritionScreenState extends State<NutritionScreen> {
     }
   }
 
+  void _setsearchcontollertext(String dish) {
+    setState(() {
+      _searchController.text = dish;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -310,35 +316,37 @@ class _NutritionScreenState extends State<NutritionScreen> {
                 left: 0,
                 right: 0,
                 top: 302, // Adjust this value based on your layout
-                child: Container(
-                  constraints: const BoxConstraints(maxHeight: 200),
-                  color: Colors.white.withOpacity(0.9),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: _filteredDishes.map((String dish) {
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              _searchController.text = dish;
-                            });
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(10.0),
-                            color: const Color.fromARGB(255, 17, 17, 17),
-                            child: Text(dish,
-                                style: const TextStyle(color: Colors.white)),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
+                child:
+                    _searchdropdown(_filteredDishes, _setsearchcontollertext),
               ),
           ],
         ),
       ),
     );
   }
+}
+
+Widget _searchdropdown(List<String> items, void Function(String) ontap) {
+  return Container(
+    constraints: const BoxConstraints(maxHeight: 200),
+    color: Colors.white.withOpacity(0.9),
+    child: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: items.map((String item) {
+          return InkWell(
+            onTap: () {
+              ontap(item);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              color: const Color.fromARGB(255, 17, 17, 17),
+              child: Text(item, style: const TextStyle(color: Colors.white)),
+            ),
+          );
+        }).toList(),
+      ),
+    ),
+  );
 }
