@@ -116,13 +116,18 @@ class _NutritionScreenState extends State<NutritionScreen> {
 
   void _filterDishes() {
     try {
-      final query = _searchController.text.toLowerCase().trim();
+      final query = _searchController.text.toLowerCase();
       setState(() {
         if (query.isNotEmpty) {
-          _filteredDishes = _allDishes;
           _filteredDishes = _allDishes.where((dish) {
-            return dish.toLowerCase().trim().contains(query);
+            return dish.toLowerCase().startsWith(query);
           }).toList();
+
+          // Check if the query matches any dish exactly
+          if (_filteredDishes.length == 1 &&
+              _filteredDishes[0].toLowerCase() == query) {
+            _filteredDishes.clear();
+          }
         } else {
           _filteredDishes.clear();
         }
@@ -317,7 +322,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
                           onTap: () {
                             setState(() {
                               _searchController.text = dish;
-                              _filteredDishes.clear();
                             });
                           },
                           child: Container(
