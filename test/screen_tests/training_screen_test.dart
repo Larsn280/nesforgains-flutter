@@ -54,36 +54,18 @@ void main() {
 
     testWidgets('Test selecting reps, sets, and weight',
         (WidgetTester tester) async {
-      // Build TrainingScreen widget
       await tester.pumpWidget(MaterialApp(
         home: TrainingScreen(isar: isarTest),
       ));
 
-      // Open and select reps by index
       await tester.tap(find.byType(DropdownButtonFormField<String>).at(0));
       await tester.pumpAndSettle();
-      // await tester.tap(find.byKey(ValueKey<String>(
-      //     'reps_item_10'))); // Assuming '10 reps' is at index 10
-      // await tester.pumpAndSettle();
 
-      // Open and select sets by index
       await tester.tap(find.byType(DropdownButtonFormField<String>).at(1));
       await tester.pumpAndSettle();
-      // await tester.tap(find.byKey(
-      //     ValueKey<String>('sets_item_5'))); // Assuming '5 sets' is at index 5
-      // await tester.pumpAndSettle();
 
-      // Open and select weight by index
       await tester.tap(find.byType(DropdownButtonFormField<String>).at(2));
       await tester.pumpAndSettle();
-      // await tester.tap(find.byKey(ValueKey<String>(
-      //     'weight_item_50'))); // Assuming '50 kg' is at index 50
-      // await tester.pumpAndSettle();
-
-      // Verify selections
-      // expect(find.text('10 reps'), findsOneWidget);
-      // expect(find.text('5 sets'), findsOneWidget);
-      // expect(find.text('50 kg'), findsOneWidget);
     });
 
     testWidgets('Test submitting training data', (WidgetTester tester) async {
