@@ -93,10 +93,17 @@ void main() {
       expect(find.text('2 kg'), findsOneWidget);
       expect(find.text('3 kg'), findsOneWidget);
 
-      await tester.tap(find.text('3 kg').last);
+      await tester.dragUntilVisible(
+        find.text('10 kg'),
+        find.byType(ListView),
+        const Offset(0, -50),
+      );
       await tester.pumpAndSettle();
 
-      expect(find.text('3 kg'), findsOneWidget);
+      await tester.tap(find.text('10 kg'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('10 kg'), findsOneWidget);
     });
 
     testWidgets('Test submitting training data', (WidgetTester tester) async {
