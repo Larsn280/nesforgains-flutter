@@ -58,14 +58,45 @@ void main() {
         home: TrainingScreen(isar: isarTest),
       ));
 
+      expect(find.text('Reps'), findsOneWidget);
+      expect(find.text('Sets'), findsOneWidget);
+      expect(find.text('Weigth'), findsOneWidget);
+
       await tester.tap(find.byType(DropdownButtonFormField<String>).at(0));
       await tester.pumpAndSettle();
+
+      expect(find.text('1 reps').last, findsOneWidget);
+      expect(find.text('2 reps'), findsOneWidget);
+      expect(find.text('3 reps'), findsOneWidget);
+
+      await tester.tap(find.text('3 reps').last);
+      await tester.pumpAndSettle();
+
+      expect(find.text('3 reps'), findsOneWidget);
 
       await tester.tap(find.byType(DropdownButtonFormField<String>).at(1));
       await tester.pumpAndSettle();
 
+      expect(find.text('1 sets').last, findsOneWidget);
+      expect(find.text('2 sets'), findsOneWidget);
+      expect(find.text('3 sets'), findsOneWidget);
+
+      await tester.tap(find.text('3 sets').last);
+      await tester.pumpAndSettle();
+
+      expect(find.text('3 sets'), findsOneWidget);
+
       await tester.tap(find.byType(DropdownButtonFormField<String>).at(2));
       await tester.pumpAndSettle();
+
+      expect(find.text('1 kg').last, findsOneWidget);
+      expect(find.text('2 kg'), findsOneWidget);
+      expect(find.text('3 kg'), findsOneWidget);
+
+      await tester.tap(find.text('3 kg').last);
+      await tester.pumpAndSettle();
+
+      expect(find.text('3 kg'), findsOneWidget);
     });
 
     testWidgets('Test submitting training data', (WidgetTester tester) async {
