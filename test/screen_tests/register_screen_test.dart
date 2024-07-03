@@ -16,7 +16,6 @@ void main() {
 
     if (Isar.instanceNames.isEmpty) {
       isarTest = await Isar.open(
-        // Add necessary schemas
         [AppUserSchema],
         directory: dirTest.path,
         name: 'registerInstance',
@@ -34,7 +33,6 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(buildRegisterScreen());
 
-    // Verify initial UI elements
     expect(find.text('Register Screen'), findsOneWidget);
     expect(find.text('Email'), findsOneWidget);
     expect(find.text('Enter you email'), findsOneWidget);
@@ -43,21 +41,12 @@ void main() {
     expect(find.text('Register'), findsOneWidget);
     expect(find.text('Go back to Login'), findsOneWidget);
 
-    // Verify form input
     await tester.enterText(find.byType(TextField).at(0), 'test@example.com');
     await tester.enterText(find.byType(TextField).at(1), 'password123');
     await tester.pump();
 
     expect(find.text('test@example.com'), findsOneWidget);
     expect(find.text('password123'), findsOneWidget);
-
-    // Simulate register button press
-    // await tester.tap(find.text('Register'));
-    // await tester.pump();
-
-    // Verify that the register button press triggers user creation
-    // This depends on how your RegisterService and createNewUser method are implemented
-    // Adjust this section as needed based on your specific implementation
   });
 
   tearDownAll(() async {

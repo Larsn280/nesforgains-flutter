@@ -16,7 +16,7 @@ void main() {
 
     if (Isar.instanceNames.isEmpty) {
       isarTest = await Isar.open(
-        [DailyNutritionSchema], // Add other schemas as needed
+        [DailyNutritionSchema],
         directory: dirTest.path,
         name: 'addDishInstance',
       );
@@ -33,7 +33,6 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(buildAddDishScreen());
 
-    // Verify the presence of initial UI elements
     expect(find.text('Add new dish'), findsOneWidget);
     expect(find.text('Dish name:'), findsOneWidget);
     expect(find.text('Calories:'), findsOneWidget);
@@ -43,7 +42,6 @@ void main() {
     expect(find.text('Submit new dish'), findsOneWidget);
     expect(find.text('Go back'), findsOneWidget);
 
-    // Verify form validation
     await tester.tap(find.text('Submit new dish'));
     await tester.pump();
 
@@ -53,7 +51,6 @@ void main() {
     expect(find.text('Please enter carbohydrates'), findsOneWidget);
     expect(find.text('Please enter fat'), findsOneWidget);
 
-    // Simulate user input
     await tester.enterText(find.byType(TextFormField).at(0), 'Test Dish');
     await tester.enterText(find.byType(TextFormField).at(1), '100');
     await tester.enterText(find.byType(TextFormField).at(2), '10');
@@ -61,11 +58,9 @@ void main() {
     await tester.enterText(find.byType(TextFormField).at(4), '5');
     await tester.pump();
 
-    // Tap the submit button
     await tester.tap(find.text('Submit new dish'));
     await tester.pump();
 
-    // Verify the navigation (assuming success and pop with message)
     expect(find.byType(AddDishScreen), findsOneWidget);
   });
 

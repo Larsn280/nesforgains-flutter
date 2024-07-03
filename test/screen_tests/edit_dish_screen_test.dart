@@ -17,7 +17,7 @@ void main() {
 
     if (Isar.instanceNames.isEmpty) {
       isarTest = await Isar.open(
-        [DailyNutritionSchema], // Add other schemas as needed
+        [DailyNutritionSchema],
         directory: dirTest.path,
         name: 'editDishInstance',
       );
@@ -42,7 +42,6 @@ void main() {
 
     await tester.pumpWidget(buildEditDishScreen(testNutritionData));
 
-    // Verify the presence of initial UI elements
     expect(find.text('Edit Dish'), findsOneWidget);
     expect(find.text('Edit dish or go back'), findsOneWidget);
     expect(find.text('Name'), findsOneWidget);
@@ -53,14 +52,12 @@ void main() {
     expect(find.text('Save'), findsOneWidget);
     expect(find.text('Go back'), findsOneWidget);
 
-    // Verify the initial form field values
     expect(find.text('Test Dish'), findsOneWidget);
     expect(find.text('100'), findsOneWidget);
     expect(find.text('10'), findsOneWidget);
     expect(find.text('20'), findsOneWidget);
     expect(find.text('5'), findsOneWidget);
 
-    // Simulate user editing the form fields
     await tester.enterText(find.byType(TextFormField).at(0), 'Updated Dish');
     await tester.enterText(find.byType(TextFormField).at(1), '200');
     await tester.enterText(find.byType(TextFormField).at(2), '20');
@@ -68,26 +65,14 @@ void main() {
     await tester.enterText(find.byType(TextFormField).at(4), '10');
     await tester.pump();
 
-    // Verify the updated form field values
     expect(find.text('Updated Dish'), findsOneWidget);
     expect(find.text('200'), findsOneWidget);
     expect(find.text('20'), findsOneWidget);
     expect(find.text('40'), findsOneWidget);
     expect(find.text('10'), findsOneWidget);
 
-    // Tap the save button
     await tester.tap(find.text('Save'));
     await tester.pump();
-
-    // Verify the success message (assuming success message handling in the UI)
-    // expect(find.textContaining('was edited'), findsOneWidget);
-
-    // Navigate back
-    // await tester.tap(find.text('Go back'));
-    // await tester.pumpAndSettle();
-
-    // Verify navigation to the previous screen
-    // expect(find.byType(EditDishScreen), findsNothing);
   });
 
   tearDownAll(() async {

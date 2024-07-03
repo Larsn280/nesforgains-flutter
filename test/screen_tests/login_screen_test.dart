@@ -32,7 +32,6 @@ void main() {
 
   group('LoginScreen Widget Tests', () {
     testWidgets('Test initial state loginScreen', (WidgetTester tester) async {
-      // Build the LoginScreen widget
       await tester.pumpWidget(MaterialApp(
         home: LoginScreen(isar: isarTest),
       ));

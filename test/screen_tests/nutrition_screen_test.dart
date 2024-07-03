@@ -33,12 +33,10 @@ void main() {
   group('NutritionScreen Widget Tests', () {
     testWidgets('Test initial state nutritionScreen',
         (WidgetTester tester) async {
-      // Build NutritionScreen widget
       await tester.pumpWidget(MaterialApp(
         home: NutritionScreen(isar: isarTest),
       ));
 
-      // Verify initial state
       expect(find.text('Nutrition Screen'), findsOneWidget);
       expect(find.text('Total calories today: 0 g'),
           findsOneWidget); // Assuming initial state
@@ -48,20 +46,15 @@ void main() {
     });
 
     testWidgets('Test adding a new dish', (WidgetTester tester) async {
-      // Build NutritionScreen widget
       await tester.pumpWidget(MaterialApp(
         home: NutritionScreen(isar: isarTest),
       ));
 
-      // Tap on the add button
       await tester.tap(find.byType(FloatingActionButton).first);
       await tester.pump();
 
-      // Verify that the message is updated after adding a dish
       expect(find.text('Choose a dish or add a new one!'), findsOneWidget);
     });
-
-    // Add more tests for other interactions and edge cases as needed
   });
 
   tearDownAll(() async {

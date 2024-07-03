@@ -18,7 +18,7 @@ void main() {
 
     if (Isar.instanceNames.isEmpty) {
       isarTest = await Isar.open(
-        [AppUserSchema], // Add other schemas as needed
+        [AppUserSchema],
         directory: dirTest.path,
         name: 'homeScreenInstance',
       );
@@ -38,12 +38,10 @@ void main() {
   testWidgets('HomeScreen displays UI elements', (WidgetTester tester) async {
     await tester.pumpWidget(buildHomeScreen());
 
-    // Verify the presence of text elements
     expect(find.text('NESForGains!'), findsOneWidget);
     expect(find.text('Welcome to NESForGains!'), findsOneWidget);
     expect(find.textContaining('Lorem Ipsum'), findsOneWidget);
 
-    // Verify the presence of buttons
     expect(find.text('Go to Nutrition'), findsOneWidget);
     expect(find.text('Go to Training'), findsOneWidget);
     expect(find.text('Logout'), findsOneWidget);
@@ -53,11 +51,9 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(buildHomeScreen());
 
-    // Tap the "Go to Nutrition" button
     await tester.tap(find.text('Go to Nutrition'));
     await tester.pumpAndSettle();
 
-    // Verify navigation to NutritionScreen
     expect(find.byType(NutritionScreen), findsOneWidget);
   });
 
@@ -65,15 +61,11 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(buildHomeScreen());
 
-    // Tap the "Go to Training" button
     await tester.tap(find.text('Go to Training'));
     await tester.pumpAndSettle();
 
-    // Verify navigation to TrainingScreen
     expect(find.byType(TrainingScreen), findsOneWidget);
   });
-
-  // You can add more tests for other interactions and edge cases here
 
   tearDownAll(() async {
     await isarTest.close(deleteFromDisk: true);
