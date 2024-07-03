@@ -32,17 +32,29 @@ void main() {
     expect(isOpen, true);
   });
 
-  testWidgets('ViewDishesScreen UI test', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(
-      home: ViewDishesScreen(isar: isarTest),
-    ));
+  group('ViewDishesScreen tests', () {
+    testWidgets('ViewDishesScreen UI test', (WidgetTester tester) async {
+      // Pump the main widget
+      await tester.pumpWidget(MaterialApp(
+        home: ViewDishesScreen(isar: isarTest),
+      ));
+      await tester.pumpAndSettle();
 
-    await tester.pumpAndSettle();
+      // Verify the main screen UI elements
+      expect(find.text('Dishlist'), findsOneWidget);
+      expect(find.byType(Column), findsOneWidget);
+      expect(find.byType(ElevatedButton), findsOneWidget);
+      expect(find.byType(DecoratedBox), findsOneWidget);
 
-    expect(find.text('Dishlist'), findsOneWidget);
+      // expect(find.byType(Divider), findsOneWidget);
 
-    expect(find.byType(ElevatedButton), findsOneWidget);
-    expect(find.byType(DecoratedBox), findsOneWidget);
+      // Verify that the dish header is present in the widget tree
+      // expect(find.text('Name'), findsOneWidget);
+      // expect(find.text('Calories'), findsOneWidget);
+      // expect(find.text('Protein'), findsOneWidget);
+      // expect(find.text('Carbohydrates'), findsOneWidget);
+      // expect(find.text('Fat'), findsOneWidget);
+    });
   });
 
   tearDownAll(() async {
