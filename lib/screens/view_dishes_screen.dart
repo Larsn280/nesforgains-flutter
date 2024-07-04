@@ -73,38 +73,22 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
                 future: _fetchAllDishItems(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    final dishes = snapshot.data!;
+                    const message = 'Indicator';
+                    return _buildDishList(dishes, message);
                   } else if (snapshot.hasError) {
-                    return const Center(child: Text('Error loading dishes'));
+                    final dishes = snapshot.data!;
+                    const message = 'Error loading dishes';
+                    return _buildDishList(dishes, message);
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('No dishes available'));
+                    final dishes = snapshot.data!;
+                    const message = 'No dishes available';
+                    return _buildDishList(dishes, message);
                   }
 
                   final dishes = snapshot.data!;
-                  return Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1.0,
-                        color: AppConstants.primaryTextColor,
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        _buildDishHeader(),
-                        const Divider(),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: dishes.length,
-                            itemBuilder: (context, index) {
-                              final dish = dishes[index];
-                              return _buildDishRow(dish);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  const message = '';
+                  return _buildDishList(dishes, message);
                 },
               ),
             ),
@@ -187,6 +171,49 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
       height: sizedBoxHeight,
       width: MediaQuery.of(context).size.width * widthFactor,
       child: Text(text),
+    );
+  }
+
+  Widget _buildDishList(List<NutritionData> dishes, String message) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 1.0,
+          color: AppConstants.primaryTextColor,
+        ),
+      ),
+      child: Column(
+        children: [
+          _buildDishHeader(),
+          const Divider(),
+          dishes.isNotEmpty
+              ? Expanded(
+                  child: ListView.builder(
+                    itemCount: dishes.length,
+                    itemBuilder: (context, index) {
+                      final dish = dishes[index];
+                      return _buildDishRow(dish);
+                    },
+                  ),
+                )
+              : Expanded(
+                  child: message.startsWith('Indicator')
+                      ? const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                          ],
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(message),
+                          ],
+                        ),
+                ),
+        ],
+      ),
     );
   }
 }
