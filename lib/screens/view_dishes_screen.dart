@@ -73,22 +73,15 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
                 future: _fetchAllDishItems(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    final dishes = snapshot.data!;
-                    const message = 'Indicator';
-                    return _buildDishList(dishes, message);
+                    return _buildDishList([], 'Indicator');
                   } else if (snapshot.hasError) {
-                    final dishes = snapshot.data!;
-                    const message = 'Error loading dishes';
-                    return _buildDishList(dishes, message);
+                    return _buildDishList([], 'Error loading dishes');
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    final dishes = snapshot.data!;
-                    const message = 'No dishes available';
-                    return _buildDishList(dishes, message);
+                    return _buildDishList([], 'No dishes available');
                   }
 
                   final dishes = snapshot.data!;
-                  const message = '';
-                  return _buildDishList(dishes, message);
+                  return _buildDishList(dishes, '');
                 },
               ),
             ),
@@ -187,31 +180,23 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
         children: [
           _buildDishHeader(),
           const Divider(),
-          dishes.isNotEmpty
-              ? Expanded(
-                  child: ListView.builder(
+          Expanded(
+            child: dishes.isNotEmpty
+                ? ListView.builder(
                     itemCount: dishes.length,
                     itemBuilder: (context, index) {
                       final dish = dishes[index];
                       return _buildDishRow(dish);
                     },
+                  )
+                : Center(
+                    child: message.startsWith('Indicator')
+                        ? CircularProgressIndicator(
+                            color: AppConstants.primaryTextColor,
+                          )
+                        : Text(message),
                   ),
-                )
-              : Expanded(
-                  child: message.startsWith('Indicator')
-                      ? const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircularProgressIndicator(),
-                          ],
-                        )
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(message),
-                          ],
-                        ),
-                ),
+          )
         ],
       ),
     );
