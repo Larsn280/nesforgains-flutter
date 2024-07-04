@@ -60,39 +60,42 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Dishlist',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-            ),
-            const SizedBox(height: 16.0),
-            Expanded(
-              child: FutureBuilder<List<NutritionData>>(
-                future: _fetchAllDishItems(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return _buildDishList([], 'Indicator');
-                  } else if (snapshot.hasError) {
-                    return _buildDishList([], 'Error loading dishes');
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return _buildDishList([], 'No dishes available');
-                  }
-
-                  final dishes = snapshot.data!;
-                  return _buildDishList(dishes, '');
-                },
+        child: Padding(
+          padding: const EdgeInsets.only(top: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Dishlist',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
               ),
-            ),
-            const SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/nutritionScreen');
-              },
-              child: const Text('Go back'),
-            ),
-          ],
+              const SizedBox(height: 16.0),
+              Expanded(
+                child: FutureBuilder<List<NutritionData>>(
+                  future: _fetchAllDishItems(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return _buildDishList([], 'Indicator');
+                    } else if (snapshot.hasError) {
+                      return _buildDishList([], 'Error loading dishes');
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return _buildDishList([], 'No dishes available');
+                    }
+
+                    final dishes = snapshot.data!;
+                    return _buildDishList(dishes, '');
+                  },
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/nutritionScreen');
+                },
+                child: const Text('Go back'),
+              ),
+            ],
+          ),
         ),
       ),
     );
