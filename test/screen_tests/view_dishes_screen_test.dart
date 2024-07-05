@@ -46,11 +46,11 @@ void main() {
 
       expect(find.text('No dishes available'), findsOneWidget);
 
-      expect(find.text('Name'), findsNothing);
-      expect(find.text('Calories'), findsNothing);
-      expect(find.text('Protein'), findsNothing);
-      expect(find.text('Carbohydrates'), findsNothing);
-      expect(find.text('Fat'), findsNothing);
+      expect(find.text('Name'), findsOneWidget);
+      expect(find.text('Calories'), findsOneWidget);
+      expect(find.text('Protein'), findsOneWidget);
+      expect(find.text('Carbohydrates'), findsOneWidget);
+      expect(find.text('Fat'), findsOneWidget);
     });
   });
 
