@@ -1,5 +1,6 @@
 import 'package:nes_for_gains/database/collections/daily_nutrition.dart';
 import 'package:nes_for_gains/database/collections/dish.dart';
+import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
 import 'package:nes_for_gains/models/response_data.dart';
 import 'package:isar/isar.dart';
@@ -65,10 +66,10 @@ class NutritionService {
           dishItemNames.add(dish.name.toString());
         }
       } else {
-        print('No items found in the dish table.');
+        logger.i('No items found in the dish table.');
       }
     } catch (e) {
-      print('Error fetching food items: $e');
+      logger.e('Error fetching food items', error: e);
     }
 
     return dishItemNames;

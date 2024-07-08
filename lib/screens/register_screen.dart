@@ -1,3 +1,4 @@
+import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/register_service.dart';
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
@@ -36,13 +37,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       String response = await registerService.createNewUser(
           _emailController.text.toString(),
           _passwordController.text.toString());
-      print(response);
-      // ignore: avoid_print
-      print('Username: ${_emailController.text}');
-      // ignore: avoid_print
-      print('Password: ${_passwordController.text}');
+      logger.i(response);
+      logger.i('Username: ${_emailController.text}');
+      logger.i('Password: ${_passwordController.text}');
     } catch (e) {
-      print('Error creating user: $e');
+      logger.w('Error creating user', error: e);
     }
   }
 

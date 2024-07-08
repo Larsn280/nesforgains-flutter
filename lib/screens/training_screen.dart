@@ -2,6 +2,7 @@ import 'package:nes_for_gains/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:isar/isar.dart';
+import 'package:nes_for_gains/logger.dart';
 
 class TrainingScreen extends StatefulWidget {
   final Isar isar;
@@ -31,12 +32,12 @@ class _TrainingScreenState extends State<TrainingScreen> {
   void _submitTrainingdata() async {
     try {
       if (_formKey.currentState!.validate()) {
-        print('success');
+        logger.i('success');
       } else {
-        print('fail');
+        logger.w('fail');
       }
     } catch (e) {
-      print('Error updating $e');
+      logger.e('Error updating $e');
     }
   }
 

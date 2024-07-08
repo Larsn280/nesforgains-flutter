@@ -1,4 +1,5 @@
 import 'package:nes_for_gains/constants.dart';
+import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/screens/add_dish_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
@@ -51,7 +52,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         _allDishes = dishList;
       });
     } catch (e) {
-      print('Error fetching: $e');
+      logger.e('Error fetching', error: e);
     }
   }
 
@@ -66,7 +67,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         fat = intake.fat;
       });
     } catch (e) {
-      print('Error fetching intake: $e');
+      logger.e('Error fetching intake', error: e);
     }
   }
 
@@ -88,7 +89,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
       _searchController.clear();
       _fetchDailyIntake();
     } catch (e) {
-      print('Error posting: $e');
+      logger.e('Error posting', error: e);
     }
   }
 
@@ -110,7 +111,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
       _searchController.clear();
       _fetchDailyIntake();
     } catch (e) {
-      print('Error posting: $e');
+      logger.e('Error posting', error: e);
     }
   }
 
@@ -133,7 +134,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         }
       });
     } catch (e) {
-      print('Error filtering $e');
+      logger.e('Error filtering', error: e);
     }
   }
 

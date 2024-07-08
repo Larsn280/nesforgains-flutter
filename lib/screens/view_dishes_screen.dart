@@ -5,6 +5,7 @@ import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:nes_for_gains/logger.dart';
 
 class ViewDishesScreen extends StatefulWidget {
   final Isar isar;
@@ -29,10 +30,9 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
     try {
       final response =
           await nutritionService.getAllDishesById(AuthProvider.of(context).id);
-
       return response ?? [];
     } catch (e) {
-      print('Error fetching dishes: $e');
+      logger.e('Error fetching dishes', error: e);
       return [];
     }
   }
@@ -43,7 +43,7 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
       // Triggar en rebuild av widget trädet.
       setState(() {});
     } catch (e) {
-      print('Error deleting dish: $e');
+      logger.e('Error deleting dish', error: e);
     }
   }
 

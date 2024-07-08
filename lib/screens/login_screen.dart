@@ -1,3 +1,4 @@
+import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/login_service.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  //TODO Finns att fixa
   void _loginUser() async {
     try {
       final response = await loginService.loginUser(
@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     } catch (e) {
-      print('Error logging in user: $e');
+      logger.e('Error logging in user', error: e);
     }
   }
 

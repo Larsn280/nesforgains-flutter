@@ -1,4 +1,5 @@
 import 'package:nes_for_gains/constants.dart';
+import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
@@ -77,7 +78,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
         }
       }
     } catch (e) {
-      print('Error submitting: $e');
+      logger.e('Error submitting', error: e);
     }
   }
 
