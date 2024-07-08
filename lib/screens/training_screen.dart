@@ -15,9 +15,6 @@ class TrainingScreen extends StatefulWidget {
 class _TrainingScreenState extends State<TrainingScreen> {
   final _formKey = GlobalKey<FormState>();
   final ExerciseControllers _controllers = ExerciseControllers();
-  // String? selectedReps;
-  // String? selectedSets;
-  // String? selectedWeigth;
   final List<String> reps =
       List<String>.generate(50, (index) => (index + 1).toString());
   final List<String> sets =
