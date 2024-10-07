@@ -1,4 +1,5 @@
 # Documentation for isar database
+
 https://isar.dev/
 
 # Builds a table in Isar database on collection model

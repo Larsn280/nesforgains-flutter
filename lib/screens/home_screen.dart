@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Text('Go to Nutrition')),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/trainingScreen');
+                  Navigator.pushNamed(context, '/trainingcalculatorScreen');
                 },
                 child: const Text('Go to Training')),
             ElevatedButton(

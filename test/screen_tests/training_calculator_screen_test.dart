@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/app_user.dart';
-import 'package:nes_for_gains/screens/training_screen.dart';
+import 'package:nes_for_gains/screens/training_calculator_screen.dart';
 
 void main() {
   late Isar isarTest;
@@ -32,7 +32,7 @@ void main() {
     testWidgets('Test initial state of TrainingScreen',
         (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
-        home: TrainingScreen(isar: isarTest),
+        home: TrainingCalculatorScreen(isar: isarTest),
       ));
 
       await tester.pumpAndSettle();
@@ -49,7 +49,7 @@ void main() {
     testWidgets('Test selecting reps, sets, and weight',
         (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
-        home: TrainingScreen(isar: isarTest),
+        home: TrainingCalculatorScreen(isar: isarTest),
       ));
 
       await tester.pumpAndSettle();
@@ -118,7 +118,7 @@ void main() {
 
     testWidgets('Test navigating back', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
-        home: TrainingScreen(isar: isarTest),
+        home: TrainingCalculatorScreen(isar: isarTest),
       ));
 
       await tester.pumpAndSettle();

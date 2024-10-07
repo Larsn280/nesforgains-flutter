@@ -6,7 +6,7 @@ import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/app_user.dart';
 import 'package:nes_for_gains/screens/home_screen.dart';
 import 'package:nes_for_gains/screens/nutrition_screen.dart'; // Import if needed
-import 'package:nes_for_gains/screens/training_screen.dart'; // Import if needed
+import 'package:nes_for_gains/screens/training_calculator_screen.dart'; // Import if needed
 
 void main() {
   late Isar isarTest;
@@ -30,7 +30,8 @@ void main() {
       home: const HomeScreen(),
       routes: {
         '/nutritionScreen': (context) => NutritionScreen(isar: isarTest),
-        '/trainingScreen': (context) => TrainingScreen(isar: isarTest),
+        '/trainingScreen': (context) =>
+            TrainingCalculatorScreen(isar: isarTest),
       },
     );
   }
@@ -64,7 +65,7 @@ void main() {
     await tester.tap(find.text('Go to Training'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(TrainingScreen), findsOneWidget);
+    expect(find.byType(TrainingCalculatorScreen), findsOneWidget);
   });
 
   tearDownAll(() async {
