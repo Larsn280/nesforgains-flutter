@@ -10,7 +10,8 @@ import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/profile_screen.dart';
-import 'package:nes_for_gains/screens/training_calculator_screen.dart';
+import 'screens/training_calculator_screen.dart';
+import 'screens/training_screen.dart';
 
 class App extends StatelessWidget {
   final Isar isar;
@@ -60,6 +61,7 @@ class App extends StatelessWidget {
           '/viewdishesScreen': (context) => ViewDishesScreen(isar: isar),
           '/trainingcalculatorScreen': (context) =>
               TrainingCalculatorScreen(isar: isar),
+          '/trainingScreen': (context) => TrainingScreen(isar: isar),
         },
       ),
     );

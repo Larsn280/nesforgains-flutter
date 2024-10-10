@@ -2,6 +2,7 @@ import 'package:nes_for_gains/database/collections/app_user.dart';
 import 'package:nes_for_gains/database/collections/daily_nutrition.dart';
 import 'package:nes_for_gains/database/collections/dish.dart';
 import 'package:isar/isar.dart';
+import 'package:nes_for_gains/database/collections/training_data.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<Isar> setupIsar() async {
@@ -13,7 +14,8 @@ Future<Isar> setupIsar() async {
     [
       AppUserSchema,
       DishSchema,
-      DailyNutritionSchema
+      DailyNutritionSchema,
+      TrainingDataSchema
     ], // Pass your collection schemas here
     directory: dir.path,
   );
