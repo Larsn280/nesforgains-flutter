@@ -6,9 +6,9 @@ part 'training_data.g.dart';
 class TrainingData {
   Id id = Isar.autoIncrement;
 
-  DateTime? date;
+  String? date;
 
-  int? kg;
+  double? kg;
 
   int? rep;
 

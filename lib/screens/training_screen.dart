@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/models/training_data.dart';
+import 'package:nes_for_gains/models/traininglog_data.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/training_service.dart';
 
@@ -39,14 +39,19 @@ class _TrainingScreen extends State<TrainingScreen> {
   }
 
   void _saveTrainingData() async {
-    final trainingData = TrainingData(
+    final trainingLogData = TrainingLogData(
         reps: int.tryParse(_repsController.text) ?? 0,
         sets: int.tryParse(_setsController.text) ?? 0,
-        kg: int.tryParse(_weightController.text) ?? 0,
+        kg: double.tryParse(_weightController.text) ?? 0,
         date: _selectedDate.toString());
 
-    // final response = await trainingService.inputTrainingData(
-    //     trainingData, AuthProvider.of(context).id);
+    final response = await trainingService.inputTrainingData(
+        trainingLogData, AuthProvider.of(context).id);
+    if (response.checksuccess == true) {
+      print(response.message);
+    } else {
+      print(response.message);
+    }
 
     _weightController.clear();
     _repsController.clear();
@@ -92,7 +97,7 @@ class _TrainingScreen extends State<TrainingScreen> {
                           child: Text(
                             _selectedDate == null
                                 ? 'Select Date'
-                                : DateFormat('y, MMM d').format(_selectedDate!),
+                                : DateFormat('y-MMM-d').format(_selectedDate!),
                             style: const TextStyle(color: Colors.white),
                           ),
                         ),
@@ -211,6 +216,11 @@ class _TrainingScreen extends State<TrainingScreen> {
                       },
                       child: const Text('Save Workout'),
                     ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/viewtrainingLog');
+                        },
+                        child: const Text('View Workouts')),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/');

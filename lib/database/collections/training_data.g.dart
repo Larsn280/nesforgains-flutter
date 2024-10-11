@@ -20,12 +20,12 @@ const TrainingDataSchema = CollectionSchema(
     r'date': PropertySchema(
       id: 0,
       name: r'date',
-      type: IsarType.dateTime,
+      type: IsarType.string,
     ),
     r'kg': PropertySchema(
       id: 1,
       name: r'kg',
-      type: IsarType.long,
+      type: IsarType.double,
     ),
     r'rep': PropertySchema(
       id: 2,
@@ -63,6 +63,12 @@ int _trainingDataEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.date;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -72,8 +78,8 @@ void _trainingDataSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.date);
-  writer.writeLong(offsets[1], object.kg);
+  writer.writeString(offsets[0], object.date);
+  writer.writeDouble(offsets[1], object.kg);
   writer.writeLong(offsets[2], object.rep);
   writer.writeLong(offsets[3], object.set);
   writer.writeLong(offsets[4], object.userId);
@@ -86,9 +92,9 @@ TrainingData _trainingDataDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = TrainingData();
-  object.date = reader.readDateTimeOrNull(offsets[0]);
+  object.date = reader.readStringOrNull(offsets[0]);
   object.id = id;
-  object.kg = reader.readLongOrNull(offsets[1]);
+  object.kg = reader.readDoubleOrNull(offsets[1]);
   object.rep = reader.readLongOrNull(offsets[2]);
   object.set = reader.readLongOrNull(offsets[3]);
   object.userId = reader.readLongOrNull(offsets[4]);
@@ -103,9 +109,9 @@ P _trainingDataDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
@@ -229,47 +235,55 @@ extension TrainingDataQueryFilter
   }
 
   QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> dateEqualTo(
-      DateTime? value) {
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'date',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition>
       dateGreaterThan(
-    DateTime? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'date',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> dateLessThan(
-    DateTime? value, {
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'date',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> dateBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -278,6 +292,78 @@ extension TrainingDataQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition>
+      dateStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'date',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> dateEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'date',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> dateContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'date',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> dateMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'date',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition>
+      dateIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'date',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition>
+      dateIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'date',
+        value: '',
       ));
     });
   }
@@ -353,46 +439,54 @@ extension TrainingDataQueryFilter
   }
 
   QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> kgEqualTo(
-      int? value) {
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'kg',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> kgGreaterThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'kg',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> kgLessThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'kg',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<TrainingData, TrainingData, QAfterFilterCondition> kgBetween(
-    int? lower,
-    int? upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -401,6 +495,7 @@ extension TrainingDataQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -767,9 +862,10 @@ extension TrainingDataQuerySortThenBy
 
 extension TrainingDataQueryWhereDistinct
     on QueryBuilder<TrainingData, TrainingData, QDistinct> {
-  QueryBuilder<TrainingData, TrainingData, QDistinct> distinctByDate() {
+  QueryBuilder<TrainingData, TrainingData, QDistinct> distinctByDate(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'date');
+      return query.addDistinctBy(r'date', caseSensitive: caseSensitive);
     });
   }
 
@@ -806,13 +902,13 @@ extension TrainingDataQueryProperty
     });
   }
 
-  QueryBuilder<TrainingData, DateTime?, QQueryOperations> dateProperty() {
+  QueryBuilder<TrainingData, String?, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
     });
   }
 
-  QueryBuilder<TrainingData, int?, QQueryOperations> kgProperty() {
+  QueryBuilder<TrainingData, double?, QQueryOperations> kgProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'kg');
     });
