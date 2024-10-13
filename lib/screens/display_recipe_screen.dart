@@ -60,20 +60,19 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                     final recipes = snapshot.data!;
 
                     // Display the recipes in a ListView
-                    return Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1.0,
-                              color: AppConstants.primaryTextColor)),
-                      child: Column(
-                        children: [
-                          const Text(
-                            'Recipes',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.0),
-                          ),
-                          const SizedBox(height: 16.0),
-                          Expanded(
+                    return Column(
+                      children: [
+                        const Text(
+                          'Recipes',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20.0),
+                        ),
+                        const SizedBox(height: 16.0),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1.0, color: Colors.white)),
                             child: ListView.builder(
                               itemCount: recipes.length,
                               itemBuilder: (context, index) {
@@ -96,8 +95,8 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                               },
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     );
                   }
                 },
