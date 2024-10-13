@@ -1,3 +1,5 @@
+import 'package:nes_for_gains/screens/add_recipe_screen.dart';
+import 'package:nes_for_gains/screens/display_recipe_screen.dart';
 import 'package:nes_for_gains/screens/nutrition_screen.dart';
 import 'package:nes_for_gains/screens/view_dishes_screen.dart';
 import 'package:nes_for_gains/screens/view_traininglog_screen.dart';
@@ -63,7 +65,9 @@ class App extends StatelessWidget {
           '/trainingcalculatorScreen': (context) =>
               TrainingCalculatorScreen(isar: isar),
           '/trainingScreen': (context) => TrainingScreen(isar: isar),
-          '/viewtrainingLog': (context) => ViewTrainingLogsScreen(isar: isar)
+          '/viewtrainingLog': (context) => ViewTrainingLogsScreen(isar: isar),
+          '/addrecipeScreen': (context) => AddRecipeScreen(isar: isar),
+          '/displayrecipeScreen': (context) => DisplayRecipeScreen(isar: isar)
         },
       ),
     );

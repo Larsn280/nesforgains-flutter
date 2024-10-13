@@ -72,6 +72,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ElevatedButton(
               onPressed: () {
+                Navigator.pushNamed(context, '/addrecipeScreen');
+              },
+              child: const Text('Go to Recipes'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 AuthProvider.of(context).logout();
               },
               child: const Text('Logout'),
