@@ -21,6 +21,7 @@ class _TrainingScreen extends State<TrainingScreen> {
   final _repsController = TextEditingController();
   final _setsController = TextEditingController();
   DateTime? _selectedDate;
+  late String responseMessage;
 
   late TrainingService trainingService;
 
@@ -39,26 +40,49 @@ class _TrainingScreen extends State<TrainingScreen> {
   }
 
   void _saveTrainingData() async {
-    final trainingLogData = TrainingLogData(
+    if (_formKey.currentState!.validate() && _selectedDate != null) {
+      // Create the TrainingLogData object
+      final trainingLogData = TrainingLogData(
         reps: int.tryParse(_repsController.text) ?? 0,
         sets: int.tryParse(_setsController.text) ?? 0,
         kg: double.tryParse(_weightController.text) ?? 0,
-        date: _selectedDate.toString());
+        date: _selectedDate.toString(),
+      );
 
-    final response = await trainingService.inputTrainingData(
-        trainingLogData, AuthProvider.of(context).id);
-    if (response.checksuccess == true) {
-      print(response.message);
+      // Send data to the service and wait for response
+      final response = await trainingService.inputTrainingData(
+        trainingLogData,
+        AuthProvider.of(context).id,
+      );
+
+      // Consolidate setState and response handling
+      setState(() {
+        if (response.checksuccess) {
+          // Clear fields only on success
+          _weightController.clear();
+          _repsController.clear();
+          _setsController.clear();
+          _selectedDate = null;
+        }
+        responseMessage = response.message;
+      });
+
+      // Display the snackbar with the response message
+      displaySnackbar(responseMessage);
     } else {
-      print(response.message);
+      // Set response message for validation failure
+      setState(() {
+        responseMessage = 'Please fill in all fields';
+      });
+      displaySnackbar(responseMessage);
     }
+  }
 
-    _weightController.clear();
-    _repsController.clear();
-    _setsController.clear();
-    setState(() {
-      _selectedDate = null;
-    });
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> displaySnackbar(
+      String message) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
@@ -188,45 +212,16 @@ class _TrainingScreen extends State<TrainingScreen> {
                     ),
                     const SizedBox(height: 20),
                     // Submit button
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate() &&
-                            _selectedDate != null) {
-                          _saveTrainingData();
-                          // Save workout to database
-                          // await widget.isar.writeTxn(() async {
-                          //   final workout = Workout(
-                          //     date: _selectedDate!,
-                          //     weightKg: double.parse(_weightController.text),
-                          //     reps: int.parse(_repsController.text),
-                          //     sets: int.parse(_setsController.text),
-                          //   );
-                          //   await widget.isar.workouts.put(workout);
-                          // });
-                          // Clear form
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Workout saved!')),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Please fill in all fields')),
-                          );
-                        }
-                      },
-                      child: const Text('Save Workout'),
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/viewtrainingLog');
-                        },
-                        child: const Text('View Workouts')),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/');
-                      },
-                      child: const Text('Go back'),
-                    ),
+                    AppConstants.buildElevatedFunctionButton(
+                        context: context,
+                        onPressed: _saveTrainingData,
+                        text: 'Save Workout'),
+                    AppConstants.buildElevatedButton(
+                        context: context,
+                        path: '/viewtrainingLog',
+                        text: 'View Workouts'),
+                    AppConstants.buildElevatedButton(
+                        context: context, path: '/', text: 'Go back'),
                   ],
                 ),
               ),

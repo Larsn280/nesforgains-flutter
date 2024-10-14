@@ -192,19 +192,12 @@ class _AddDishScreenState extends State<AddDishScreen> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      _submitNewDish();
-                    },
-                    child: const Text('Submit new dish')),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/nutritionScreen');
-                    },
-                    child: const Text('Go back')),
+                AppConstants.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: _submitNewDish,
+                    text: 'Submit new dish'),
+                AppConstants.buildElevatedButton(
+                    context: context, path: '/nutritionScreen', text: 'Go back')
               ],
             ),
           ),

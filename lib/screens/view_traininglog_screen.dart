@@ -79,12 +79,8 @@ class _ViewTrainingLogsScreenState extends State<ViewTrainingLogsScreen> {
                 ),
               ),
               const SizedBox(height: 8.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/trainingScreen');
-                },
-                child: const Text('Go back'),
-              ),
+              AppConstants.buildElevatedButton(
+                  context: context, path: '/trainingScreen', text: 'Go back'),
             ],
           ),
         ),

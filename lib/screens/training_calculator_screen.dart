@@ -82,21 +82,12 @@ class _TrainingScreenState extends State<TrainingCalculatorScreen> {
                   const SizedBox(
                     height: 16.0,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _submitTrainingdata();
-                    },
-                    child: const Text('Submit trainingdata'),
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/');
-                    },
-                    child: const Text('Go Back'),
-                  ),
+                  AppConstants.buildElevatedFunctionButton(
+                      context: context,
+                      onPressed: _submitTrainingdata,
+                      text: 'Submit trainingdata'),
+                  AppConstants.buildElevatedButton(
+                      context: context, path: '/', text: 'Go back'),
                 ],
               ),
             ),

@@ -54,34 +54,28 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 32.0,
             ),
-            ElevatedButton(
+            AppConstants.buildElevatedButton(
+                context: context,
+                path: '/nutritionScreen',
+                text: 'Go to Nutrition'),
+            AppConstants.buildElevatedButton(
+                context: context,
+                path: '/trainingcalculatorScreen',
+                text: 'Go to Training'),
+            AppConstants.buildElevatedButton(
+                context: context,
+                path: '/trainingScreen',
+                text: 'Go to TrainingLog'),
+            AppConstants.buildElevatedButton(
+                context: context,
+                path: '/addrecipeScreen',
+                text: 'Go to Recipes'),
+            AppConstants.buildElevatedFunctionButton(
+                context: context,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/nutritionScreen');
+                  AuthProvider.of(context).logout();
                 },
-                child: const Text('Go to Nutrition')),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/trainingcalculatorScreen');
-                },
-                child: const Text('Go to Training')),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/trainingScreen');
-              },
-              child: const Text('Go to TrainingLog'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/addrecipeScreen');
-              },
-              child: const Text('Go to Recipes'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                AuthProvider.of(context).logout();
-              },
-              child: const Text('Logout'),
-            ),
+                text: 'Logout'),
           ],
         ),
       ),

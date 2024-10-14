@@ -97,17 +97,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(
               height: 32.0,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  _createNewUser();
-                },
-                child: const Text('Register')),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/');
-              },
-              child: const Text('Go back to Login'),
-            ),
+            AppConstants.buildElevatedFunctionButton(
+                context: context, onPressed: _createNewUser, text: 'Register'),
+            AppConstants.buildElevatedButton(
+                context: context, path: '/', text: 'Go back to Login')
           ],
         ),
       ),

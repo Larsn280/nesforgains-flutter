@@ -100,116 +100,118 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
               image: AssetImage(AppConstants.backgroundimage),
               fit: BoxFit.cover),
         ),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                const Text(
-                  'Add new Recipe',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-                ),
-                const SizedBox(height: 16.0),
-                // Title Input
-                TextFormField(
-                  controller: _titleController,
-                  decoration: const InputDecoration(labelText: 'Recipe Title'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the recipe title';
-                    }
-                    return null;
-                  },
-                ),
+        child: Column(children: [
+          const Text(
+            'Add new recipe',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+          ),
+          const SizedBox(height: 16.0),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(width: 1.0, color: Colors.white)),
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Title Input
+                    TextFormField(
+                      controller: _titleController,
+                      decoration:
+                          const InputDecoration(labelText: 'Recipe Title'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter the recipe title';
+                        }
+                        return null;
+                      },
+                    ),
 
-                // Description Input
-                TextFormField(
-                  controller: _descriptionController,
-                  decoration: const InputDecoration(labelText: 'Description'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a description';
-                    }
-                    return null;
-                  },
-                ),
+                    // Description Input
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration:
+                          const InputDecoration(labelText: 'Description'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a description';
+                        }
+                        return null;
+                      },
+                    ),
 
-                // Duration Input
-                TextFormField(
-                  controller: _durationController,
-                  decoration:
-                      const InputDecoration(labelText: 'Duration (in minutes)'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the duration';
-                    } else if (int.tryParse(value) == null) {
-                      return 'Please enter a valid number';
-                    }
-                    return null;
-                  },
-                ),
+                    // Duration Input
+                    TextFormField(
+                      controller: _durationController,
+                      decoration: const InputDecoration(
+                          labelText: 'Duration (in minutes)'),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter the duration';
+                        } else if (int.tryParse(value) == null) {
+                          return 'Please enter a valid number';
+                        }
+                        return null;
+                      },
+                    ),
 
-                // Difficulty Input
-                TextFormField(
-                  controller: _difficultyController,
-                  decoration: const InputDecoration(labelText: 'Difficulty'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the difficulty';
-                    }
-                    return null;
-                  },
-                ),
+                    // Difficulty Input
+                    TextFormField(
+                      controller: _difficultyController,
+                      decoration:
+                          const InputDecoration(labelText: 'Difficulty'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter the difficulty';
+                        }
+                        return null;
+                      },
+                    ),
 
-                // Ingredients Input
-                TextFormField(
-                  controller: _ingredientsController,
-                  decoration: const InputDecoration(
-                      labelText: 'Ingredients (comma separated)'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter at least one ingredient';
-                    }
-                    return null;
-                  },
-                ),
+                    // Ingredients Input
+                    TextFormField(
+                      controller: _ingredientsController,
+                      decoration: const InputDecoration(
+                          labelText: 'Ingredients (comma separated)'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter at least one ingredient';
+                        }
+                        return null;
+                      },
+                    ),
 
-                // Steps Input
-                TextFormField(
-                  controller: _stepsController,
-                  decoration: const InputDecoration(
-                      labelText: 'Steps (period separated)'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the steps';
-                    }
-                    return null;
-                  },
+                    // Steps Input
+                    TextFormField(
+                      controller: _stepsController,
+                      decoration: const InputDecoration(
+                          labelText: 'Steps (period separated)'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter the steps';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
-
-                // Save Button
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _saveRecipe,
-                  child: const Text('Save Recipe'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/displayrecipeScreen');
-                  },
-                  child: const Text('Display Recipes'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/');
-                  },
-                  child: const Text('Go Back'),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          // Save Button
+          const SizedBox(height: 20),
+          AppConstants.buildElevatedFunctionButton(
+              context: context, onPressed: _saveRecipe, text: 'Save Recipe'),
+          AppConstants.buildElevatedButton(
+              context: context,
+              path: '/displayrecipeScreen',
+              text: 'Display Recipes'),
+          AppConstants.buildElevatedButton(
+              context: context, path: '/', text: 'Go back'),
+        ]),
       ),
     );
   }

@@ -88,12 +88,8 @@ class _ViewDishesScreenState extends State<ViewDishesScreen> {
                 ),
               ),
               const SizedBox(height: 8.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/nutritionScreen');
-                },
-                child: const Text('Go back'),
-              ),
+              AppConstants.buildElevatedButton(
+                  context: context, path: '/nutritionScreen', text: 'Go back'),
             ],
           ),
         ),

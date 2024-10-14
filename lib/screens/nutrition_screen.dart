@@ -274,11 +274,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
                         child: const Icon(Icons.add),
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          _navigatetoadd();
-                        },
-                        child: const Text('Add new dish')),
+                    AppConstants.buildElevatedFunctionButton(
+                        context: context,
+                        onPressed: _navigatetoadd,
+                        text: 'Add new dish'),
                     SizedBox(
                       width: 45.0,
                       height: 45.0,
@@ -294,22 +293,12 @@ class _NutritionScreenState extends State<NutritionScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/viewdishesScreen');
-                    },
-                    child: const Text('Go to Dishlist')),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/');
-                    },
-                    child: const Text('Go back')),
+                AppConstants.buildElevatedButton(
+                    context: context,
+                    path: '/viewdishesScreen',
+                    text: 'Go to Dishlist'),
+                AppConstants.buildElevatedButton(
+                    context: context, path: '/', text: 'Go back'),
               ],
             ),
             if (_filteredDishes.isNotEmpty)

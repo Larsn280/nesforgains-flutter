@@ -105,18 +105,10 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 32.0,
             ),
-            ElevatedButton(
-                key: const ValueKey('loginButton'),
-                onPressed: () {
-                  _loginUser();
-                },
-                child: const Text('Login')),
-            ElevatedButton(
-                key: const ValueKey('registerButton'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/registerScreen');
-                },
-                child: const Text('Register')),
+            AppConstants.buildElevatedFunctionButton(
+                context: context, onPressed: _loginUser, text: 'Login'),
+            AppConstants.buildElevatedButton(
+                context: context, path: '/registerScreen', text: 'Register'),
           ],
         ),
       ),
