@@ -189,44 +189,41 @@ class _NutritionScreenState extends State<NutritionScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Column(
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             'Nutrition Screen',
                             style: AppConstants.headingStyle,
                           ),
-                          const SizedBox(
-                            height: 16.0,
-                          ),
-                          Text(
-                            'Total calories today: $calories g',
-                            style: AppConstants.subheadingStyle,
-                          ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Protein: $proteine g',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0),
+                      const SizedBox(height: 15.0),
+                      Card(
+                        color: Colors.black87,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 16.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Total calories today: $calories g',
+                                  style: AppConstants.subheadingStyle),
+                              const SizedBox(height: 10),
+                              Text('Protein: $proteine g',
+                                  style: AppConstants.subheadingStyle),
+                              Text('Carbohydrates: $carbohydrates g',
+                                  style: AppConstants.subheadingStyle),
+                              Text('Fat: $fat g',
+                                  style: AppConstants.subheadingStyle),
+                            ],
                           ),
-                          Text(
-                            'Carbohydrates: $carbohydrates g',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0),
-                          ),
-                          Text(
-                            'Fat: $fat g',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15.0),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
