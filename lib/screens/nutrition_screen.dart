@@ -194,18 +194,14 @@ class _NutritionScreenState extends State<NutritionScreen> {
                         children: [
                           const Text(
                             'Nutrition Screen',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 25.0),
+                            style: AppConstants.headingStyle,
                           ),
                           const SizedBox(
                             height: 16.0,
                           ),
                           Text(
                             'Total calories today: $calories g',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
+                            style: AppConstants.subheadingStyle,
                           ),
                         ],
                       ),
@@ -274,10 +270,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
                         child: const Icon(Icons.add),
                       ),
                     ),
-                    AppConstants.buildElevatedFunctionButton(
-                        context: context,
-                        onPressed: _navigatetoadd,
-                        text: 'Add new dish'),
                     SizedBox(
                       width: 45.0,
                       height: 45.0,
@@ -293,6 +285,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
                     ),
                   ],
                 ),
+                AppConstants.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: _navigatetoadd,
+                    text: 'Add new dish'),
                 AppConstants.buildElevatedButton(
                     context: context,
                     path: '/viewdishesScreen',

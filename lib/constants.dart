@@ -5,6 +5,18 @@ class AppConstants {
   static Color primaryTextColor = Colors.white.withOpacity(0.9);
   static const String backgroundimage = 'assets/the-incredible-hulk.webp';
 
+  static const TextStyle headingStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 26.0,
+    // color: Colors.black87,
+    color: Colors.red,
+  );
+  static const TextStyle subheadingStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 20.0,
+    color: Colors.green,
+  );
+
   static Widget buildElevatedButton(
       {required BuildContext context,
       required String path,

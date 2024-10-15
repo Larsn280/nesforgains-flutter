@@ -103,7 +103,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         child: Column(children: [
           const Text(
             'Add new recipe',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+            style: AppConstants.headingStyle,
           ),
           const SizedBox(height: 16.0),
           Expanded(

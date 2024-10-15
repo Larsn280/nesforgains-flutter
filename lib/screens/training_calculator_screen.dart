@@ -62,8 +62,7 @@ class _TrainingScreenState extends State<TrainingCalculatorScreen> {
                 children: [
                   const Text(
                     'Training Screen',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
+                    style: AppConstants.headingStyle,
                   ),
                   const SizedBox(
                     height: 16.0,

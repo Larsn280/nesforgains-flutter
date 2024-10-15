@@ -57,7 +57,7 @@ class _ViewTrainingLogsScreenState extends State<ViewTrainingLogsScreen> {
             children: [
               const Text(
                 'Training Logs',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+                style: AppConstants.headingStyle,
               ),
               const SizedBox(height: 16.0),
               Expanded(

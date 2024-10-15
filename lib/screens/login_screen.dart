@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             const Text(
               'Login Screen',
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+              style: AppConstants.headingStyle,
             ),
             const SizedBox(height: 20.0),
             SizedBox(

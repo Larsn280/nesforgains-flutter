@@ -64,8 +64,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                       children: [
                         const Text(
                           'Recipes',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20.0),
+                          style: AppConstants.headingStyle,
                         ),
                         const SizedBox(height: 16.0),
                         Expanded(

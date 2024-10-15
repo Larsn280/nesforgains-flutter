@@ -100,8 +100,8 @@ class _AddDishScreenState extends State<AddDishScreen> {
             child: Column(
               children: [
                 const Text(
-                  'Add new dish',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+                  'Add dish',
+                  style: AppConstants.headingStyle,
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(

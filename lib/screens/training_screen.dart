@@ -102,12 +102,8 @@ class _TrainingScreen extends State<TrainingScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Log Your Workout',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+                'Log Workout',
+                style: AppConstants.headingStyle,
               ),
               const SizedBox(height: 20),
               Form(

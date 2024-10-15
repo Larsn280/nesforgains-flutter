@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const Text(
               'NESForGains!',
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+              style: AppConstants.headingStyle,
             ),
             const SizedBox(height: 20.0),
             const SizedBox(
