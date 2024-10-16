@@ -49,6 +49,18 @@ class TrainingService {
     }
   }
 
+  Future<ResponseData> updateTrainingLog(
+      int userId, TrainingLogData data) async {
+    try {
+      late ResponseData responseData;
+      responseData = ResponseData(checksuccess: true, message: '');
+
+      return responseData;
+    } catch (e) {
+      throw Exception('Something went wrong editing $e');
+    }
+  }
+
   Future<List<TrainingLogData>> fetchTrainingLogs(int userId) async {
     List<TrainingLogData> trainingLog = [];
     try {

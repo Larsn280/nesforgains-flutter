@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/models/traininglog_data.dart';
+import 'package:nes_for_gains/screens/edit_traininglog_screen.dart';
 import 'package:nes_for_gains/service/training_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
@@ -121,27 +122,31 @@ class _ViewTrainingLogsScreenState extends State<ViewTrainingLogsScreen> {
             _buildTrainingColumn(log.reps.toString(), 0.15),
             _buildTrainingColumn(log.sets.toString(), 0.15),
             _buildTrainingColumn(log.kg.toString(), 0.2),
-            // IconButton(
-            //   icon: const Icon(Icons.delete, color: Colors.redAccent),
-            //   onPressed: () {
-            //     _handleDeleteTrainingLog(log.id);
-            //   },
-            // ),
+            IconButton(
+              icon: const Icon(Icons.edit, color: Colors.greenAccent),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditTrainingLogsScreen(
+                      isar: widget.isar,
+                      trainingLog: log,
+                    ),
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.redAccent),
+              onPressed: () {
+                // _handleDeleteLog(log, AuthProvider.of(context).id);
+              },
+            ),
           ],
         ),
       ),
     );
   }
-
-  // void _handleDeleteTrainingLog(int logId) async {
-  //   try {
-  //     await trainingService.deleteTrainingLog(
-  //         logId, AuthProvider.of(context).id);
-  //     setState(() {});
-  //   } catch (e) {
-  //     logger.e('Error deleting training log', error: e);
-  //   }
-  // }
 
   Widget _buildTrainingColumn(String text, double widthFactor) {
     return SizedBox(

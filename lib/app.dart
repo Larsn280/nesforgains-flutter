@@ -67,7 +67,7 @@ class App extends StatelessWidget {
           '/trainingScreen': (context) => TrainingScreen(isar: isar),
           '/viewtrainingLog': (context) => ViewTrainingLogsScreen(isar: isar),
           '/addrecipeScreen': (context) => AddRecipeScreen(isar: isar),
-          '/displayrecipeScreen': (context) => DisplayRecipeScreen(isar: isar)
+          '/displayrecipeScreen': (context) => DisplayRecipeScreen(isar: isar),
         },
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
+import 'package:nes_for_gains/screens/edit_recipe_screen.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
 
 class DisplayRecipeScreen extends StatefulWidget {
@@ -90,6 +91,34 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                                     // Navigate to recipe details (if needed)
                                     print('Selected Recipe: ${recipe.title}');
                                   },
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.edit,
+                                            color: Colors.greenAccent),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditRecipeScreen(
+                                                isar: widget.isar,
+                                                recipe: recipe,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.delete,
+                                            color: Colors.redAccent),
+                                        onPressed: () {
+                                          // _handleDeleteLog(log, AuthProvider.of(context).id);
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 );
                               },
                             ),
