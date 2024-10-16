@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 text: 'Go to Training'),
             AppConstants.buildElevatedButton(
                 context: context,
-                path: '/trainingScreen',
+                path: '/addworkoutScreen',
                 text: 'Go to TrainingLog'),
             AppConstants.buildElevatedButton(
                 context: context,

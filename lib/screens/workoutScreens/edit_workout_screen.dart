@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/models/traininglog_data.dart';
-import 'package:nes_for_gains/service/training_service.dart';
+import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
 
-class EditTrainingLogsScreen extends StatefulWidget {
+class EditWorkoutScreen extends StatefulWidget {
   final Isar isar;
   final TrainingLogData trainingLog; // Pass the log to edit
 
-  const EditTrainingLogsScreen(
+  const EditWorkoutScreen(
       {super.key, required this.isar, required this.trainingLog});
 
   @override
-  State<EditTrainingLogsScreen> createState() => _EditTrainingLogsScreenState();
+  State<EditWorkoutScreen> createState() => _EditWorkoutScreenState();
 }
 
-class _EditTrainingLogsScreenState extends State<EditTrainingLogsScreen> {
-  late TrainingService trainingService;
+class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
+  late WorkoutService workoutService;
   final _formKey = GlobalKey<FormState>();
 
   late TextEditingController _dateController;
@@ -29,7 +29,7 @@ class _EditTrainingLogsScreenState extends State<EditTrainingLogsScreen> {
   @override
   void initState() {
     super.initState();
-    trainingService = TrainingService(widget.isar);
+    workoutService = WorkoutService(widget.isar);
 
     // Initialize controllers with existing values
     _dateController =
@@ -65,7 +65,7 @@ class _EditTrainingLogsScreenState extends State<EditTrainingLogsScreen> {
         );
 
         // Save to the database
-        await trainingService.updateTrainingLog(userId, updatedLog);
+        await workoutService.updateTrainingLog(userId, updatedLog);
 
         // Show a success message and navigate back
         ScaffoldMessenger.of(context).showSnackBar(

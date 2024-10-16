@@ -4,18 +4,18 @@ import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/models/traininglog_data.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
-import 'package:nes_for_gains/service/training_service.dart';
+import 'package:nes_for_gains/service/workout_service.dart';
 
-class TrainingScreen extends StatefulWidget {
+class AddWorkoutScreen extends StatefulWidget {
   final Isar isar;
 
-  const TrainingScreen({super.key, required this.isar});
+  const AddWorkoutScreen({super.key, required this.isar});
 
   @override
-  State<TrainingScreen> createState() => _TrainingScreen();
+  State<AddWorkoutScreen> createState() => _AddWorkoutScreen();
 }
 
-class _TrainingScreen extends State<TrainingScreen> {
+class _AddWorkoutScreen extends State<AddWorkoutScreen> {
   final _formKey = GlobalKey<FormState>();
   final _weightController = TextEditingController();
   final _repsController = TextEditingController();
@@ -23,12 +23,12 @@ class _TrainingScreen extends State<TrainingScreen> {
   DateTime? _selectedDate;
   late String responseMessage;
 
-  late TrainingService trainingService;
+  late WorkoutService workoutService;
 
   @override
   void initState() {
     super.initState();
-    trainingService = TrainingService(widget.isar);
+    workoutService = WorkoutService(widget.isar);
   }
 
   @override
@@ -50,7 +50,7 @@ class _TrainingScreen extends State<TrainingScreen> {
       );
 
       // Send data to the service and wait for response
-      final response = await trainingService.inputTrainingData(
+      final response = await workoutService.inputTrainingData(
         trainingLogData,
         AuthProvider.of(context).id,
       );
@@ -214,7 +214,7 @@ class _TrainingScreen extends State<TrainingScreen> {
                         text: 'Save Workout'),
                     AppConstants.buildElevatedButton(
                         context: context,
-                        path: '/viewtrainingLog',
+                        path: '/displayworkoutScreen',
                         text: 'View Workouts'),
                     AppConstants.buildElevatedButton(
                         context: context, path: '/', text: 'Go back'),

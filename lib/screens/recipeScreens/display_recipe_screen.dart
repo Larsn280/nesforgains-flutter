@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
-import 'package:nes_for_gains/screens/edit_recipe_screen.dart';
+import 'package:nes_for_gains/screens/recipeScreens/edit_recipe_screen.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
 
 class DisplayRecipeScreen extends StatefulWidget {

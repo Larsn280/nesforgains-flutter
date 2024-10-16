@@ -3,10 +3,10 @@ import 'package:nes_for_gains/database/collections/training_data.dart';
 import 'package:nes_for_gains/models/response_data.dart';
 import 'package:nes_for_gains/models/traininglog_data.dart';
 
-class TrainingService {
+class WorkoutService {
   final Isar _isar;
 
-  TrainingService(this._isar);
+  WorkoutService(this._isar);
 
   Future<ResponseData> inputTrainingData(
       TrainingLogData data, int userId) async {

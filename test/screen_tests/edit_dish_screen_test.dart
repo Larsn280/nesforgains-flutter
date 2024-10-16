@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/daily_nutrition.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
-import 'package:nes_for_gains/screens/edit_dish_screen.dart';
+import 'package:nes_for_gains/screens/dishScreens/edit_dish_screen.dart';
 
 void main() {
   late Isar isarTest;

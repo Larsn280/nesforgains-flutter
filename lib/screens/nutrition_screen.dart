@@ -1,6 +1,6 @@
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/logger.dart';
-import 'package:nes_for_gains/screens/add_dish_screen.dart';
+import 'package:nes_for_gains/screens/dishScreens/add_dish_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
 import 'package:flutter/material.dart';
@@ -288,7 +288,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                     text: 'Add new dish'),
                 AppConstants.buildElevatedButton(
                     context: context,
-                    path: '/viewdishesScreen',
+                    path: '/displaydishesScreen',
                     text: 'Go to Dishlist'),
                 AppConstants.buildElevatedButton(
                     context: context, path: '/', text: 'Go back'),

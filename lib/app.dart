@@ -1,20 +1,19 @@
-import 'package:nes_for_gains/screens/add_recipe_screen.dart';
-import 'package:nes_for_gains/screens/display_recipe_screen.dart';
+import 'package:nes_for_gains/screens/recipeScreens/add_recipe_screen.dart';
+import 'package:nes_for_gains/screens/dishScreens/display_dishes_screen.dart';
+import 'package:nes_for_gains/screens/recipeScreens/display_recipe_screen.dart';
 import 'package:nes_for_gains/screens/nutrition_screen.dart';
-import 'package:nes_for_gains/screens/view_dishes_screen.dart';
-import 'package:nes_for_gains/screens/view_traininglog_screen.dart';
+import 'package:nes_for_gains/screens/workoutScreens/display_workout_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
-// import 'package:myflutterapp/widgets/background_container.dart';
 import 'constants.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/training_calculator_screen.dart';
-import 'screens/training_screen.dart';
+import 'screens/workoutScreens/add_workout_screen.dart';
 
 class App extends StatelessWidget {
   final Isar isar;
@@ -61,11 +60,12 @@ class App extends StatelessWidget {
           '/registerScreen': (context) => RegisterScreen(isar: isar),
           '/profileScreen': (context) => ProfileScreen(isar: isar),
           '/nutritionScreen': (context) => NutritionScreen(isar: isar),
-          '/viewdishesScreen': (context) => ViewDishesScreen(isar: isar),
+          '/displaydishesScreen': (context) => DisplayDishesScreen(isar: isar),
           '/trainingcalculatorScreen': (context) =>
               TrainingCalculatorScreen(isar: isar),
-          '/trainingScreen': (context) => TrainingScreen(isar: isar),
-          '/viewtrainingLog': (context) => ViewTrainingLogsScreen(isar: isar),
+          '/addworkoutScreen': (context) => AddWorkoutScreen(isar: isar),
+          '/displayworkoutScreen': (context) =>
+              DisplayWorkoutScreen(isar: isar),
           '/addrecipeScreen': (context) => AddRecipeScreen(isar: isar),
           '/displayrecipeScreen': (context) => DisplayRecipeScreen(isar: isar),
         },

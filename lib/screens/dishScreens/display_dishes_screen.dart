@@ -1,22 +1,22 @@
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
-import 'package:nes_for_gains/screens/edit_dish_screen.dart';
+import 'package:nes_for_gains/screens/dishScreens/edit_dish_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
 
-class ViewDishesScreen extends StatefulWidget {
+class DisplayDishesScreen extends StatefulWidget {
   final Isar isar;
 
-  const ViewDishesScreen({super.key, required this.isar});
+  const DisplayDishesScreen({super.key, required this.isar});
 
   @override
-  State<ViewDishesScreen> createState() => _ViewDishesScreenState();
+  State<DisplayDishesScreen> createState() => _DisplayDishesScreenState();
 }
 
-class _ViewDishesScreenState extends State<ViewDishesScreen> {
+class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
   static const double sizedBoxHeight = 18.0;
   late NutritionService nutritionService;
 

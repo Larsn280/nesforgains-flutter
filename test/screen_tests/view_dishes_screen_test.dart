@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/app_user.dart';
 import 'package:nes_for_gains/database/collections/dish.dart';
-import 'package:nes_for_gains/screens/view_dishes_screen.dart';
+import 'package:nes_for_gains/screens/dishScreens/display_dishes_screen.dart';
 
 void main() {
   late Isar isarTest;
@@ -32,11 +32,11 @@ void main() {
     expect(isOpen, true);
   });
 
-  group('ViewDishesScreen tests', () {
-    testWidgets('ViewDishesScreen UI test', (WidgetTester tester) async {
+  group('DisplayDishesScreen tests', () {
+    testWidgets('DisplayDishesScreen UI test', (WidgetTester tester) async {
       // Pump the main widget
       await tester.pumpWidget(MaterialApp(
-        home: ViewDishesScreen(isar: isarTest),
+        home: DisplayDishesScreen(isar: isarTest),
       ));
       await tester.pumpAndSettle();
 

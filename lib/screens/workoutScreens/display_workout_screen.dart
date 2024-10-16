@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/models/traininglog_data.dart';
-import 'package:nes_for_gains/screens/edit_traininglog_screen.dart';
-import 'package:nes_for_gains/service/training_service.dart';
+import 'package:nes_for_gains/screens/workoutScreens/edit_workout_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
+import 'package:nes_for_gains/service/workout_service.dart';
 
-class ViewTrainingLogsScreen extends StatefulWidget {
+class DisplayWorkoutScreen extends StatefulWidget {
   final Isar isar;
 
-  const ViewTrainingLogsScreen({super.key, required this.isar});
+  const DisplayWorkoutScreen({super.key, required this.isar});
 
   @override
-  State<ViewTrainingLogsScreen> createState() => _ViewTrainingLogsScreenState();
+  State<DisplayWorkoutScreen> createState() => _DisplayWorkScreenState();
 }
 
-class _ViewTrainingLogsScreenState extends State<ViewTrainingLogsScreen> {
+class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   static const double sizedBoxHeight = 18.0;
-  late TrainingService trainingService;
+  late WorkoutService trainingService;
   late List<TrainingLogData> trainingLogData;
 
   @override
   void initState() {
     super.initState();
-    trainingService = TrainingService(widget.isar);
+    trainingService = WorkoutService(widget.isar);
   }
 
   Future<List<TrainingLogData>> _fetchAllTrainingLogs() async {
@@ -81,7 +81,7 @@ class _ViewTrainingLogsScreenState extends State<ViewTrainingLogsScreen> {
               ),
               const SizedBox(height: 8.0),
               AppConstants.buildElevatedButton(
-                  context: context, path: '/trainingScreen', text: 'Go back'),
+                  context: context, path: '/addworkoutScreen', text: 'Go back'),
             ],
           ),
         ),
@@ -128,7 +128,7 @@ class _ViewTrainingLogsScreenState extends State<ViewTrainingLogsScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditTrainingLogsScreen(
+                    builder: (context) => EditWorkoutScreen(
                       isar: widget.isar,
                       trainingLog: log,
                     ),
