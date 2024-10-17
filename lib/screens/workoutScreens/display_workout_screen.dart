@@ -98,6 +98,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
           _buildTrainingColumnHeader('Reps', 0.15),
           _buildTrainingColumnHeader('Sets', 0.15),
           _buildTrainingColumnHeader('Weight (kg)', 0.2),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.25),
         ],
       ),
     );
@@ -122,25 +123,32 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
             _buildTrainingColumn(log.reps.toString(), 0.15),
             _buildTrainingColumn(log.sets.toString(), 0.15),
             _buildTrainingColumn(log.kg.toString(), 0.2),
-            IconButton(
-              icon: const Icon(Icons.edit, color: Colors.greenAccent),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditWorkoutScreen(
-                      isar: widget.isar,
-                      trainingLog: log,
-                    ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.25,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.greenAccent),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditWorkoutScreen(
+                            isar: widget.isar,
+                            trainingLog: log,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.redAccent),
-              onPressed: () {
-                // _handleDeleteLog(log, AuthProvider.of(context).id);
-              },
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.redAccent),
+                    onPressed: () {
+                      // _handleDeleteLog(log, AuthProvider.of(context).id);
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

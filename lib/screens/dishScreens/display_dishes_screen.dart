@@ -107,6 +107,9 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
           _buildDishColumnHeader('Protein', 0.15),
           _buildDishColumnHeader('Carbohydrates', 0.15),
           _buildDishColumnHeader('Fat', 0.15),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.1,
+          ),
         ],
       ),
     );
@@ -132,25 +135,33 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
             _buildDishColumn(dish.protein.toString(), 0.15),
             _buildDishColumn(dish.carbohydrates.toString(), 0.15),
             _buildDishColumn(dish.fat.toString(), 0.15),
-            IconButton(
-              icon: const Icon(Icons.edit, color: Colors.greenAccent),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditDishScreen(
-                      isar: widget.isar,
-                      nutritionData: dish,
-                    ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.1,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.greenAccent),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditDishScreen(
+                            isar: widget.isar,
+                            nutritionData: dish,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.redAccent),
-              onPressed: () {
-                _handleDeleteDish(dish.dish!, AuthProvider.of(context).id);
-              },
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.redAccent),
+                    onPressed: () {
+                      _handleDeleteDish(
+                          dish.dish!, AuthProvider.of(context).id);
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

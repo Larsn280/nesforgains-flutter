@@ -190,20 +190,12 @@ class _EditDishScreenState extends State<EditDishScreen> {
               const SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    _editDish();
-                  },
-                  child: const Text('Save')),
-              const SizedBox(
-                height: 8.0,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/viewdishesScreen');
-                },
-                child: const Text('Go back'),
-              ),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context, onPressed: _editDish, text: 'Save'),
+              AppConstants.buildElevatedButton(
+                  context: context,
+                  path: '/displaydishesScreen',
+                  text: 'Go back'),
             ],
           ),
         ),

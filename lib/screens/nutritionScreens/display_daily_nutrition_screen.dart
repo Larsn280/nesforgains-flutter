@@ -101,6 +101,7 @@ class _DisplayDailyNutritionScreenState
           _buildNutritionColumnHeader('Protein', 0.15),
           _buildNutritionColumnHeader('Carbohydrates', 0.15),
           _buildNutritionColumnHeader('Fat', 0.15),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.1),
         ],
       ),
     );
@@ -129,6 +130,7 @@ class _DisplayDailyNutritionScreenState
             _buildNutritionColumn(
                 dailyNutrition.carbohydrates.toString(), 0.15),
             _buildNutritionColumn(dailyNutrition.fat.toString(), 0.15),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.1),
           ],
         ),
       ),

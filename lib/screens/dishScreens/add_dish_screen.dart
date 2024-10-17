@@ -94,113 +94,134 @@ class _AddDishScreenState extends State<AddDishScreen> {
               image: AssetImage(AppConstants.backgroundimage),
               fit: BoxFit.cover),
         ),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                const Text(
-                  'Add dish',
-                  style: AppConstants.headingStyle,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Dish name:',
-                    hintText: 'Dish name',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a dish name';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _caloriesController,
-                  decoration: const InputDecoration(
-                    labelText: 'Calories:',
-                    hintText: 'Calories',
-                  ),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter calories';
-                    }
-                    final n = int.tryParse(value);
-                    if (n == null || n < 0) {
-                      return 'Please enter a valid positive number';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _proteinController,
-                  decoration: const InputDecoration(
-                    labelText: 'Protein:',
-                    hintText: 'Protein',
-                  ),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter protein';
-                    }
-                    final n = int.tryParse(value);
-                    if (n == null || n < 0) {
-                      return 'Please enter a valid positive number';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _carbsController,
-                  decoration: const InputDecoration(
-                    labelText: 'Carbohydrates:',
-                    hintText: 'Carbohydrates',
-                  ),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter carbohydrates';
-                    }
-                    final n = int.tryParse(value);
-                    if (n == null || n < 0) {
-                      return 'Please enter a valid positive number';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _fatController,
-                  decoration: const InputDecoration(
-                    labelText: 'Fat:',
-                    hintText: 'Fat',
-                  ),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter fat';
-                    }
-                    final n = int.tryParse(value);
-                    if (n == null || n < 0) {
-                      return 'Please enter a valid positive number';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                AppConstants.buildElevatedFunctionButton(
-                    context: context,
-                    onPressed: _submitNewDish,
-                    text: 'Submit new dish'),
-                AppConstants.buildElevatedButton(
-                    context: context, path: '/nutritionScreen', text: 'Go back')
-              ],
+        child: Column(
+          children: [
+            const Text(
+              'Add dish',
+              style: AppConstants.headingStyle,
             ),
-          ),
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: Colors.white)),
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Dish name:',
+                          hintText: 'Dish name',
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a dish name';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _caloriesController,
+                        decoration: const InputDecoration(
+                          labelText: 'Calories:',
+                          hintText: 'Calories',
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter calories';
+                          }
+                          final n = int.tryParse(value);
+                          if (n == null || n < 0) {
+                            return 'Please enter a valid positive number';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _proteinController,
+                        decoration: const InputDecoration(
+                          labelText: 'Protein:',
+                          hintText: 'Protein',
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter protein';
+                          }
+                          final n = int.tryParse(value);
+                          if (n == null || n < 0) {
+                            return 'Please enter a valid positive number';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _carbsController,
+                        decoration: const InputDecoration(
+                          labelText: 'Carbohydrates:',
+                          hintText: 'Carbohydrates',
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter carbohydrates';
+                          }
+                          final n = int.tryParse(value);
+                          if (n == null || n < 0) {
+                            return 'Please enter a valid positive number';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _fatController,
+                        decoration: const InputDecoration(
+                          labelText: 'Fat:',
+                          hintText: 'Fat',
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter fat';
+                          }
+                          final n = int.tryParse(value);
+                          if (n == null || n < 0) {
+                            return 'Please enter a valid positive number';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            AppConstants.buildElevatedFunctionButton(
+                context: context,
+                onPressed: _submitNewDish,
+                text: 'Submit new dish'),
+            AppConstants.buildElevatedButton(
+                context: context, path: '/nutritionScreen', text: 'Go back')
+          ],
         ),
       ),
     );
