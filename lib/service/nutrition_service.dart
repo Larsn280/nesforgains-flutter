@@ -139,6 +139,19 @@ class NutritionService {
     }
   }
 
+  Future<List<DailyNutrition>> getNutritionListByUserId(int userId) async {
+    try {
+      final nutrition =
+          await _isar.dailyNutritions.filter().userIdEqualTo(userId).findAll();
+      if (nutrition.isNotEmpty) {
+        return nutrition;
+      }
+      return [];
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future<ResponseData> deleteDish(String name, int userId) async {
     ResponseData responseData;
     try {

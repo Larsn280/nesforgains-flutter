@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/app_user.dart';
 import 'package:nes_for_gains/screens/home_screen.dart';
-import 'package:nes_for_gains/screens/nutrition_screen.dart'; // Import if needed
+import 'package:nes_for_gains/screens/nutritionScreens/nutrition_screen.dart'; // Import if needed
 import 'package:nes_for_gains/screens/training_calculator_screen.dart'; // Import if needed
 
 void main() {

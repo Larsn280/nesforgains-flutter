@@ -1,7 +1,8 @@
+import 'package:nes_for_gains/screens/nutritionScreens/display_daily_nutrition_screen.dart';
 import 'package:nes_for_gains/screens/recipeScreens/add_recipe_screen.dart';
 import 'package:nes_for_gains/screens/dishScreens/display_dishes_screen.dart';
 import 'package:nes_for_gains/screens/recipeScreens/display_recipe_screen.dart';
-import 'package:nes_for_gains/screens/nutrition_screen.dart';
+import 'package:nes_for_gains/screens/nutritionScreens/nutrition_screen.dart';
 import 'package:nes_for_gains/screens/workoutScreens/display_workout_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'screens/home_screen.dart';
-import 'screens/login_screen.dart';
-import 'screens/register_screen.dart';
+import 'screens/authScreens/login_screen.dart';
+import 'screens/authScreens/register_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/training_calculator_screen.dart';
 import 'screens/workoutScreens/add_workout_screen.dart';
@@ -60,6 +61,8 @@ class App extends StatelessWidget {
           '/registerScreen': (context) => RegisterScreen(isar: isar),
           '/profileScreen': (context) => ProfileScreen(isar: isar),
           '/nutritionScreen': (context) => NutritionScreen(isar: isar),
+          '/displaynutritionScreen': (context) =>
+              DisplayDailyNutritionScreen(isar: isar),
           '/displaydishesScreen': (context) => DisplayDishesScreen(isar: isar),
           '/trainingcalculatorScreen': (context) =>
               TrainingCalculatorScreen(isar: isar),

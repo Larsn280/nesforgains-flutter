@@ -291,6 +291,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
                     path: '/displaydishesScreen',
                     text: 'Go to Dishlist'),
                 AppConstants.buildElevatedButton(
+                    context: context,
+                    path: '/displaynutritionScreen',
+                    text: 'Go to NutritionList'),
+                AppConstants.buildElevatedButton(
                     context: context, path: '/', text: 'Go back'),
               ],
             ),

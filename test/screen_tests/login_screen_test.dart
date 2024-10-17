@@ -6,7 +6,7 @@ import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/app_user.dart';
 import 'package:nes_for_gains/database/collections/daily_nutrition.dart';
 import 'package:nes_for_gains/database/collections/dish.dart';
-import 'package:nes_for_gains/screens/login_screen.dart';
+import 'package:nes_for_gains/screens/authScreens/login_screen.dart';
 
 void main() {
   late Isar isarTest;

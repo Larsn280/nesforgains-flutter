@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/app_user.dart';
-import 'package:nes_for_gains/screens/register_screen.dart';
+import 'package:nes_for_gains/screens/authScreens/register_screen.dart';
 
 void main() {
   late Isar isarTest;
