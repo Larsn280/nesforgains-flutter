@@ -22,7 +22,7 @@ class AppConstants {
       required String path,
       required String text}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.25,
+      width: MediaQuery.of(context).size.width * 0.50,
       child: ElevatedButton(
         onPressed: () {
           Navigator.pushNamed(context, path);
@@ -38,7 +38,7 @@ class AppConstants {
     required String text,
   }) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.25,
+      width: MediaQuery.of(context).size.width * 0.50,
       child: ElevatedButton(
         onPressed: () {
           onPressed();
