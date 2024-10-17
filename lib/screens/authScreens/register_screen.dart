@@ -62,35 +62,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             const Text(
               'Register Screen',
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+              style: AppConstants.headingStyle,
             ),
-            const SizedBox(height: 20.0),
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'Enter you email',
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: Colors.white)),
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          hintText: 'Enter you email',
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
-                    TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter yout password',
+                      const SizedBox(
+                        height: 16.0,
                       ),
-                    )
-                  ],
+                      TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          hintText: 'Enter yout password',
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -70,35 +70,42 @@ class _LoginScreenState extends State<LoginScreen> {
               'Login Screen',
               style: AppConstants.headingStyle,
             ),
-            const SizedBox(height: 20.0),
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextField(
-                      key: const ValueKey('username'),
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Username',
-                        hintText: 'Enter your username',
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: Colors.white)),
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextField(
+                        key: const ValueKey('username'),
+                        controller: _usernameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Username',
+                          hintText: 'Enter your username',
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
-                    TextField(
-                      key: const ValueKey('password'),
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter your password',
+                      const SizedBox(
+                        height: 16.0,
                       ),
-                    ),
-                  ],
+                      TextField(
+                        key: const ValueKey('password'),
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          hintText: 'Enter your password',
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
