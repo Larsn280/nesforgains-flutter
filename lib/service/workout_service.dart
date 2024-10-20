@@ -67,12 +67,28 @@ class WorkoutService {
     }
   }
 
-  Future<ResponseData> editWorkout(int userId, TrainingLogData data) async {
+  Future<ResponseData> editWorkout(WorkoutData data, int workoutId) async {
     try {
-      late ResponseData responseData;
-      responseData = ResponseData(checksuccess: true, message: '');
+      final workouttoEdit = await _isar.workoutDatas
+          .filter()
+          .idEqualTo(workoutId)
+          .userIdEqualTo(data.userId)
+          .findFirst();
 
-      return responseData;
+      if (workouttoEdit != null) {
+        workouttoEdit.date = data.date;
+        workouttoEdit.rep = data.rep;
+        workouttoEdit.set = data.set;
+        workouttoEdit.kg = data.kg;
+        await _isar.writeTxn(() async {
+          await _isar.workoutDatas.put(workouttoEdit);
+        });
+        return ResponseData(
+            checksuccess: true, message: 'Workout was successfuly edited');
+      }
+
+      return ResponseData(
+          checksuccess: true, message: 'Workout does not exist');
     } catch (e) {
       throw Exception('Error when trying to edit: $e');
     }

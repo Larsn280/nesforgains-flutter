@@ -41,6 +41,29 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     }
   }
 
+  void _navigateToEditWorkout(WorkoutData workout) async {
+    try {
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditWorkoutScreen(
+            workout: workout,
+            isar: widget.isar,
+          ),
+        ),
+      );
+      if (result == true) {
+        setState(() {
+          _futureWorkouts = _fetchAllWorkouts();
+        });
+      }
+    } catch (e) {
+      logger.e('Error navigating:', error: e);
+      _showSnackBar(
+          'An error occurred while trying to navigate. Please try again.');
+    }
+  }
+
   Future<void> _handleDeleteWorkout(WorkoutData data) async {
     try {
       final response = await workoutService.deleteWorkout(data);
@@ -158,15 +181,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                   IconButton(
                     icon: const Icon(Icons.edit, color: Colors.greenAccent),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditWorkoutScreen(
-                            isar: widget.isar,
-                            workouts: log,
-                          ),
-                        ),
-                      );
+                      _navigateToEditWorkout(log);
                     },
                   ),
                   IconButton(

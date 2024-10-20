@@ -9,10 +9,10 @@ import 'package:nes_for_gains/logger.dart';
 
 class EditWorkoutScreen extends StatefulWidget {
   final Isar isar;
-  final WorkoutData workouts; // Pass the log to edit
+  final WorkoutData workout; // Pass the log to edit
 
   const EditWorkoutScreen(
-      {super.key, required this.isar, required this.workouts});
+      {super.key, required this.isar, required this.workout});
 
   @override
   State<EditWorkoutScreen> createState() => _EditWorkoutScreenState();
@@ -31,15 +31,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   void initState() {
     super.initState();
     workoutService = WorkoutService(widget.isar);
-
-    // Initialize controllers with existing values
     _dateController =
-        TextEditingController(text: widget.workouts.date.toString());
+        TextEditingController(text: widget.workout.date.toString());
     _repsController =
-        TextEditingController(text: widget.workouts.rep.toString());
+        TextEditingController(text: widget.workout.rep.toString());
     _setsController =
-        TextEditingController(text: widget.workouts.set.toString());
-    _kgController = TextEditingController(text: widget.workouts.kg.toString());
+        TextEditingController(text: widget.workout.set.toString());
+    _kgController = TextEditingController(text: widget.workout.kg.toString());
   }
 
   @override
@@ -51,34 +49,39 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     super.dispose();
   }
 
-//TODO
-  Future<void> _saveTrainingLog() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        final userId = AuthProvider.of(context).id;
-
-        // Create updated training log object
-        TrainingLogData updatedLog = TrainingLogData(
+  Future<void> _handleEditWorkout() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        WorkoutData updatedWorkout = WorkoutData(
           date: _dateController.text.toString(),
-          reps: int.parse(_repsController.text),
-          sets: int.parse(_setsController.text),
+          rep: int.parse(_repsController.text),
+          set: int.parse(_setsController.text),
           kg: double.parse(_kgController.text),
+          userId: AuthProvider.of(context).id,
         );
 
-        // Save to the database
-        await workoutService.editWorkout(userId, updatedLog);
+        final response =
+            await workoutService.editWorkout(updatedWorkout, widget.workout.id);
 
-        // Show a success message and navigate back
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Training log updated successfully')),
-        );
-        Navigator.pop(context);
-      } catch (e) {
-        logger.e('Error updating training log', error: e);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update training log')),
-        );
+        if (response.checksuccess == true) {
+          if (mounted) {
+            Navigator.pop(context, true);
+          }
+        }
+        _showSnackBar(response.message);
       }
+    } catch (e) {
+      logger.e('Error editing workout:', error: e);
+      _showSnackBar(
+          'An error occurred while editing the workout. Please try again.');
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
   }
 
@@ -117,12 +120,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                     const SizedBox(height: 16.0),
                     AppConstants.buildElevatedFunctionButton(
                         context: context,
-                        onPressed: _saveTrainingLog,
+                        onPressed: _handleEditWorkout,
                         text: 'Save'),
                     const SizedBox(height: 8.0),
                     AppConstants.buildElevatedButton(
                         context: context,
-                        path: '/trainingScreen',
+                        path: '/displayworkoutScreen',
                         text: 'Cancel'),
                   ],
                 ),
