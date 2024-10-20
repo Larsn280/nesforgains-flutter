@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/models/traininglog_data.dart';
+import 'package:nes_for_gains/database/collections/workout_data.dart';
 import 'package:nes_for_gains/screens/workoutScreens/edit_workout_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
@@ -18,23 +18,51 @@ class DisplayWorkoutScreen extends StatefulWidget {
 
 class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   static const double sizedBoxHeight = 18.0;
-  late WorkoutService trainingService;
-  late List<TrainingLogData> trainingLogData;
+  late WorkoutService workoutService;
+  late Future<List<WorkoutData>> _futureWorkouts;
 
   @override
   void initState() {
     super.initState();
-    trainingService = WorkoutService(widget.isar);
+    workoutService = WorkoutService(widget.isar);
+    _futureWorkouts = _fetchAllWorkouts();
   }
 
-  Future<List<TrainingLogData>> _fetchAllTrainingLogs() async {
+  Future<List<WorkoutData>> _fetchAllWorkouts() async {
     try {
       final userId = AuthProvider.of(context).id;
-      final response = await trainingService.fetchTrainingLogs(userId);
+      final response = await workoutService.fetchAllWorkouts(userId);
       return response;
     } catch (e) {
-      logger.e('Error fetching training logs', error: e);
+      logger.e('Error fetching workouts', error: e);
+      _showSnackBar(
+          'An error occurred while fetching the workouts. Please try again.');
       return [];
+    }
+  }
+
+  Future<void> _handleDeleteWorkout(WorkoutData data) async {
+    try {
+      final response = await workoutService.deleteWorkout(data);
+
+      if (response.checksuccess) {
+        setState(() {
+          _futureWorkouts = _fetchAllWorkouts();
+        });
+        _showSnackBar(response.message);
+      }
+    } catch (e) {
+      logger.e('Error deleting workout', error: e);
+      _showSnackBar(
+          'An error occurred while deleting the workout. Please try again.');
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
   }
 
@@ -57,13 +85,13 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Training Logs',
+                'Workouts',
                 style: AppConstants.headingStyle,
               ),
               const SizedBox(height: 16.0),
               Expanded(
-                child: FutureBuilder<List<TrainingLogData>>(
-                  future: _fetchAllTrainingLogs(),
+                child: FutureBuilder<List<WorkoutData>>(
+                  future: _futureWorkouts,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return _buildTrainingList([], 'Indicator');
@@ -112,7 +140,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     );
   }
 
-  Widget _buildTrainingRow(TrainingLogData log) {
+  Widget _buildTrainingRow(WorkoutData log) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: SingleChildScrollView(
@@ -120,8 +148,8 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
         child: Row(
           children: [
             _buildTrainingColumn(log.date.toString(), 0.25),
-            _buildTrainingColumn(log.reps.toString(), 0.15),
-            _buildTrainingColumn(log.sets.toString(), 0.15),
+            _buildTrainingColumn(log.rep.toString(), 0.15),
+            _buildTrainingColumn(log.set.toString(), 0.15),
             _buildTrainingColumn(log.kg.toString(), 0.2),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.25,
@@ -135,7 +163,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                         MaterialPageRoute(
                           builder: (context) => EditWorkoutScreen(
                             isar: widget.isar,
-                            trainingLog: log,
+                            workouts: log,
                           ),
                         ),
                       );
@@ -144,7 +172,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                   IconButton(
                     icon: const Icon(Icons.delete, color: Colors.redAccent),
                     onPressed: () {
-                      // _handleDeleteLog(log, AuthProvider.of(context).id);
+                      _handleDeleteWorkout(log);
                     },
                   ),
                 ],
@@ -164,7 +192,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     );
   }
 
-  Widget _buildTrainingList(List<TrainingLogData> logs, String message) {
+  Widget _buildTrainingList(List<WorkoutData> logs, String message) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(

@@ -100,15 +100,16 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
               image: AssetImage(AppConstants.backgroundimage),
               fit: BoxFit.cover),
         ),
-        child: Column(
-          children: [
-            const Text(
-              'Add new recipe',
-              style: AppConstants.headingStyle,
-            ),
-            const SizedBox(height: 16.0),
-            Expanded(
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 40.0),
+              const Text(
+                'Add new recipe',
+                style: AppConstants.headingStyle,
+              ),
+              const SizedBox(height: 16.0),
+              Container(
                 decoration: BoxDecoration(
                     border: Border.all(width: 1.0, color: Colors.white)),
                 padding: const EdgeInsets.all(16.0),
@@ -219,18 +220,21 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   ),
                 ),
               ),
-            ),
-            // Save Button
-            const SizedBox(height: 20),
-            AppConstants.buildElevatedFunctionButton(
-                context: context, onPressed: _saveRecipe, text: 'Save Recipe'),
-            AppConstants.buildElevatedButton(
-                context: context,
-                path: '/displayrecipeScreen',
-                text: 'Display Recipes'),
-            AppConstants.buildElevatedButton(
-                context: context, path: '/', text: 'Go back'),
-          ],
+
+              // Save Button
+              const SizedBox(height: 20),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: _saveRecipe,
+                  text: 'Save Recipe'),
+              AppConstants.buildElevatedButton(
+                  context: context,
+                  path: '/displayrecipeScreen',
+                  text: 'Display Recipes'),
+              AppConstants.buildElevatedButton(
+                  context: context, path: '/', text: 'Go back'),
+            ],
+          ),
         ),
       ),
     );

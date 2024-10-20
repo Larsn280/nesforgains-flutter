@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/models/traininglog_data.dart';
+import 'package:nes_for_gains/database/collections/workout_data.dart';
+import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
 
@@ -40,49 +41,55 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
   }
 
   void _saveTrainingData() async {
-    if (_formKey.currentState!.validate() && _selectedDate != null) {
-      // Create the TrainingLogData object
-      final trainingLogData = TrainingLogData(
-        reps: int.tryParse(_repsController.text) ?? 0,
-        sets: int.tryParse(_setsController.text) ?? 0,
-        kg: double.tryParse(_weightController.text) ?? 0,
-        date: _selectedDate.toString(),
-      );
+    try {
+      if (_formKey.currentState!.validate() && _selectedDate != null) {
+        final kgValue = double.tryParse(_weightController.text);
+        final repValue = int.tryParse(_repsController.text);
+        final setValue = int.tryParse(_setsController.text);
+        final userIdValue = AuthProvider.of(context).id;
 
-      // Send data to the service and wait for response
-      final response = await workoutService.inputTrainingData(
-        trainingLogData,
-        AuthProvider.of(context).id,
-      );
+        final workoutData = WorkoutData(
+          date: _selectedDate.toString(),
+          kg: kgValue,
+          rep: repValue,
+          set: setValue,
+          userId: userIdValue,
+        );
 
-      // Consolidate setState and response handling
-      setState(() {
-        if (response.checksuccess) {
-          // Clear fields only on success
-          _weightController.clear();
-          _repsController.clear();
-          _setsController.clear();
-          _selectedDate = null;
-        }
-        responseMessage = response.message;
-      });
+        final response = await workoutService.addWorkout(
+          workoutData,
+        );
 
-      // Display the snackbar with the response message
-      displaySnackbar(responseMessage);
-    } else {
-      // Set response message for validation failure
-      setState(() {
-        responseMessage = 'Please fill in all fields';
-      });
-      displaySnackbar(responseMessage);
+        setState(() {
+          if (response.checksuccess) {
+            _weightController.clear();
+            _repsController.clear();
+            _setsController.clear();
+            _selectedDate = null;
+          }
+          responseMessage = response.message;
+        });
+
+        _showSnackBar(responseMessage);
+      } else {
+        setState(() {
+          responseMessage = 'Please fill in all fields';
+        });
+        _showSnackBar(responseMessage);
+      }
+    } catch (e) {
+      logger.e('Error adding workout', error: e);
+      _showSnackBar(
+          'An error occurred while adding the workout. Please try again.');
     }
   }
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> displaySnackbar(
-      String message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
   }
 
   @override
@@ -100,6 +107,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 40.0),
             const Text(
               'Log Workout',
               style: AppConstants.headingStyle,

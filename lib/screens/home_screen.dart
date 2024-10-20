@@ -24,16 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
               image: AssetImage(AppConstants.backgroundimage),
               fit: BoxFit.cover),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'NESForGains!',
-              style: AppConstants.headingStyle,
-            ),
-            const SizedBox(height: 20.0),
-            Expanded(
-              child: Card(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40.0),
+              const Text(
+                'NESForGains!',
+                style: AppConstants.headingStyle,
+              ),
+              const SizedBox(height: 20.0),
+              Card(
                 color: Colors.black54,
                 elevation: 4,
                 shape: RoundedRectangleBorder(
@@ -45,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.all(16.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text('Welcome to NESForGains!',
                           style: TextStyle(fontWeight: FontWeight.bold)),
@@ -58,33 +58,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 32.0,
-            ),
-            AppConstants.buildElevatedButton(
-                context: context,
-                path: '/nutritionScreen',
-                text: 'Go to Nutrition'),
-            AppConstants.buildElevatedButton(
-                context: context,
-                path: '/trainingcalculatorScreen',
-                text: 'Go to Training'),
-            AppConstants.buildElevatedButton(
-                context: context,
-                path: '/addworkoutScreen',
-                text: 'Go to TrainingLog'),
-            AppConstants.buildElevatedButton(
-                context: context,
-                path: '/addrecipeScreen',
-                text: 'Go to Recipes'),
-            AppConstants.buildElevatedFunctionButton(
-                context: context,
-                onPressed: () {
-                  AuthProvider.of(context).logout();
-                },
-                text: 'Logout'),
-          ],
+              const SizedBox(
+                height: 32.0,
+              ),
+              AppConstants.buildElevatedButton(
+                  context: context,
+                  path: '/nutritionScreen',
+                  text: 'Go to Nutrition'),
+              AppConstants.buildElevatedButton(
+                  context: context,
+                  path: '/trainingcalculatorScreen',
+                  text: 'Go to Calculator'),
+              AppConstants.buildElevatedButton(
+                  context: context,
+                  path: '/addworkoutScreen',
+                  text: 'Go to Workouts'),
+              AppConstants.buildElevatedButton(
+                  context: context,
+                  path: '/addrecipeScreen',
+                  text: 'Go to Recipes'),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    AuthProvider.of(context).logout();
+                  },
+                  text: 'Logout'),
+            ],
+          ),
         ),
       ),
     );

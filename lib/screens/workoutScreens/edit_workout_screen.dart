@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
+import 'package:nes_for_gains/database/collections/workout_data.dart';
 import 'package:nes_for_gains/models/traininglog_data.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
@@ -8,10 +9,10 @@ import 'package:nes_for_gains/logger.dart';
 
 class EditWorkoutScreen extends StatefulWidget {
   final Isar isar;
-  final TrainingLogData trainingLog; // Pass the log to edit
+  final WorkoutData workouts; // Pass the log to edit
 
   const EditWorkoutScreen(
-      {super.key, required this.isar, required this.trainingLog});
+      {super.key, required this.isar, required this.workouts});
 
   @override
   State<EditWorkoutScreen> createState() => _EditWorkoutScreenState();
@@ -33,13 +34,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
     // Initialize controllers with existing values
     _dateController =
-        TextEditingController(text: widget.trainingLog.date.toString());
+        TextEditingController(text: widget.workouts.date.toString());
     _repsController =
-        TextEditingController(text: widget.trainingLog.reps.toString());
+        TextEditingController(text: widget.workouts.rep.toString());
     _setsController =
-        TextEditingController(text: widget.trainingLog.sets.toString());
-    _kgController =
-        TextEditingController(text: widget.trainingLog.kg.toString());
+        TextEditingController(text: widget.workouts.set.toString());
+    _kgController = TextEditingController(text: widget.workouts.kg.toString());
   }
 
   @override
@@ -51,6 +51,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     super.dispose();
   }
 
+//TODO
   Future<void> _saveTrainingLog() async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -65,7 +66,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         );
 
         // Save to the database
-        await workoutService.updateTrainingLog(userId, updatedLog);
+        await workoutService.editWorkout(userId, updatedLog);
 
         // Show a success message and navigate back
         ScaffoldMessenger.of(context).showSnackBar(

@@ -1,9 +1,9 @@
 import 'package:isar/isar.dart';
 
-part 'training_data.g.dart';
+part 'workout_data.g.dart';
 
 @collection
-class TrainingData {
+class WorkoutData {
   Id id = Isar.autoIncrement;
 
   String? date;
@@ -15,4 +15,12 @@ class TrainingData {
   int? set;
 
   int? userId;
+
+  WorkoutData({
+    this.date,
+    this.kg,
+    this.rep,
+    this.set,
+    this.userId,
+  });
 }

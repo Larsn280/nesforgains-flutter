@@ -71,11 +71,11 @@ class _LoginScreenState extends State<LoginScreen> {
               style: AppConstants.headingStyle,
             ),
             const SizedBox(height: 16.0),
-            Expanded(
+            SingleChildScrollView(
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(width: 1.0, color: Colors.white)),
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(25.0),
                 child: Form(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
