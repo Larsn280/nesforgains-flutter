@@ -97,13 +97,15 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 32.0),
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(
+                height: 40.0,
+              ),
               const Text(
-                'Edit Training Log',
+                'Edit Workout',
                 style: AppConstants.headingStyle,
               ),
               const SizedBox(height: 16.0),

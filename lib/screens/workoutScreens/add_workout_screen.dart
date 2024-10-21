@@ -104,17 +104,18 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
               image: AssetImage(AppConstants.backgroundimage),
               fit: BoxFit.cover),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 40.0),
-            const Text(
-              'Log Workout',
-              style: AppConstants.headingStyle,
-            ),
-            const SizedBox(height: 16.0),
-            Expanded(
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40.0),
+              const Text(
+                'Log Workout',
+                style: AppConstants.headingStyle,
+              ),
+              const SizedBox(height: 16.0),
+
+              Container(
                 decoration: BoxDecoration(
                     border: Border.all(width: 1.0, color: Colors.white)),
                 padding: const EdgeInsets.all(16.0),
@@ -221,24 +222,25 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            // Submit button
-            AppConstants.buildElevatedFunctionButton(
-                context: context,
-                onPressed: _saveTrainingData,
-                text: 'Save Workout'),
-            AppConstants.buildElevatedButton(
-                context: context,
-                path: '/displayworkoutScreen',
-                text: 'View Workouts'),
-            AppConstants.buildElevatedFunctionButton(
-                context: context,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                text: 'Go back'),
-          ],
+
+              const SizedBox(height: 20),
+              // Submit button
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: _saveTrainingData,
+                  text: 'Save Workout'),
+              AppConstants.buildElevatedButton(
+                  context: context,
+                  path: '/displayworkoutScreen',
+                  text: 'View Workouts'),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Go back'),
+            ],
+          ),
         ),
       ),
     );

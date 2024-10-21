@@ -94,51 +94,50 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16.0),
-        width: double.infinity,
-        height: double.infinity,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AppConstants.backgroundimage),
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Workouts',
-                style: AppConstants.headingStyle,
-              ),
-              const SizedBox(height: 16.0),
-              Expanded(
-                child: FutureBuilder<List<WorkoutData>>(
-                  future: _futureWorkouts,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return _buildTrainingList([], 'Indicator');
-                    } else if (snapshot.hasError) {
-                      return _buildTrainingList([], 'Error loading logs');
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return _buildTrainingList(
-                          [], 'No training logs available');
-                    }
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 40.0,
+            ),
+            const Text(
+              'Workouts',
+              style: AppConstants.headingStyle,
+            ),
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: FutureBuilder<List<WorkoutData>>(
+                future: _futureWorkouts,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return _buildTrainingList([], 'Indicator');
+                  } else if (snapshot.hasError) {
+                    return _buildTrainingList([], 'Error loading logs');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return _buildTrainingList([], 'No training logs available');
+                  }
 
-                    final logs = snapshot.data!;
-                    return _buildTrainingList(logs, '');
-                  },
-                ),
+                  final logs = snapshot.data!;
+                  return _buildTrainingList(logs, '');
+                },
               ),
-              const SizedBox(height: 8.0),
-              AppConstants.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'Go back'),
-            ],
-          ),
+            ),
+            const SizedBox(height: 8.0),
+            AppConstants.buildElevatedFunctionButton(
+                context: context,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                text: 'Go back'),
+          ],
         ),
       ),
     );
