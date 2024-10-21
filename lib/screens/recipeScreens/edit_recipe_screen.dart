@@ -104,8 +104,12 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                     child: const Text('Save'),
                   ),
                   const SizedBox(height: 8.0),
-                  AppConstants.buildElevatedButton(
-                      context: context, path: '/recipeScreen', text: 'Cancel'),
+                  AppConstants.buildElevatedFunctionButton(
+                      context: context,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      text: 'Cancle'),
                 ],
               ),
             ),

@@ -1,7 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/workout_data.dart';
 import 'package:nes_for_gains/models/response_data.dart';
-import 'package:nes_for_gains/models/traininglog_data.dart';
 
 class WorkoutService {
   final Isar _isar;

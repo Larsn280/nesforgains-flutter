@@ -131,8 +131,12 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                 ),
               ),
               const SizedBox(height: 8.0),
-              AppConstants.buildElevatedButton(
-                  context: context, path: '/addworkoutScreen', text: 'Go back'),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Go back'),
             ],
           ),
         ),

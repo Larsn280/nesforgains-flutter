@@ -82,8 +82,12 @@ class _DisplayDailyNutritionScreenState
                 ),
               ),
               const SizedBox(height: 8.0),
-              AppConstants.buildElevatedButton(
-                  context: context, path: '/nutritionScreen', text: 'Go back'),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Go back'),
             ],
           ),
         ),

@@ -231,8 +231,12 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   context: context,
                   path: '/displayrecipeScreen',
                   text: 'Display Recipes'),
-              AppConstants.buildElevatedButton(
-                  context: context, path: '/', text: 'Go back'),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Go back'),
             ],
           ),
         ),

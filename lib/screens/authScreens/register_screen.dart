@@ -106,8 +106,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             AppConstants.buildElevatedFunctionButton(
                 context: context, onPressed: _createNewUser, text: 'Register'),
-            AppConstants.buildElevatedButton(
-                context: context, path: '/', text: 'Go back to Login')
+            AppConstants.buildElevatedFunctionButton(
+                context: context,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                text: 'Go back'),
           ],
         ),
       ),

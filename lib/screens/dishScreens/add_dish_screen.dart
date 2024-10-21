@@ -219,8 +219,12 @@ class _AddDishScreenState extends State<AddDishScreen> {
                   context: context,
                   onPressed: _submitNewDish,
                   text: 'Submit new dish'),
-              AppConstants.buildElevatedButton(
-                  context: context, path: '/nutritionScreen', text: 'Go back')
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Go back'),
             ],
           ),
         ),

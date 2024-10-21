@@ -68,7 +68,7 @@ class _TrainingScreenState extends State<TrainingCalculatorScreen> {
                     height: 16.0,
                   ),
                   const Text(
-                    'Your one rep max : 125 kg',
+                    'Your one rep max : 130 kg',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
@@ -85,8 +85,12 @@ class _TrainingScreenState extends State<TrainingCalculatorScreen> {
                       context: context,
                       onPressed: _submitTrainingdata,
                       text: 'Submit trainingdata'),
-                  AppConstants.buildElevatedButton(
-                      context: context, path: '/', text: 'Go back'),
+                  AppConstants.buildElevatedFunctionButton(
+                      context: context,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      text: 'Go back'),
                 ],
               ),
             ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/workout_data.dart';
-import 'package:nes_for_gains/models/traininglog_data.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
@@ -123,10 +122,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                         onPressed: _handleEditWorkout,
                         text: 'Save'),
                     const SizedBox(height: 8.0),
-                    AppConstants.buildElevatedButton(
+                    AppConstants.buildElevatedFunctionButton(
                         context: context,
-                        path: '/displayworkoutScreen',
-                        text: 'Cancel'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        text: 'Cancle'),
                   ],
                 ),
               ),

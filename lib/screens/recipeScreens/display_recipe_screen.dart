@@ -131,8 +131,12 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            AppConstants.buildElevatedButton(
-                context: context, path: '/addrecipeScreen', text: 'Go back'),
+            AppConstants.buildElevatedFunctionButton(
+                context: context,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                text: 'Go back'),
           ],
         ),
       ),
