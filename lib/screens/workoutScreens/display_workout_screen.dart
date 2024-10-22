@@ -146,7 +146,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   Widget _buildTrainingHeader() {
     return Row(
       children: [
-        _buildTrainingColumnHeader('Date', 0.20),
+        _buildTrainingColumnHeader('Date', 0.25),
         _buildTrainingColumnHeader('Reps', 0.10),
         _buildTrainingColumnHeader('Sets', 0.10),
         _buildTrainingColumnHeader('Weight (kg)', 0.15),
@@ -168,7 +168,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         children: [
-          _buildTrainingColumn(log.date.toString(), 0.20),
+          _buildTrainingColumn(log.date.toString(), 0.25),
           _buildTrainingColumn(log.rep.toString(), 0.10),
           _buildTrainingColumn(log.set.toString(), 0.10),
           _buildTrainingColumn(log.kg.toString(), 0.15),
