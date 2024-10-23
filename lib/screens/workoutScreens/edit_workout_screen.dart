@@ -21,6 +21,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   late WorkoutService workoutService;
   final _formKey = GlobalKey<FormState>();
 
+  late TextEditingController _exerciseController;
   late TextEditingController _dateController;
   late TextEditingController _repsController;
   late TextEditingController _setsController;
@@ -30,6 +31,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   void initState() {
     super.initState();
     workoutService = WorkoutService(widget.isar);
+    _exerciseController =
+        TextEditingController(text: widget.workout.exercise.toString());
     _dateController =
         TextEditingController(text: widget.workout.date.toString());
     _repsController =
@@ -41,6 +44,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
   @override
   void dispose() {
+    _exerciseController.dispose();
     _dateController.dispose();
     _repsController.dispose();
     _setsController.dispose();
@@ -52,6 +56,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     try {
       if (_formKey.currentState!.validate()) {
         WorkoutData updatedWorkout = WorkoutData(
+          exercise: _exerciseController.text.toString(),
           date: _dateController.text.toString(),
           rep: int.parse(_repsController.text),
           set: int.parse(_setsController.text),
@@ -113,6 +118,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    _buildTextField(
+                        'Exercise (eg: Benchpress)', _exerciseController),
                     _buildTextField('Date (YYYY-MM-DD)', _dateController),
                     _buildTextField('Reps', _repsController, isNumeric: true),
                     _buildTextField('Sets', _setsController, isNumeric: true),

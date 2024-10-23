@@ -18,6 +18,7 @@ class AddWorkoutScreen extends StatefulWidget {
 
 class _AddWorkoutScreen extends State<AddWorkoutScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _exerciseController = TextEditingController();
   final _weightController = TextEditingController();
   final _repsController = TextEditingController();
   final _setsController = TextEditingController();
@@ -34,6 +35,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
 
   @override
   void dispose() {
+    _exerciseController.dispose();
     _weightController.dispose();
     _repsController.dispose();
     _setsController.dispose();
@@ -43,12 +45,14 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
   void _saveTrainingData() async {
     try {
       if (_formKey.currentState!.validate() && _selectedDate != null) {
+        final exerciseValue = _exerciseController.text.toString();
         final kgValue = double.tryParse(_weightController.text);
         final repValue = int.tryParse(_repsController.text);
         final setValue = int.tryParse(_setsController.text);
         final userIdValue = AuthProvider.of(context).id;
 
         final workoutData = WorkoutData(
+          exercise: exerciseValue.toString(),
           date: _selectedDate.toString(),
           kg: kgValue,
           rep: repValue,
@@ -62,6 +66,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
 
         setState(() {
           if (response.checksuccess) {
+            _exerciseController.clear();
             _weightController.clear();
             _repsController.clear();
             _setsController.clear();
@@ -151,6 +156,24 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                             },
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        controller: _exerciseController,
+                        decoration: const InputDecoration(
+                          labelText: 'Exercise (eg: Benchpress)',
+                          labelStyle: TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter exercise eg: Benchpress';
+                          }
+                          return null;
+                        },
+                        style: const TextStyle(color: Colors.white),
                       ),
                       const SizedBox(height: 10),
                       // Weight input

@@ -16,6 +16,7 @@ class WorkoutService {
       if (data.date != '') {
         final workouts = await _isar.workoutDatas
             .filter()
+            .exerciseEqualTo(data.exercise)
             .repEqualTo(data.rep)
             .setEqualTo(data.set)
             .kgEqualTo(data.kg)
@@ -23,6 +24,7 @@ class WorkoutService {
             .findFirst();
         if (workouts == null) {
           final newWorkout = WorkoutData()
+            ..exercise = capitalizeFirstLetter(data.exercise.toString())
             ..date = date.toString()
             ..rep = data.rep
             ..set = data.set
@@ -34,14 +36,14 @@ class WorkoutService {
           responseData = ResponseData(
               checksuccess: true,
               message:
-                  'Successfully added workout: ${data.kg}kg X ${data.rep} X ${data.set}');
+                  'Successfully added workout: ${data.exercise}: ${data.kg}kg X ${data.rep} X ${data.set}');
           return responseData;
         }
       }
       responseData = ResponseData(
           checksuccess: false,
           message:
-              'Workout already logged: ${data.kg}kg X ${data.rep} X ${data.set}');
+              'Workout already logged: ${data.exercise}: ${data.kg}kg X ${data.rep} X ${data.set}');
       return responseData;
     } catch (e) {
       throw Exception('Error when trying to add workout $e');
@@ -75,6 +77,8 @@ class WorkoutService {
           .findFirst();
 
       if (workouttoEdit != null) {
+        workouttoEdit.exercise =
+            capitalizeFirstLetter(data.exercise.toString());
         workouttoEdit.date = data.date;
         workouttoEdit.rep = data.rep;
         workouttoEdit.set = data.set;
@@ -117,5 +121,10 @@ class WorkoutService {
     } catch (e) {
       throw Exception('Error when trying to delete: $e');
     }
+  }
+
+  String capitalizeFirstLetter(String str) {
+    if (str.isEmpty) return str; // Check for empty string
+    return str[0].toUpperCase() + str.substring(1).toLowerCase();
   }
 }

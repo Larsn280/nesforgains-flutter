@@ -6,6 +6,8 @@ part 'workout_data.g.dart';
 class WorkoutData {
   Id id = Isar.autoIncrement;
 
+  String? exercise;
+
   String? date;
 
   double? kg;
@@ -17,6 +19,7 @@ class WorkoutData {
   int? userId;
 
   WorkoutData({
+    this.exercise,
     this.date,
     this.kg,
     this.rep,
