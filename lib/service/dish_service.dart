@@ -5,33 +5,15 @@ import 'package:nes_for_gains/models/nutrition_data.dart';
 import 'package:nes_for_gains/models/response_data.dart';
 import 'package:isar/isar.dart';
 
-class NutritionService {
+class DishService {
   final Isar _isar;
 
-  NutritionService(this._isar);
+  DishService(this._isar);
 
-  NutritionData handleFoodSubmitted(String food) {
-    String dish = '';
-    int calories = 250;
-    int protein = 20;
-    int carbohydrates = 30;
-    int fat = 10;
-
-    NutritionData processedFoodNutrition = NutritionData(
-        dish: dish,
-        calories: calories,
-        protein: protein,
-        carbohydrates: carbohydrates,
-        fat: fat);
-
-    return processedFoodNutrition;
-  }
-
-  Future<List<NutritionData>?> getAllDishesById(int userId) async {
-    List<NutritionData>? allDishItems = [];
-    NutritionData dishItem;
-
+  Future<List<NutritionData>?> fetchAllDishesById(int userId) async {
     try {
+      List<NutritionData>? allDishItems = [];
+      NutritionData dishItem;
       final dishItems =
           await _isar.dishs.filter().userIdEqualTo(userId).findAll();
       if (dishItems.isNotEmpty) {
@@ -50,14 +32,13 @@ class NutritionService {
 
       return allDishItems;
     } catch (e) {
-      throw Exception('Something went wrong fetching dishes: $e');
+      throw Exception('Error trying to fetch dishes: $e');
     }
   }
 
-  Future<List<String>> fetchDishItems(int userId) async {
-    List<String> dishItemNames = [];
-
+  Future<List<String>> fetchAllDishNamesById(int userId) async {
     try {
+      List<String> dishItemNames = [];
       final dishItems =
           await _isar.dishs.filter().userIdEqualTo(userId).findAll();
 
@@ -68,14 +49,14 @@ class NutritionService {
       } else {
         logger.i('No items found in the dish table.');
       }
+      return dishItemNames;
     } catch (e) {
       logger.e('Error fetching food items', error: e);
+      throw Exception('Error trying to fetch dishnames: $e');
     }
-
-    return dishItemNames;
   }
 
-  Future<ResponseData> addDishItem(NutritionData data, int userId) async {
+  Future<ResponseData> addDish(NutritionData data, int userId) async {
     try {
       final ResponseData responseData;
       final dishItem = await _isar.dishs
@@ -105,7 +86,7 @@ class NutritionService {
         return responseData;
       }
     } catch (e) {
-      throw Exception(e);
+      throw Exception('Error trying to add dish: $e');
     }
   }
 

@@ -2,7 +2,7 @@ import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/screens/dishScreens/add_dish_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
-import 'package:nes_for_gains/service/nutrition_service.dart';
+import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
@@ -26,12 +26,12 @@ class _NutritionScreenState extends State<NutritionScreen> {
   String message = 'Choose a dish or add a new one!';
   Color _textmessageColor = Colors.yellowAccent;
 
-  late NutritionService nutritionService;
+  late DishService nutritionService;
 
   @override
   void initState() {
     super.initState();
-    nutritionService = NutritionService(widget.isar);
+    nutritionService = DishService(widget.isar);
     _fetchDishItems();
     _fetchDailyIntake();
     _searchController.addListener(_filterDishes);
@@ -46,8 +46,8 @@ class _NutritionScreenState extends State<NutritionScreen> {
 
   void _fetchDishItems() async {
     try {
-      final dishList =
-          await nutritionService.fetchDishItems(AuthProvider.of(context).id);
+      final dishList = await nutritionService
+          .fetchAllDishNamesById(AuthProvider.of(context).id);
       setState(() {
         _allDishes = dishList;
       });

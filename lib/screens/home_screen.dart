@@ -65,18 +65,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   context: context,
                   path: '/nutritionScreen',
                   text: 'Go to Nutrition'),
-              AppConstants.buildElevatedButton(
-                  context: context,
-                  path: '/trainingcalculatorScreen',
-                  text: 'Go to Calculator'),
+              // AppConstants.buildElevatedButton(
+              //     context: context,
+              //     path: '/trainingcalculatorScreen',
+              //     text: 'Go to Calculator'),
               AppConstants.buildElevatedButton(
                   context: context,
                   path: '/addworkoutScreen',
                   text: 'Go to Workouts'),
-              AppConstants.buildElevatedButton(
-                  context: context,
-                  path: '/addrecipeScreen',
-                  text: 'Go to Recipes'),
+              // AppConstants.buildElevatedButton(
+              //     context: context,
+              //     path: '/addrecipeScreen',
+              //     text: 'Go to Recipes'),
               AppConstants.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {

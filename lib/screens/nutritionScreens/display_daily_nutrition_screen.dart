@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/daily_nutrition.dart';
 import 'package:nes_for_gains/logger.dart';
-import 'package:nes_for_gains/service/nutrition_service.dart';
+import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/constants.dart';
 
@@ -20,12 +20,12 @@ class DisplayDailyNutritionScreen extends StatefulWidget {
 class _DisplayDailyNutritionScreenState
     extends State<DisplayDailyNutritionScreen> {
   static const double sizedBoxHeight = 18.0;
-  late NutritionService nutritionService;
+  late DishService nutritionService;
 
   @override
   void initState() {
     super.initState();
-    nutritionService = NutritionService(widget.isar);
+    nutritionService = DishService(widget.isar);
   }
 
   Future<List<DailyNutrition>> _fetchDailyNutritionItems() async {

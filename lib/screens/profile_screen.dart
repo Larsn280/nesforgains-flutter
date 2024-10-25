@@ -1,7 +1,7 @@
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
-import 'package:nes_for_gains/service/nutrition_service.dart';
+import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +18,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _consumedController = TextEditingController();
 
-  late NutritionService nutritionService;
+  late DishService nutritionService;
 
   int calories = 0;
   int proteine = 0;
@@ -29,14 +29,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    nutritionService = NutritionService(widget.isar);
+    nutritionService = DishService(widget.isar);
     super.initState();
     fetchFoodItems();
   }
 
   void fetchFoodItems() async {
-    List<String> fetchedFoodItems =
-        await nutritionService.fetchDishItems(AuthProvider.of(context).id);
+    List<String> fetchedFoodItems = await nutritionService
+        .fetchAllDishNamesById(AuthProvider.of(context).id);
     setState(() {
       foodItems = fetchedFoodItems;
     });
@@ -123,15 +123,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      NutritionData processedFoodList =
-                          nutritionService.handleFoodSubmitted(
-                              _consumedController.text.toString());
-                      setState(() {
-                        calories = processedFoodList.calories.toInt();
-                        proteine = processedFoodList.protein.toInt();
-                        carbs = processedFoodList.carbohydrates.toInt();
-                        fat = processedFoodList.fat.toInt();
-                      });
+                      // NutritionData processedFoodList =
+                      //     nutritionService.handleFoodSubmitted(
+                      //         _consumedController.text.toString());
+                      // setState(() {
+                      //   calories = processedFoodList.calories.toInt();
+                      //   proteine = processedFoodList.protein.toInt();
+                      //   carbs = processedFoodList.carbohydrates.toInt();
+                      //   fat = processedFoodList.fat.toInt();
+                      // });
                     },
                     child: const Text('Submit'),
                   ),

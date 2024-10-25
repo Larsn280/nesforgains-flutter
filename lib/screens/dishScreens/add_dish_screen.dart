@@ -2,7 +2,7 @@ import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
-import 'package:nes_for_gains/service/nutrition_service.dart';
+import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
@@ -23,12 +23,12 @@ class _AddDishScreenState extends State<AddDishScreen> {
   final TextEditingController _carbsController = TextEditingController();
   final TextEditingController _fatController = TextEditingController();
 
-  late NutritionService nutritionService;
+  late DishService nutritionService;
 
   @override
   void initState() {
     super.initState();
-    nutritionService = NutritionService(widget.isar);
+    nutritionService = DishService(widget.isar);
   }
 
   @override
@@ -52,7 +52,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
           fat: int.tryParse(_fatController.text) ?? 0,
         );
 
-        final response = await nutritionService.addDishItem(
+        final response = await nutritionService.addDish(
             nutritionData, AuthProvider.of(context).id);
 
         if (response.checksuccess == true) {

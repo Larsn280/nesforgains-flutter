@@ -2,7 +2,7 @@ import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
-import 'package:nes_for_gains/service/nutrition_service.dart';
+import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
@@ -28,7 +28,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
   String message = 'Edit dish or go back';
   Color _textmessageColor = Colors.yellowAccent;
 
-  late NutritionService nutritionService;
+  late DishService nutritionService;
   late NutritionData newNutritionData;
 
   @override
@@ -48,7 +48,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
     _fatController =
         TextEditingController(text: widget.nutritionData.fat.toString());
 
-    nutritionService = NutritionService(widget.isar);
+    nutritionService = DishService(widget.isar);
   }
 
   @override

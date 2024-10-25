@@ -2,7 +2,7 @@ import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
 import 'package:nes_for_gains/screens/dishScreens/edit_dish_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
-import 'package:nes_for_gains/service/nutrition_service.dart';
+import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
@@ -18,18 +18,18 @@ class DisplayDishesScreen extends StatefulWidget {
 
 class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
   static const double sizedBoxHeight = 18.0;
-  late NutritionService nutritionService;
+  late DishService nutritionService;
 
   @override
   void initState() {
     super.initState();
-    nutritionService = NutritionService(widget.isar);
+    nutritionService = DishService(widget.isar);
   }
 
-  Future<List<NutritionData>> _fetchAllDishItems() async {
+  Future<List<NutritionData>> _handlefetchAllDishes() async {
     try {
-      final response =
-          await nutritionService.getAllDishesById(AuthProvider.of(context).id);
+      final response = await nutritionService
+          .fetchAllDishesById(AuthProvider.of(context).id);
       return response ?? [];
     } catch (e) {
       logger.e('Error fetching dishes', error: e);
@@ -72,7 +72,7 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
               const SizedBox(height: 16.0),
               Expanded(
                 child: FutureBuilder<List<NutritionData>>(
-                  future: _fetchAllDishItems(),
+                  future: _handlefetchAllDishes(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return _buildDishList([], 'Indicator');
