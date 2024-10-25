@@ -7,11 +7,13 @@ import 'package:nes_for_gains/database/collections/daily_nutrition.dart';
 import 'package:nes_for_gains/database/collections/dish.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
 import 'package:nes_for_gains/service/dish_service.dart';
+import 'package:nes_for_gains/service/nutrition_service.dart';
 
 void main() {
   late Isar isarTest;
   late Directory dirTest;
-  late DishService nutritionserviceTest;
+  late DishService dishserviceTest;
+  late NutritionService nutritionserviceTest;
 
   setUp(() async {
     dirTest = Directory.systemTemp.createTempSync();
@@ -23,7 +25,7 @@ void main() {
           directory: dirTest.path, name: 'nutritionInstance');
     }
 
-    nutritionserviceTest = DishService(isarTest);
+    dishserviceTest = DishService(isarTest);
   });
 
   test("Open a instance on the Isar database", () async {
@@ -62,7 +64,7 @@ void main() {
         await isarTest.dishs.put(dishTwo);
       });
 
-      final retrievedDishes = await nutritionserviceTest.fetchAllDishesById(2);
+      final retrievedDishes = await dishserviceTest.fetchAllDishesById(2);
 
       expect(retrievedDishes?.length, 1);
       expect(retrievedDishes?[0].dish, "DishTwo");
@@ -78,7 +80,7 @@ void main() {
 
     test("getAllDishesById returns empty list for user with no dishes",
         () async {
-      final retrievedDishes = await nutritionserviceTest.fetchAllDishesById(4);
+      final retrievedDishes = await dishserviceTest.fetchAllDishesById(4);
 
       expect(retrievedDishes?.length, 0);
     });
@@ -88,7 +90,7 @@ void main() {
         await isarTest.dishs.put(dishwithNull);
       });
 
-      final retrievedDishes = await nutritionserviceTest.fetchAllDishesById(2);
+      final retrievedDishes = await dishserviceTest.fetchAllDishesById(2);
 
       expect(retrievedDishes?.length, 1);
       expect(retrievedDishes?[0].dish, "Dish Null Fields");
@@ -116,7 +118,7 @@ void main() {
         });
       }
 
-      final retrievedDishes = await nutritionserviceTest.fetchAllDishesById(2);
+      final retrievedDishes = await dishserviceTest.fetchAllDishesById(2);
 
       expect(retrievedDishes?.length, 100);
 
@@ -150,7 +152,7 @@ void main() {
         await isarTest.dishs.put(dishTwo);
       });
 
-      final dishNames = await nutritionserviceTest.fetchAllDishNamesById(1);
+      final dishNames = await dishserviceTest.fetchAllDishNamesById(1);
 
       expect(dishNames.length, 2);
       expect(dishNames.contains('DishOne'), true);
@@ -162,7 +164,7 @@ void main() {
     });
 
     test("fetchDishItems returns empty list for user with no dishes", () async {
-      final dishNames = await nutritionserviceTest.fetchAllDishNamesById(2);
+      final dishNames = await dishserviceTest.fetchAllDishNamesById(2);
 
       expect(dishNames.length, 0);
     });
@@ -173,7 +175,7 @@ void main() {
 
       await isarTest.close();
 
-      final dishNames = await nutritionserviceTest.fetchAllDishNamesById(1);
+      final dishNames = await dishserviceTest.fetchAllDishNamesById(1);
 
       expect(dishNames.length, 0);
 
@@ -181,7 +183,7 @@ void main() {
       isarTest = await Isar.open(
           [DishSchema, DailyNutritionSchema, AppUserSchema],
           directory: dirTest.path, name: 'nutritionInstance');
-      nutritionserviceTest = DishService(isarTest);
+      dishserviceTest = DishService(isarTest);
     });
   });
 
@@ -195,7 +197,7 @@ void main() {
         fat: 10,
       );
 
-      final response = await nutritionserviceTest.addDish(nutritionData, 1);
+      final response = await dishserviceTest.addDish(nutritionData, 1);
 
       expect(response.checksuccess, true);
       expect(response.message, 'New Dish was successfully added!');
@@ -232,7 +234,7 @@ void main() {
         fat: 5,
       );
 
-      final response = await nutritionserviceTest.addDish(nutritionData, 1);
+      final response = await dishserviceTest.addDish(nutritionData, 1);
 
       expect(response.checksuccess, false);
       expect(response.message, 'Existing Dish already exists');
@@ -255,7 +257,7 @@ void main() {
       );
 
       expect(
-        () async => await nutritionserviceTest.addDish(nutritionData, 1),
+        () async => await dishserviceTest.addDish(nutritionData, 1),
         throwsException,
       );
 
@@ -263,7 +265,7 @@ void main() {
       isarTest = await Isar.open(
           [DishSchema, DailyNutritionSchema, AppUserSchema],
           directory: dirTest.path, name: 'nutritionInstance');
-      nutritionserviceTest = DishService(isarTest);
+      nutritionserviceTest = NutritionService(isarTest);
     });
   });
 
@@ -286,7 +288,8 @@ void main() {
         await isarTest.dailyNutritions.put(dailyNutrition);
       });
 
-      final nutritionData = await nutritionserviceTest.getDailyNutritionById(1);
+      final nutritionData =
+          await nutritionserviceTest.fetchDailyNutritionById(1);
 
       expect(nutritionData.calories, 2000);
       expect(nutritionData.protein, 150);
@@ -301,7 +304,8 @@ void main() {
     test(
         "getDailyNutritionById returns zeroed nutrition data if no entry exists",
         () async {
-      final nutritionData = await nutritionserviceTest.getDailyNutritionById(2);
+      final nutritionData =
+          await nutritionserviceTest.fetchDailyNutritionById(2);
 
       expect(nutritionData.calories, 0);
       expect(nutritionData.protein, 0);
@@ -314,7 +318,7 @@ void main() {
       await isarTest.close();
 
       expect(
-        () async => await nutritionserviceTest.getDailyNutritionById(1),
+        () async => await nutritionserviceTest.fetchDailyNutritionById(1),
         throwsException,
       );
 
@@ -322,7 +326,7 @@ void main() {
       isarTest = await Isar.open(
           [DishSchema, DailyNutritionSchema, AppUserSchema],
           directory: dirTest.path, name: 'nutritionInstance');
-      nutritionserviceTest = DishService(isarTest);
+      dishserviceTest = DishService(isarTest);
     });
   });
 
@@ -340,7 +344,7 @@ void main() {
         await isarTest.dishs.put(dishToDelete);
       });
 
-      final response = await nutritionserviceTest.deleteDish('DishToDelete', 1);
+      final response = await dishserviceTest.deleteDish('DishToDelete', 1);
 
       expect(response.checksuccess, true);
       expect(response.message, 'DishToDelete was deleted!');
@@ -352,15 +356,14 @@ void main() {
 
     test("deleteDish returns appropriate message when dish name is empty",
         () async {
-      final response = await nutritionserviceTest.deleteDish('', 1);
+      final response = await dishserviceTest.deleteDish('', 1);
 
       expect(response.checksuccess, false);
       expect(response.message, 'Could not delete dish');
     });
 
     test("deleteDish handles non-existent dish properly", () async {
-      final response =
-          await nutritionserviceTest.deleteDish('NonExistentDish', 1);
+      final response = await dishserviceTest.deleteDish('NonExistentDish', 1);
 
       expect(response.checksuccess, false);
       expect(response.message, 'Could not delete dish');
@@ -371,7 +374,7 @@ void main() {
       await isarTest.close();
 
       expect(
-        () async => await nutritionserviceTest.deleteDish('AnyDish', 1),
+        () async => await dishserviceTest.deleteDish('AnyDish', 1),
         throwsException,
       );
 
@@ -379,7 +382,7 @@ void main() {
       isarTest = await Isar.open(
           [DishSchema, DailyNutritionSchema, AppUserSchema],
           directory: dirTest.path, name: 'nutritionInstance');
-      nutritionserviceTest = DishService(isarTest);
+      dishserviceTest = DishService(isarTest);
     });
   });
 
@@ -406,7 +409,7 @@ void main() {
       );
 
       final response =
-          await nutritionserviceTest.editDish(newDishData, 'OldDish', 1);
+          await dishserviceTest.editDish(newDishData, 'OldDish', 1);
 
       expect(response.checksuccess, true);
       expect(response.message, 'NewDish was edited');
@@ -450,7 +453,7 @@ void main() {
       );
 
       final response =
-          await nutritionserviceTest.editDish(newDishData, 'OldDish', 1);
+          await dishserviceTest.editDish(newDishData, 'OldDish', 1);
 
       expect(response.checksuccess, false);
       expect(response.message, 'Dish was not edited');
@@ -470,7 +473,7 @@ void main() {
       );
 
       final response =
-          await nutritionserviceTest.editDish(newDishData, 'OldDish', 1);
+          await dishserviceTest.editDish(newDishData, 'OldDish', 1);
 
       expect(response.checksuccess, true);
       expect(response.message, 'NonExistentDish was edited');
@@ -496,8 +499,7 @@ void main() {
       );
 
       expect(
-        () async =>
-            await nutritionserviceTest.editDish(newDishData, 'OldDish', 1),
+        () async => await dishserviceTest.editDish(newDishData, 'OldDish', 1),
         throwsException,
       );
 
@@ -505,7 +507,7 @@ void main() {
       isarTest = await Isar.open(
           [DishSchema, DailyNutritionSchema, AppUserSchema],
           directory: dirTest.path, name: 'nutritionInstance');
-      nutritionserviceTest = DishService(isarTest);
+      dishserviceTest = DishService(isarTest);
     });
   });
 
@@ -572,7 +574,7 @@ void main() {
       isarTest = await Isar.open(
           [DishSchema, DailyNutritionSchema, AppUserSchema],
           directory: dirTest.path, name: 'nutritionInstance');
-      nutritionserviceTest = DishService(isarTest);
+      dishserviceTest = DishService(isarTest);
     });
   });
 
@@ -647,7 +649,7 @@ void main() {
       isarTest = await Isar.open(
           [DishSchema, DailyNutritionSchema, AppUserSchema],
           directory: dirTest.path, name: 'nutritionInstance');
-      nutritionserviceTest = DishService(isarTest);
+      dishserviceTest = DishService(isarTest);
     });
   });
 

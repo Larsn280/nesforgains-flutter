@@ -5,6 +5,7 @@ import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:nes_for_gains/service/nutrition_service.dart';
 
 class NutritionScreen extends StatefulWidget {
   final Isar isar;
@@ -26,12 +27,14 @@ class _NutritionScreenState extends State<NutritionScreen> {
   String message = 'Choose a dish or add a new one!';
   Color _textmessageColor = Colors.yellowAccent;
 
-  late DishService nutritionService;
+  late DishService dishService;
+  late NutritionService nutritionService;
 
   @override
   void initState() {
     super.initState();
-    nutritionService = DishService(widget.isar);
+    dishService = DishService(widget.isar);
+    nutritionService = NutritionService(widget.isar);
     _fetchDishItems();
     _fetchDailyIntake();
     _searchController.addListener(_filterDishes);
@@ -46,8 +49,8 @@ class _NutritionScreenState extends State<NutritionScreen> {
 
   void _fetchDishItems() async {
     try {
-      final dishList = await nutritionService
-          .fetchAllDishNamesById(AuthProvider.of(context).id);
+      final dishList =
+          await dishService.fetchAllDishNamesById(AuthProvider.of(context).id);
       setState(() {
         _allDishes = dishList;
       });
@@ -59,7 +62,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
   void _fetchDailyIntake() async {
     try {
       final intake = await nutritionService
-          .getDailyNutritionById(AuthProvider.of(context).id);
+          .fetchDailyNutritionById(AuthProvider.of(context).id);
       setState(() {
         calories = intake.calories;
         proteine = intake.protein;

@@ -6,6 +6,7 @@ import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/constants.dart';
+import 'package:nes_for_gains/service/nutrition_service.dart';
 
 class DisplayDailyNutritionScreen extends StatefulWidget {
   final Isar isar;
@@ -20,18 +21,19 @@ class DisplayDailyNutritionScreen extends StatefulWidget {
 class _DisplayDailyNutritionScreenState
     extends State<DisplayDailyNutritionScreen> {
   static const double sizedBoxHeight = 18.0;
-  late DishService nutritionService;
+  late DishService dishService;
+  late NutritionService nutritionService;
 
   @override
   void initState() {
     super.initState();
-    nutritionService = DishService(widget.isar);
+    nutritionService = NutritionService(widget.isar);
   }
 
   Future<List<DailyNutrition>> _fetchDailyNutritionItems() async {
     try {
       final response = await nutritionService
-          .getNutritionListByUserId(AuthProvider.of(context).id);
+          .fetchNutritionListByUserId(AuthProvider.of(context).id);
       return response;
     } catch (e) {
       logger.e('Error fetching daily nutrition', error: e);
