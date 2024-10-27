@@ -51,7 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       SizedBox(height: 8.0),
                       Text(
-                        '''Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.''',
+                        '''NESForGains is your personal companion on the journey to better health and fitness. Track your workouts, monitor your nutrition, and discover new recipes—all in one place. With NESForGains, you can effortlessly log your progress, helping you stay focused and motivated every step of the way.
+
+Add your latest workout to build strength over time, keep tabs on your meals to balance your nutrition, or explore new recipes to fuel your goals. NESForGains makes it easy to see your achievements and plan for tomorrow’s gains.
+
+Let’s keep leveling up—one rep, one meal, and one day at a time!''',
                         textAlign: TextAlign.center,
                       ),
                     ],
