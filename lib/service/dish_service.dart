@@ -75,10 +75,10 @@ class DishService {
       if (dishItem == null) {
         final newDish = Dish()
           ..name = data.dish.toString()
-          ..calories = data.calories?.toInt() ?? 0
-          ..protein = data.protein?.toInt() ?? 0
-          ..carbohydrates = data.carbohydrates?.toInt() ?? 0
-          ..fat = data.fat?.toInt() ?? 0
+          ..calories = data.calories.toInt() ?? 0
+          ..protein = data.protein.toInt() ?? 0
+          ..carbohydrates = data.carbohydrates.toInt() ?? 0
+          ..fat = data.fat.toInt() ?? 0
           ..userId = userId;
 
         await _isar.writeTxn(() async {

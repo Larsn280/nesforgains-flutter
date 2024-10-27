@@ -54,62 +54,59 @@ class _DisplayDailyNutritionScreenState
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Daily Nutrition List',
-                style: AppConstants.headingStyle,
-              ),
-              const SizedBox(height: 16.0),
-              Expanded(
-                child: FutureBuilder<List<DailyNutrition>>(
-                  future: _fetchDailyNutritionItems(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return _buildDailyNutritionList([], 'Indicator');
-                    } else if (snapshot.hasError) {
-                      return _buildDailyNutritionList(
-                          [], 'Error loading daily nutrition');
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return _buildDailyNutritionList(
-                          [], 'No daily nutrition available');
-                    }
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 40.0,
+            ),
+            const Text(
+              'Daily Nutrition List',
+              style: AppConstants.headingStyle,
+            ),
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: FutureBuilder<List<DailyNutrition>>(
+                future: _fetchDailyNutritionItems(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return _buildDailyNutritionList([], 'Indicator');
+                  } else if (snapshot.hasError) {
+                    return _buildDailyNutritionList(
+                        [], 'Error loading daily nutrition');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return _buildDailyNutritionList(
+                        [], 'No daily nutrition available');
+                  }
 
-                    final dailyNutrition = snapshot.data!;
-                    return _buildDailyNutritionList(dailyNutrition, '');
-                  },
-                ),
+                  final dailyNutrition = snapshot.data!;
+                  return _buildDailyNutritionList(dailyNutrition, '');
+                },
               ),
-              const SizedBox(height: 8.0),
-              AppConstants.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'Go back'),
-            ],
-          ),
+            ),
+            const SizedBox(height: 8.0),
+            AppConstants.buildElevatedFunctionButton(
+                context: context,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                text: 'Go back'),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildDailyNutritionHeader() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          _buildNutritionColumnHeader('Date', 0.3),
-          _buildNutritionColumnHeader('Calories', 0.15),
-          _buildNutritionColumnHeader('Protein', 0.15),
-          _buildNutritionColumnHeader('Carbohydrates', 0.15),
-          _buildNutritionColumnHeader('Fat', 0.15),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-        ],
-      ),
+    return Row(
+      children: [
+        _buildNutritionColumnHeader('Date', 0.25),
+        _buildNutritionColumnHeader('Cal', 0.10),
+        _buildNutritionColumnHeader('Protein', 0.15),
+        _buildNutritionColumnHeader('Carbs', 0.15),
+        _buildNutritionColumnHeader('Fat', 0.10),
+        const Flexible(child: SizedBox()),
+      ],
     );
   }
 
@@ -124,21 +121,17 @@ class _DisplayDailyNutritionScreenState
   Widget _buildDailyNutritionRow(DailyNutrition dailyNutrition) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _buildNutritionColumn(
-                DateFormat('y-MMM-d').format(dailyNutrition.date!).toString(),
-                0.3),
-            _buildNutritionColumn(dailyNutrition.calories.toString(), 0.15),
-            _buildNutritionColumn(dailyNutrition.protein.toString(), 0.15),
-            _buildNutritionColumn(
-                dailyNutrition.carbohydrates.toString(), 0.15),
-            _buildNutritionColumn(dailyNutrition.fat.toString(), 0.15),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-          ],
-        ),
+      child: Row(
+        children: [
+          _buildNutritionColumn(
+              DateFormat('y-MM-d').format(dailyNutrition.date!).toString(),
+              0.25),
+          _buildNutritionColumn(dailyNutrition.calories.toString(), 0.10),
+          _buildNutritionColumn(dailyNutrition.protein.toString(), 0.15),
+          _buildNutritionColumn(dailyNutrition.carbohydrates.toString(), 0.15),
+          _buildNutritionColumn(dailyNutrition.fat.toString(), 0.10),
+          const Flexible(child: SizedBox()),
+        ],
       ),
     );
   }

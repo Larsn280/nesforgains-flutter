@@ -11,4 +11,13 @@ class DailyNutrition {
   int? carbohydrates;
   int? fat;
   int? userId;
+
+  DailyNutrition({
+    this.date,
+    this.calories,
+    this.protein,
+    this.carbohydrates,
+    this.fat,
+    this.userId,
+  });
 }
