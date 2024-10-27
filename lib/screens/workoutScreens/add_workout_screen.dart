@@ -255,7 +255,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
               AppConstants.buildElevatedButton(
                   context: context,
                   path: '/displayworkoutScreen',
-                  text: 'View Workouts'),
+                  text: 'Display Workouts'),
               AppConstants.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
