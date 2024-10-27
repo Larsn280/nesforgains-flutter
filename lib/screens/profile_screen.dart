@@ -1,5 +1,4 @@
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/models/nutrition_data.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
