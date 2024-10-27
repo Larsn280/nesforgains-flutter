@@ -44,7 +44,8 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
     super.dispose();
   }
 
-  Future<void> _saveRecipe() async {
+  //TODO och Service
+  void _editRecipe() async {
     if (_formKey.currentState!.validate()) {
       try {
         // Create updated recipe object
@@ -55,18 +56,27 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
         );
 
         // Update the recipe in the database
-        await recipeService.updateRecipe(updatedRecipe);
+        final response = await recipeService.updateRecipe(updatedRecipe);
 
-        // Show success message and navigate back
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Recipe updated successfully')),
-        );
-        Navigator.pop(context);
+        if (response.checksuccess == true) {
+          if (mounted) {
+            Navigator.pop(context, true);
+          }
+        }
+
+        _showSnackBar(response.message);
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update recipe')),
-        );
+        _showSnackBar(
+            'An error occurred while editing the recipe. Please try again.');
       }
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
   }
 
@@ -99,11 +109,8 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                       isNumeric: true),
                   _buildTextField('Difficulty', _difficultyController),
                   const SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: _saveRecipe,
-                    child: const Text('Save'),
-                  ),
-                  const SizedBox(height: 8.0),
+                  AppConstants.buildElevatedFunctionButton(
+                      context: context, onPressed: _editRecipe, text: 'Save'),
                   AppConstants.buildElevatedFunctionButton(
                       context: context,
                       onPressed: () {

@@ -43,6 +43,30 @@ class RecipeService {
     }
   }
 
+  Future<ResponseData> deleteRecipe(Recipe recipe) async {
+    try {
+      final recipeToDelete = await _isar.recipes
+          .filter()
+          .idEqualTo(recipe.id)
+          .titleEqualTo(recipe.title)
+          .findFirst();
+
+      if (recipeToDelete != null) {
+        await _isar.writeTxn(() async {
+          await _isar.recipes.delete(recipeToDelete.id);
+        });
+        return ResponseData(
+            checksuccess: true, message: '${recipe.title} was deleted');
+      }
+      return ResponseData(
+          checksuccess: false,
+          message: 'Could not find ${recipe.title} to delete.');
+    } catch (e) {
+      return ResponseData(
+          checksuccess: false, message: 'Error trying to delete recipe: $e');
+    }
+  }
+
   Future<List<Recipe>> getAllRecipes() async {
     try {
       List<Recipe> recipes =
