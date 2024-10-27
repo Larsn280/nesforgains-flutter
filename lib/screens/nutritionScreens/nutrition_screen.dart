@@ -104,6 +104,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         setState(() {
           message = response.message;
           _textmessageColor = Colors.greenAccent;
+          _searchController.clear();
         });
       } else {
         setState(() {
@@ -111,10 +112,9 @@ class _NutritionScreenState extends State<NutritionScreen> {
           _textmessageColor = Colors.redAccent;
         });
       }
-      _searchController.clear();
       _fetchDailyIntake();
     } catch (e) {
-      logger.e('Error posting', error: e);
+      logger.e('Error puting:', error: e);
     }
   }
 
@@ -188,48 +188,38 @@ class _NutritionScreenState extends State<NutritionScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Nutrition Screen',
-                              style: AppConstants.headingStyle,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15.0),
-                        Card(
-                          color: Colors.black87,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 16.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Total calories today: $calories g',
-                                    style: AppConstants.subheadingStyle),
-                                const SizedBox(height: 10),
-                                Text('Protein: $proteine g',
-                                    style: AppConstants.subheadingStyle),
-                                Text('Carbohydrates: $carbohydrates g',
-                                    style: AppConstants.subheadingStyle),
-                                Text('Fat: $fat g',
-                                    style: AppConstants.subheadingStyle),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                  const SizedBox(
+                    height: 40.0,
+                  ),
+                  const Text(
+                    'Nutrition Screen',
+                    style: AppConstants.headingStyle,
+                  ),
+                  const SizedBox(height: 15.0),
+                  Card(
+                    color: Colors.black87,
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 16.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Total calories today: $calories g',
+                              style: AppConstants.subheadingStyle),
+                          const SizedBox(height: 10),
+                          Text('Protein: $proteine g',
+                              style: AppConstants.subheadingStyle),
+                          Text('Carbohydrates: $carbohydrates g',
+                              style: AppConstants.subheadingStyle),
+                          Text('Fat: $fat g',
+                              style: AppConstants.subheadingStyle),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(

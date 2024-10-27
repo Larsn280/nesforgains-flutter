@@ -155,9 +155,10 @@ class NutritionService {
         return ResponseData(checksuccess: false, message: 'Invalid input');
       }
 
-      // Set current date to remove dish from intake
+      final currentDate = DateTime.now();
+      // Set time components to 0
       final currentDay =
-          DateTime.now().toLocal(); // Time components set to 0 implicitly
+          DateTime(currentDate.year, currentDate.month, currentDate.day);
 
       // Attempt to fetch current daily nutrition for the user
       final currentDailyNutrition = await _isar.dailyNutritions
