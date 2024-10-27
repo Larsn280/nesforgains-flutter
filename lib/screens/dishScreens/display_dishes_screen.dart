@@ -47,75 +47,101 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
     }
   }
 
+  void _navigateToEditDish(NutritionData nutritionData) async {
+    try {
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditDishScreen(
+            nutritionData: nutritionData,
+            isar: widget.isar,
+          ),
+        ),
+      );
+      if (result == true) {
+        setState(() {
+          _handlefetchAllDishes();
+        });
+      }
+    } catch (e) {
+      logger.e('Error navigating:', error: e);
+      _showSnackBar(
+          'An error occurred while trying to navigate. Please try again.');
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16.0),
-        width: double.infinity,
-        height: double.infinity,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AppConstants.backgroundimage),
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Dishlist',
-                style: AppConstants.headingStyle,
-              ),
-              const SizedBox(height: 16.0),
-              Expanded(
-                child: FutureBuilder<List<NutritionData>>(
-                  future: _handlefetchAllDishes(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return _buildDishList([], 'Indicator');
-                    } else if (snapshot.hasError) {
-                      return _buildDishList([], 'Error loading dishes');
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return _buildDishList([], 'No dishes available');
-                    }
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 40.0,
+            ),
+            const Text(
+              'Dishlist',
+              style: AppConstants.headingStyle,
+            ),
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: FutureBuilder<List<NutritionData>>(
+                future: _handlefetchAllDishes(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return _buildDishList([], 'Indicator');
+                  } else if (snapshot.hasError) {
+                    return _buildDishList([], 'Error loading dishes');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return _buildDishList([], 'No dishes available');
+                  }
 
-                    final dishes = snapshot.data!;
-                    return _buildDishList(dishes, '');
-                  },
-                ),
+                  final dishes = snapshot.data!;
+                  return _buildDishList(dishes, '');
+                },
               ),
-              const SizedBox(height: 8.0),
-              AppConstants.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'Go back'),
-            ],
-          ),
+            ),
+            const SizedBox(height: 8.0),
+            AppConstants.buildElevatedFunctionButton(
+                context: context,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                text: 'Go back'),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildDishHeader() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          _buildDishColumnHeader('Name', 0.3),
-          _buildDishColumnHeader('Calories', 0.15),
-          _buildDishColumnHeader('Protein', 0.15),
-          _buildDishColumnHeader('Carbohydrates', 0.15),
-          _buildDishColumnHeader('Fat', 0.15),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.1,
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        _buildDishColumnHeader('Name', 0.15),
+        _buildDishColumnHeader('Cal', 0.10),
+        _buildDishColumnHeader('Protein', 0.15),
+        _buildDishColumnHeader('Carbs', 0.15),
+        _buildDishColumnHeader('Fat', 0.05),
+        const Flexible(child: SizedBox()),
+      ],
     );
   }
 
@@ -130,45 +156,32 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
   Widget _buildDishRow(NutritionData dish) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _buildDishColumn(dish.dish.toString(), 0.3),
-            _buildDishColumn(dish.calories.toString(), 0.15),
-            _buildDishColumn(dish.protein.toString(), 0.15),
-            _buildDishColumn(dish.carbohydrates.toString(), 0.15),
-            _buildDishColumn(dish.fat.toString(), 0.15),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.1,
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: Colors.greenAccent),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditDishScreen(
-                            isar: widget.isar,
-                            nutritionData: dish,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.redAccent),
-                    onPressed: () {
-                      _handleDeleteDish(
-                          dish.dish!, AuthProvider.of(context).id);
-                    },
-                  ),
-                ],
-              ),
+      child: Row(
+        children: [
+          _buildDishColumn(dish.dish.toString(), 0.15),
+          _buildDishColumn(dish.calories.toString(), 0.10),
+          _buildDishColumn(dish.protein.toString(), 0.15),
+          _buildDishColumn(dish.carbohydrates.toString(), 0.15),
+          _buildDishColumn(dish.fat.toString(), 0.05),
+          Flexible(
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.greenAccent),
+                  onPressed: () {
+                    _navigateToEditDish(dish);
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.redAccent),
+                  onPressed: () {
+                    _handleDeleteDish(dish.dish!, AuthProvider.of(context).id);
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
