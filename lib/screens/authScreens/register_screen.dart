@@ -16,6 +16,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   late RegisterService registerService;
 
@@ -34,14 +35,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _createNewUser() async {
     try {
-      String response = await registerService.createNewUser(
-          _emailController.text.toString(),
-          _passwordController.text.toString());
-      logger.i(response);
-      logger.i('Username: ${_emailController.text}');
-      logger.i('Password: ${_passwordController.text}');
+      if (_formKey.currentState!.validate()) {
+        String response = await registerService.createNewUser(
+            _emailController.text.toString(),
+            _passwordController.text.toString());
+        logger.i(response);
+        logger.i('Username: ${_emailController.text}');
+        logger.i('Password: ${_passwordController.text}');
+
+        _showSnackBar('${_emailController.text.toString()} was registered.');
+        if (response != '') {
+          if (mounted) {
+            Navigator.pop(context);
+          }
+        }
+      }
     } catch (e) {
       logger.w('Error creating user', error: e);
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
   }
 
@@ -57,36 +75,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
               image: AssetImage(AppConstants.backgroundimage),
               fit: BoxFit.cover),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Register Screen',
-              style: AppConstants.headingStyle,
-            ),
-            const SizedBox(height: 16.0),
-            Expanded(
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 40.0,
+              ),
+              const Text(
+                'Register Screen',
+                style: AppConstants.headingStyle,
+              ),
+              const SizedBox(height: 16.0),
+              Container(
                 decoration: BoxDecoration(
                     border: Border.all(width: 1.0, color: Colors.white)),
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
+                  key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextField(
+                      TextFormField(
                         controller: _emailController,
                         decoration: const InputDecoration(
                           labelText: 'Email',
-                          hintText: 'Enter you email',
+                          hintText: 'example@examplesson.com',
                           filled: true,
                           fillColor: Colors.black54,
                         ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter valid email';
+                          }
+                          if (!value.contains('@') || !value.contains('.')) {
+                            return 'Please enter valid email';
+                          }
+                          return null;
+                        },
+                        style: const TextStyle(color: Colors.white),
                       ),
                       const SizedBox(
                         height: 16.0,
                       ),
-                      TextField(
+                      TextFormField(
                         controller: _passwordController,
                         obscureText: true,
                         decoration: const InputDecoration(
@@ -95,24 +128,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           filled: true,
                           fillColor: Colors.black54,
                         ),
-                      )
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a password';
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 32.0,
-            ),
-            AppConstants.buildElevatedFunctionButton(
-                context: context, onPressed: _createNewUser, text: 'Register'),
-            AppConstants.buildElevatedFunctionButton(
-                context: context,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                text: 'Go back'),
-          ],
+              const SizedBox(
+                height: 32.0,
+              ),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: _createNewUser,
+                  text: 'Register'),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Go back'),
+            ],
+          ),
         ),
       ),
     );

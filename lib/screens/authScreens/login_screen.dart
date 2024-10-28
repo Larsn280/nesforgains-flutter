@@ -1,3 +1,4 @@
+import 'package:http/retry.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/login_service.dart';
@@ -17,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   late LoginService loginService;
 
@@ -35,14 +37,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _loginUser() async {
     try {
-      final response = await loginService.loginUser(
-          _usernameController.text.toString(),
-          _passwordController.text.toString());
-      if (response.username != '') {
-        // Håll koll på.
-        if (mounted) {
-          AuthProvider.of(context)
-              .login(response.id, response.username.toString());
+      if (_formKey.currentState!.validate()) {
+        final response = await loginService.loginUser(
+            _usernameController.text.toString(),
+            _passwordController.text.toString());
+        if (response.username != '') {
+          // Håll koll på.
+          if (mounted) {
+            AuthProvider.of(context)
+                .login(response.id, response.username.toString());
+          }
         }
       }
     } catch (e) {
@@ -63,60 +67,80 @@ class _LoginScreenState extends State<LoginScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Login Screen',
-              style: AppConstants.headingStyle,
-            ),
-            const SizedBox(height: 16.0),
-            SingleChildScrollView(
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 40.0,
+              ),
+              const Text(
+                'Login Screen',
+                style: AppConstants.headingStyle,
+              ),
+              const SizedBox(height: 16.0),
+              Container(
                 decoration: BoxDecoration(
                     border: Border.all(width: 1.0, color: Colors.white)),
                 padding: const EdgeInsets.all(25.0),
                 child: Form(
+                  key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextField(
+                      TextFormField(
                         key: const ValueKey('username'),
                         controller: _usernameController,
                         decoration: const InputDecoration(
                           labelText: 'Username',
-                          hintText: 'Enter your username',
+                          hintText: 'eg: exemple@example.com',
                           filled: true,
                           fillColor: Colors.black54,
                         ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter valid username.';
+                          }
+                          return null;
+                        },
+                        style: const TextStyle(color: Colors.white),
                       ),
                       const SizedBox(
                         height: 16.0,
                       ),
-                      TextField(
+                      TextFormField(
                         key: const ValueKey('password'),
                         controller: _passwordController,
                         obscureText: true,
                         decoration: const InputDecoration(
                           labelText: 'Password',
-                          hintText: 'Enter your password',
+                          hintText: 'password',
                           filled: true,
                           fillColor: Colors.black54,
                         ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter password.';
+                          }
+                          return null;
+                        },
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 32.0,
-            ),
-            AppConstants.buildElevatedFunctionButton(
-                context: context, onPressed: _loginUser, text: 'Login'),
-            AppConstants.buildElevatedButton(
-                context: context, path: '/registerScreen', text: 'Register'),
-          ],
+              const SizedBox(
+                height: 32.0,
+              ),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context, onPressed: _loginUser, text: 'Login'),
+              AppConstants.buildElevatedButton(
+                  context: context, path: '/registerScreen', text: 'Register'),
+            ],
+          ),
         ),
       ),
     );

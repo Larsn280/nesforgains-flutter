@@ -8,6 +8,10 @@ flutter pub run build_runner build
 flutter pub get
 flutter pub upgrade --major-versions
 
+# Builds a installation apk
+
+flutter build apk --release
+
 # Git cli commands:
 
 git clone <repository_url>
