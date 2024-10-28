@@ -9,12 +9,16 @@ class AppConstants {
     fontWeight: FontWeight.bold,
     fontSize: 26.0,
     // color: Colors.black87,
-    color: Colors.red,
+    color: Colors.white,
   );
   static const TextStyle subheadingStyle = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 20.0,
     color: Colors.green,
+  );
+
+  static const ButtonStyle buttonTextColor = ButtonStyle(
+    foregroundColor: WidgetStatePropertyAll<Color>(Colors.black),
   );
 
   static Widget buildElevatedButton(
@@ -27,6 +31,7 @@ class AppConstants {
         onPressed: () {
           Navigator.pushNamed(context, path);
         },
+        style: buttonTextColor,
         child: Text(text),
       ),
     );
@@ -43,6 +48,7 @@ class AppConstants {
         onPressed: () {
           onPressed();
         },
+        style: buttonTextColor,
         child: Text(text),
       ),
     );

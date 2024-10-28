@@ -74,61 +74,68 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 40.0,
               ),
-              const Text(
-                'Login Screen',
-                style: AppConstants.headingStyle,
-              ),
-              const SizedBox(height: 16.0),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1.0, color: Colors.white)),
-                padding: const EdgeInsets.all(25.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextFormField(
-                        key: const ValueKey('username'),
-                        controller: _usernameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Username',
-                          hintText: 'eg: exemple@example.com',
-                          filled: true,
-                          fillColor: Colors.black54,
+              Card(
+                color: Colors.black54,
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Login Screen',
+                          style: AppConstants.headingStyle,
                         ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter valid username.';
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
-                      TextFormField(
-                        key: const ValueKey('password'),
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
-                          hintText: 'password',
-                          filled: true,
-                          fillColor: Colors.black54,
+                        const SizedBox(height: 16.0),
+                        TextFormField(
+                          key: const ValueKey('username'),
+                          controller: _usernameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Username',
+                            hintText: 'exemple@example.com',
+                            filled: true,
+                            fillColor: Colors.black45,
+                            prefixIcon: Icon(Icons.person, color: Colors.white),
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter valid username.';
+                            }
+                            return null;
+                          },
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter password.';
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        TextFormField(
+                          key: const ValueKey('password'),
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            labelText: 'Password',
+                            hintText: 'password',
+                            filled: true,
+                            fillColor: Colors.black45,
+                            prefixIcon: Icon(Icons.lock, color: Colors.white),
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter password.';
+                            }
+                            return null;
+                          },
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
