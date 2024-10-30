@@ -139,6 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (value == null || value.isEmpty) {
                               return 'Please enter a password';
                             }
+                            return null;
                           },
                         ),
                       ],

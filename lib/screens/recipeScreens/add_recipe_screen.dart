@@ -103,120 +103,127 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 40.0),
-              const Text(
-                'Add new recipe',
-                style: AppConstants.headingStyle,
+              const SizedBox(
+                height: 40.0,
               ),
-              const SizedBox(height: 16.0),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1.0, color: Colors.white)),
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Title Input
-                      TextFormField(
-                        controller: _titleController,
-                        decoration: const InputDecoration(
-                          labelText: 'Recipe Title',
-                          filled: true,
-                          fillColor: Colors.black54,
+              Card(
+                color: Colors.black54,
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Add new recipe',
+                          style: AppConstants.headingStyle,
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the recipe title';
-                          }
-                          return null;
-                        },
-                      ),
+                        const SizedBox(height: 16.0),
+                        // Title Input
+                        TextFormField(
+                          controller: _titleController,
+                          decoration: const InputDecoration(
+                            labelText: 'Recipe Title',
+                            filled: true,
+                            fillColor: Colors.black54,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter the recipe title';
+                            }
+                            return null;
+                          },
+                        ),
 
-                      // Description Input
-                      TextFormField(
-                        controller: _descriptionController,
-                        decoration: const InputDecoration(
-                          labelText: 'Description',
-                          filled: true,
-                          fillColor: Colors.black54,
+                        // Description Input
+                        TextFormField(
+                          controller: _descriptionController,
+                          decoration: const InputDecoration(
+                            labelText: 'Description',
+                            filled: true,
+                            fillColor: Colors.black54,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a description';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a description';
-                          }
-                          return null;
-                        },
-                      ),
 
-                      // Duration Input
-                      TextFormField(
-                        controller: _durationController,
-                        decoration: const InputDecoration(
-                          labelText: 'Duration (in minutes)',
-                          filled: true,
-                          fillColor: Colors.black54,
+                        // Duration Input
+                        TextFormField(
+                          controller: _durationController,
+                          decoration: const InputDecoration(
+                            labelText: 'Duration (in minutes)',
+                            filled: true,
+                            fillColor: Colors.black54,
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter the duration';
+                            } else if (int.tryParse(value) == null) {
+                              return 'Please enter a valid number';
+                            }
+                            return null;
+                          },
                         ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the duration';
-                          } else if (int.tryParse(value) == null) {
-                            return 'Please enter a valid number';
-                          }
-                          return null;
-                        },
-                      ),
 
-                      // Difficulty Input
-                      TextFormField(
-                        controller: _difficultyController,
-                        decoration: const InputDecoration(
-                          labelText: 'Difficulty',
-                          filled: true,
-                          fillColor: Colors.black54,
+                        // Difficulty Input
+                        TextFormField(
+                          controller: _difficultyController,
+                          decoration: const InputDecoration(
+                            labelText: 'Difficulty',
+                            filled: true,
+                            fillColor: Colors.black54,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter the difficulty';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the difficulty';
-                          }
-                          return null;
-                        },
-                      ),
 
-                      // Ingredients Input
-                      TextFormField(
-                        controller: _ingredientsController,
-                        decoration: const InputDecoration(
-                          labelText: 'Ingredients (comma separated)',
-                          filled: true,
-                          fillColor: Colors.black54,
+                        // Ingredients Input
+                        TextFormField(
+                          controller: _ingredientsController,
+                          decoration: const InputDecoration(
+                            labelText: 'Ingredients (comma separated)',
+                            filled: true,
+                            fillColor: Colors.black54,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter at least one ingredient';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter at least one ingredient';
-                          }
-                          return null;
-                        },
-                      ),
 
-                      // Steps Input
-                      TextFormField(
-                        controller: _stepsController,
-                        decoration: const InputDecoration(
-                          labelText: 'Steps (period separated)',
-                          filled: true,
-                          fillColor: Colors.black54,
+                        // Steps Input
+                        TextFormField(
+                          controller: _stepsController,
+                          decoration: const InputDecoration(
+                            labelText: 'Steps (period separated)',
+                            filled: true,
+                            fillColor: Colors.black54,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter the steps';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the steps';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

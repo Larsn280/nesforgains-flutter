@@ -66,12 +66,12 @@ void main() {
 
       final retrievedDishes = await dishserviceTest.fetchAllDishesById(2);
 
-      expect(retrievedDishes?.length, 1);
-      expect(retrievedDishes?[0].dish, "DishTwo");
-      expect(retrievedDishes?[0].calories, 20);
-      expect(retrievedDishes?[0].protein, 100);
-      expect(retrievedDishes?[0].carbohydrates, 50);
-      expect(retrievedDishes?[0].fat, 20);
+      expect(retrievedDishes.length, 1);
+      expect(retrievedDishes[0].dish, "DishTwo");
+      expect(retrievedDishes[0].calories, 20);
+      expect(retrievedDishes[0].protein, 100);
+      expect(retrievedDishes[0].carbohydrates, 50);
+      expect(retrievedDishes[0].fat, 20);
 
       await isarTest.writeTxn(() async {
         await isarTest.dishs.clear();
@@ -82,7 +82,7 @@ void main() {
         () async {
       final retrievedDishes = await dishserviceTest.fetchAllDishesById(4);
 
-      expect(retrievedDishes?.length, 0);
+      expect(retrievedDishes.length, 0);
     });
 
     test("getAllDishesById handles null fields correctly", () async {
@@ -92,12 +92,12 @@ void main() {
 
       final retrievedDishes = await dishserviceTest.fetchAllDishesById(2);
 
-      expect(retrievedDishes?.length, 1);
-      expect(retrievedDishes?[0].dish, "Dish Null Fields");
-      expect(retrievedDishes?[0].calories, 0);
-      expect(retrievedDishes?[0].protein, 0);
-      expect(retrievedDishes?[0].carbohydrates, 0);
-      expect(retrievedDishes?[0].fat, 0);
+      expect(retrievedDishes.length, 1);
+      expect(retrievedDishes[0].dish, "Dish Null Fields");
+      expect(retrievedDishes[0].calories, 0);
+      expect(retrievedDishes[0].protein, 0);
+      expect(retrievedDishes[0].carbohydrates, 0);
+      expect(retrievedDishes[0].fat, 0);
 
       await isarTest.writeTxn(() async {
         await isarTest.dishs.clear();
@@ -120,7 +120,7 @@ void main() {
 
       final retrievedDishes = await dishserviceTest.fetchAllDishesById(2);
 
-      expect(retrievedDishes?.length, 100);
+      expect(retrievedDishes.length, 100);
 
       await isarTest.writeTxn(() async {
         await isarTest.dishs.clear();

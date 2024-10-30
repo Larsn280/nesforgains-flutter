@@ -1,4 +1,3 @@
-import 'package:http/retry.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/login_service.dart';
