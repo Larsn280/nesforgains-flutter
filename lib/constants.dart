@@ -63,9 +63,10 @@ class AppConstants {
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: Colors.white, width: 1.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(30.0),
           child: child,
         ));
   }

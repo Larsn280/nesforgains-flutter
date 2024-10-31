@@ -81,68 +81,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(
                 height: 40.0,
               ),
-              Card(
-                color: Colors.black54,
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Register Screen',
-                          style: AppConstants.headingStyle,
+              AppConstants.buildFormCard(
+                context: context,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Register Screen',
+                        style: AppConstants.headingStyle,
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          hintText: 'example@examplesson.com',
+                          filled: true,
+                          fillColor: Colors.black54,
+                          prefixIcon: Icon(Icons.mail, color: Colors.white),
                         ),
-                        const SizedBox(height: 16.0),
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            hintText: 'example@examplesson.com',
-                            filled: true,
-                            fillColor: Colors.black54,
-                            prefixIcon: Icon(Icons.mail, color: Colors.white),
-                          ),
-                          keyboardType: TextInputType.text,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter valid email';
-                            }
-                            if (!value.contains('@') || !value.contains('.')) {
-                              return 'Please enter valid email';
-                            }
-                            return null;
-                          },
-                          style: const TextStyle(color: Colors.white),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter valid email';
+                          }
+                          if (!value.contains('@') || !value.contains('.')) {
+                            return 'Please enter valid email';
+                          }
+                          return null;
+                        },
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          hintText: 'Enter yout password',
+                          filled: true,
+                          fillColor: Colors.black54,
+                          prefixIcon: Icon(Icons.lock, color: Colors.white),
                         ),
-                        const SizedBox(
-                          height: 16.0,
-                        ),
-                        TextFormField(
-                          controller: _passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            labelText: 'Password',
-                            hintText: 'Enter yout password',
-                            filled: true,
-                            fillColor: Colors.black54,
-                            prefixIcon: Icon(Icons.lock, color: Colors.white),
-                          ),
-                          keyboardType: TextInputType.text,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a password';
-                            }
-                            return null;
-                          },
-                        ),
-                      ],
-                    ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a password';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),

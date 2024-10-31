@@ -96,29 +96,22 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
           child: Column(
             children: [
               const SizedBox(height: 40),
-              Card(
-                color: Colors.black54,
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Edit Recipe',
-                          style: AppConstants.headingStyle,
-                        ),
-                        const SizedBox(height: 16.0),
-                        _buildTextField('Title', _titleController),
-                        _buildTextField('Duration (mins)', _durationController,
-                            isNumeric: true),
-                        _buildTextField('Difficulty', _difficultyController),
-                      ],
-                    ),
+              AppConstants.buildFormCard(
+                context: context,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Edit Recipe',
+                        style: AppConstants.headingStyle,
+                      ),
+                      const SizedBox(height: 16.0),
+                      _buildTextField('Title', _titleController),
+                      _buildTextField('Duration (mins)', _durationController,
+                          isNumeric: true),
+                      _buildTextField('Difficulty', _difficultyController),
+                    ],
                   ),
                 ),
               ),

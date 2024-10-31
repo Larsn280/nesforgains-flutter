@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:nes_for_gains/app.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/logger.dart';

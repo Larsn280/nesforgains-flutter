@@ -33,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 elevation: 4,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
+                  side: const BorderSide(color: Colors.white, width: 1.0),
                 ),
                 margin: const EdgeInsets.symmetric(
                     vertical: 10.0, horizontal: 16.0),
