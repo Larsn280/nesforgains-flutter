@@ -218,15 +218,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
                   const SizedBox(
                     height: 18.0,
                   ),
-                  // message.isNotEmpty
-                  //     ? Text(
-                  //         message,
-                  //         style: TextStyle(color: _textmessageColor),
-                  //       )
-                  //     : Container(),
-                  // const SizedBox(
-                  //   height: 8.0,
-                  // ),
                   AppConstants.buildFormCard(
                     context: context,
                     child: Column(
@@ -234,7 +225,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
                         TextField(
                           controller: _searchController,
                           decoration: const InputDecoration(
-                            labelText: 'Dish',
                             hintText: 'Enter dish',
                           ),
                         ),
@@ -301,7 +291,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                 Positioned(
                   left: 0,
                   right: 0,
-                  top: 302, // Adjust this value based on your layout
+                  top: 300, // Adjust this value based on your layout
                   child:
                       _searchdropdown(_filteredDishes, _setsearchcontollertext),
                 ),
@@ -315,6 +305,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
 
 Widget _searchdropdown(List<String> items, void Function(String) ontap) {
   return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 18.0),
     constraints: const BoxConstraints(maxHeight: 200),
     color: Colors.white.withOpacity(0.9),
     child: SingleChildScrollView(
@@ -327,9 +318,10 @@ Widget _searchdropdown(List<String> items, void Function(String) ontap) {
               ontap(item);
             },
             child: Container(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               color: const Color.fromARGB(255, 17, 17, 17),
-              child: Text(item, style: const TextStyle(color: Colors.white)),
+              child: Text(item,
+                  style: const TextStyle(color: Colors.white, fontSize: 16.0)),
             ),
           );
         }).toList(),
