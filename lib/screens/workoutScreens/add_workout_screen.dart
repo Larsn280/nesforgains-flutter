@@ -111,24 +111,20 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
         ),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 40.0),
-              const Text(
-                'Log Workout',
-                style: AppConstants.headingStyle,
-              ),
-              const SizedBox(height: 16.0),
-
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1.0, color: Colors.white)),
-                padding: const EdgeInsets.all(16.0),
+              AppConstants.buildFormCard(
+                context: context,
                 child: Form(
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const Text(
+                        'Log Workout',
+                        style: AppConstants.headingStyle,
+                      ),
+                      const SizedBox(height: 16.0),
                       // Date Picker
                       Row(
                         children: [

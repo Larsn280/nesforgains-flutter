@@ -98,20 +98,17 @@ class _AddDishScreenState extends State<AddDishScreen> {
           child: Column(
             children: [
               const SizedBox(height: 40.0),
-              const Text(
-                'Add dish',
-                style: AppConstants.headingStyle,
-              ),
-              const SizedBox(height: 16.0),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1.0, color: Colors.white)),
-                padding: const EdgeInsets.all(16.0),
+              AppConstants.buildFormCard(
+                context: context,
                 child: Form(
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const Text(
+                        'Add dish',
+                        style: AppConstants.headingStyle,
+                      ),
                       const SizedBox(height: 16.0),
                       TextFormField(
                         controller: _nameController,

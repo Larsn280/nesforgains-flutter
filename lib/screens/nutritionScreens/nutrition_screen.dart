@@ -186,96 +186,97 @@ class _NutritionScreenState extends State<NutritionScreen> {
           child: Stack(
             children: [
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(
                     height: 40.0,
                   ),
-                  const Text(
-                    'Nutrition Screen',
-                    style: AppConstants.headingStyle,
-                  ),
-                  const SizedBox(height: 15.0),
-                  Card(
-                    color: Colors.black87,
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 16.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Total calories today: $calories g',
-                              style: AppConstants.subheadingStyle),
-                          const SizedBox(height: 10),
-                          Text('Protein: $proteine g',
-                              style: AppConstants.subheadingStyle),
-                          Text('Carbohydrates: $carbohydrates g',
-                              style: AppConstants.subheadingStyle),
-                          Text('Fat: $fat g',
-                              style: AppConstants.subheadingStyle),
-                        ],
-                      ),
+                  AppConstants.buildFormCard(
+                    context: context,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Nutrition Screen',
+                            style: AppConstants.headingStyle,
+                          ),
+                        ),
+                        const SizedBox(height: 15.0),
+                        Text('Total calories today: $calories g',
+                            style: AppConstants.subheadingStyle),
+                        const SizedBox(height: 10),
+                        Text('Protein: $proteine g',
+                            style: AppConstants.subheadingStyle),
+                        Text('Carbohydrates: $carbohydrates g',
+                            style: AppConstants.subheadingStyle),
+                        Text('Fat: $fat g',
+                            style: AppConstants.subheadingStyle),
+                      ],
                     ),
                   ),
                   const SizedBox(
                     height: 18.0,
                   ),
-                  message.isNotEmpty
-                      ? Text(
-                          message,
-                          style: TextStyle(color: _textmessageColor),
-                        )
-                      : Container(),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
-                  TextField(
-                    controller: _searchController,
-                    decoration: const InputDecoration(
-                      labelText: 'Dish',
-                      hintText: 'Enter dish',
+                  // message.isNotEmpty
+                  //     ? Text(
+                  //         message,
+                  //         style: TextStyle(color: _textmessageColor),
+                  //       )
+                  //     : Container(),
+                  // const SizedBox(
+                  //   height: 8.0,
+                  // ),
+                  AppConstants.buildFormCard(
+                    context: context,
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: _searchController,
+                          decoration: const InputDecoration(
+                            labelText: 'Dish',
+                            hintText: 'Enter dish',
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 12.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 45.0,
+                              height: 45.0,
+                              child: FloatingActionButton(
+                                heroTag: 'floatButtonOne',
+                                onPressed: () {
+                                  // Define the action to be taken when the button is pressed
+                                  _postDailyDish(_searchController.text);
+                                },
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.green,
+                                child: const Icon(Icons.add),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 45.0,
+                              height: 45.0,
+                              child: FloatingActionButton(
+                                heroTag: 'floatButtonTwo',
+                                onPressed: () {
+                                  _putDailyDish(_searchController.text);
+                                },
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.red,
+                                child: const Icon(Icons.remove),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 12.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 45.0,
-                        height: 45.0,
-                        child: FloatingActionButton(
-                          heroTag: 'floatButtonOne',
-                          onPressed: () {
-                            // Define the action to be taken when the button is pressed
-                            _postDailyDish(_searchController.text);
-                          },
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          child: const Icon(Icons.add),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 45.0,
-                        height: 45.0,
-                        child: FloatingActionButton(
-                          heroTag: 'floatButtonTwo',
-                          onPressed: () {
-                            _putDailyDish(_searchController.text);
-                          },
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.red,
-                          child: const Icon(Icons.remove),
-                        ),
-                      ),
-                    ],
-                  ),
+                  const SizedBox(height: 20.0),
                   AppConstants.buildElevatedFunctionButton(
                       context: context,
                       onPressed: _navigatetoadd,

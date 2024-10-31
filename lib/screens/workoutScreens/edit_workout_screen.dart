@@ -94,8 +94,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16.0),
-        width: double.infinity,
-        height: double.infinity,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AppConstants.backgroundimage),
@@ -104,42 +104,43 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         ),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 40.0,
               ),
-              const Text(
-                'Edit Workout',
-                style: AppConstants.headingStyle,
-              ),
-              const SizedBox(height: 16.0),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    _buildTextField(
-                        'Exercise (eg: Benchpress)', _exerciseController),
-                    _buildTextField('Date (YYYY-MM-DD)', _dateController),
-                    _buildTextField('Reps', _repsController, isNumeric: true),
-                    _buildTextField('Sets', _setsController, isNumeric: true),
-                    _buildTextField('Weight (kg)', _kgController,
-                        isNumeric: true),
-                    const SizedBox(height: 16.0),
-                    AppConstants.buildElevatedFunctionButton(
-                        context: context,
-                        onPressed: _handleEditWorkout,
-                        text: 'Save'),
-                    const SizedBox(height: 8.0),
-                    AppConstants.buildElevatedFunctionButton(
-                        context: context,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        text: 'Cancle'),
-                  ],
+              AppConstants.buildFormCard(
+                context: context,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Edit Workout',
+                        style: AppConstants.headingStyle,
+                      ),
+                      const SizedBox(height: 16.0),
+                      _buildTextField(
+                          'Exercise (eg: Benchpress)', _exerciseController),
+                      _buildTextField('Date (YYYY-MM-DD)', _dateController),
+                      _buildTextField('Reps', _repsController, isNumeric: true),
+                      _buildTextField('Sets', _setsController, isNumeric: true),
+                      _buildTextField('Weight (kg)', _kgController,
+                          isNumeric: true),
+                    ],
+                  ),
                 ),
               ),
+              const SizedBox(height: 16.0),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: _handleEditWorkout,
+                  text: 'Save'),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Cancle'),
             ],
           ),
         ),

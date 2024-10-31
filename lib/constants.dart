@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class AppConstants {
   static const Color primaryColor = Colors.green;
@@ -52,5 +54,21 @@ class AppConstants {
         child: Text(text),
       ),
     );
+  }
+
+  static Widget buildFormCard({
+    required BuildContext context,
+    required Widget child,
+  }) {
+    return Card(
+        color: Colors.black54,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: child,
+        ));
   }
 }

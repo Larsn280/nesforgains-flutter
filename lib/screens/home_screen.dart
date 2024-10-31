@@ -26,14 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 40.0),
-              const Text(
-                'NESForGains!',
-                style: AppConstants.headingStyle,
-              ),
-              const SizedBox(height: 20.0),
               Card(
                 color: Colors.black54,
                 elevation: 4,
@@ -47,6 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text(
+                        'NESForGains!',
+                        style: AppConstants.headingStyle,
+                      ),
+                      SizedBox(height: 20.0),
                       Text('Welcome to NESForGains!',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       SizedBox(height: 8.0),

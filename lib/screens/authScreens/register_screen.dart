@@ -77,7 +77,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 40.0,

@@ -92,35 +92,47 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
               image: AssetImage(AppConstants.backgroundimage),
               fit: BoxFit.cover),
         ),
-        child: Column(
-          children: [
-            const SizedBox(height: 32),
-            const Text(
-              'Edit Recipe',
-              style: AppConstants.headingStyle,
-            ),
-            const SizedBox(height: 16.0),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  _buildTextField('Title', _titleController),
-                  _buildTextField('Duration (mins)', _durationController,
-                      isNumeric: true),
-                  _buildTextField('Difficulty', _difficultyController),
-                  const SizedBox(height: 16.0),
-                  AppConstants.buildElevatedFunctionButton(
-                      context: context, onPressed: _editRecipe, text: 'Save'),
-                  AppConstants.buildElevatedFunctionButton(
-                      context: context,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      text: 'Cancle'),
-                ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
+              Card(
+                color: Colors.black54,
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Edit Recipe',
+                          style: AppConstants.headingStyle,
+                        ),
+                        const SizedBox(height: 16.0),
+                        _buildTextField('Title', _titleController),
+                        _buildTextField('Duration (mins)', _durationController,
+                            isNumeric: true),
+                        _buildTextField('Difficulty', _difficultyController),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 16.0),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context, onPressed: _editRecipe, text: 'Save'),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Cancle'),
+            ],
+          ),
         ),
       ),
     );

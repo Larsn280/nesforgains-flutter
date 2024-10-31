@@ -113,96 +113,100 @@ class _EditDishScreenState extends State<EditDishScreen> {
               const SizedBox(
                 height: 40.0,
               ),
-              const Text(
-                'Edit Dish',
-                style: AppConstants.headingStyle,
-              ),
-              const SizedBox(height: 16.0),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(labelText: 'Name'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a name';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _calorieController,
-                      decoration: const InputDecoration(labelText: 'Calories'),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the number of calories';
-                        }
-                        if (int.tryParse(value) == null) {
-                          return 'Please enter a valid number';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _proteinController,
-                      decoration: const InputDecoration(labelText: 'Protein'),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the number of protein';
-                        }
-                        if (int.tryParse(value) == null) {
-                          return 'Please enter a valid number';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _carbController,
-                      decoration:
-                          const InputDecoration(labelText: 'Carbohydrates'),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the number of carbohydrates';
-                        }
-                        if (int.tryParse(value) == null) {
-                          return 'Please enter a valid number';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _fatController,
-                      decoration: const InputDecoration(labelText: 'Fat'),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the number of fat';
-                        }
-                        if (int.tryParse(value) == null) {
-                          return 'Please enter a valid number';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    AppConstants.buildElevatedFunctionButton(
-                        context: context, onPressed: _editDish, text: 'Save'),
-                    AppConstants.buildElevatedFunctionButton(
-                        context: context,
-                        onPressed: () {
-                          Navigator.pop(context);
+              AppConstants.buildFormCard(
+                context: context,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Edit Dish',
+                        style: AppConstants.headingStyle,
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(labelText: 'Name'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a name';
+                          }
+                          return null;
                         },
-                        text: 'Cancle'),
-                  ],
+                      ),
+                      TextFormField(
+                        controller: _calorieController,
+                        decoration:
+                            const InputDecoration(labelText: 'Calories'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the number of calories';
+                          }
+                          if (int.tryParse(value) == null) {
+                            return 'Please enter a valid number';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _proteinController,
+                        decoration: const InputDecoration(labelText: 'Protein'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the number of protein';
+                          }
+                          if (int.tryParse(value) == null) {
+                            return 'Please enter a valid number';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _carbController,
+                        decoration:
+                            const InputDecoration(labelText: 'Carbohydrates'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the number of carbohydrates';
+                          }
+                          if (int.tryParse(value) == null) {
+                            return 'Please enter a valid number';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _fatController,
+                        decoration: const InputDecoration(labelText: 'Fat'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the number of fat';
+                          }
+                          if (int.tryParse(value) == null) {
+                            return 'Please enter a valid number';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context, onPressed: _editDish, text: 'Save'),
+              AppConstants.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Cancle'),
             ],
           ),
         ),
