@@ -253,8 +253,8 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                   // Define the action to be taken when the button is pressed
                                   _postDailyDish(_searchController.text);
                                 },
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.green,
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.black,
                                 child: const Icon(Icons.add),
                               ),
                             ),
@@ -266,8 +266,8 @@ class _NutritionScreenState extends State<NutritionScreen> {
                                 onPressed: () {
                                   _putDailyDish(_searchController.text);
                                 },
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.red,
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.black,
                                 child: const Icon(Icons.remove),
                               ),
                             ),
