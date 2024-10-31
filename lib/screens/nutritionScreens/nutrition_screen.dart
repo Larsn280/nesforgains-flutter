@@ -212,20 +212,15 @@ class _NutritionScreenState extends State<NutritionScreen> {
                             style: AppConstants.subheadingStyle),
                         Text('Fat: $fat g',
                             style: AppConstants.subheadingStyle),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 18.0,
-                  ),
-                  AppConstants.buildFormCard(
-                    context: context,
-                    child: Column(
-                      children: [
+                        const SizedBox(
+                          height: 16.0,
+                        ),
                         TextField(
                           controller: _searchController,
                           decoration: const InputDecoration(
                             hintText: 'Enter dish',
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 6.0),
                           ),
                         ),
                         const SizedBox(
@@ -291,7 +286,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                 Positioned(
                   left: 0,
                   right: 0,
-                  top: 300, // Adjust this value based on your layout
+                  top: 320, // Adjust this value based on your layout
                   child:
                       _searchdropdown(_filteredDishes, _setsearchcontollertext),
                 ),
@@ -305,7 +300,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
 
 Widget _searchdropdown(List<String> items, void Function(String) ontap) {
   return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 18.0),
+    margin: const EdgeInsets.symmetric(horizontal: 32.0),
     constraints: const BoxConstraints(maxHeight: 200),
     color: Colors.white.withOpacity(0.9),
     child: SingleChildScrollView(
@@ -318,7 +313,8 @@ Widget _searchdropdown(List<String> items, void Function(String) ontap) {
               ontap(item);
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
               color: const Color.fromARGB(255, 17, 17, 17),
               child: Text(item,
                   style: const TextStyle(color: Colors.white, fontSize: 16.0)),

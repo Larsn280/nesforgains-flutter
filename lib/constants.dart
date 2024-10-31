@@ -14,7 +14,7 @@ class AppConstants {
   static const TextStyle subheadingStyle = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 20.0,
-    color: Colors.green,
+    color: Colors.white,
   );
 
   static const ButtonStyle buttonTextColor = ButtonStyle(
