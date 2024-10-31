@@ -214,14 +214,8 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   }
 
   Widget _buildTrainingList(List<WorkoutData> logs, String message) {
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1.0,
-          color: AppConstants.primaryTextColor,
-        ),
-      ),
+    return AppConstants.buildListCard(
+      context: context,
       child: Column(
         children: [
           _buildTrainingHeader(),

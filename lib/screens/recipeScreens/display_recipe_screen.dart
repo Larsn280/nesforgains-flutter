@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:nes_for_gains/app.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/logger.dart';
@@ -129,14 +130,8 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
   }
 
   Widget _buildRecipeList(List<Recipe> recipes, String message) {
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1.0,
-          color: AppConstants.primaryTextColor,
-        ),
-      ),
+    return AppConstants.buildListCard(
+      context: context,
       child: Column(
         children: [
           Expanded(
