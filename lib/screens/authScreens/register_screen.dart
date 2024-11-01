@@ -5,6 +5,7 @@ import 'package:nes_for_gains/constants.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Isar isar;
@@ -45,7 +46,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         logger.i('Username: ${_emailController.text}');
         logger.i('Password: ${_passwordController.text}');
 
-        _showSnackBar('${_emailController.text.toString()} was registered.');
+        CustomSnackbar.showSnackBar(
+            message: '${_emailController.text.toString()} was registered.');
         if (response != '') {
           if (mounted) {
             Navigator.pop(context);
@@ -54,14 +56,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     } catch (e) {
       logger.w('Error creating user', error: e);
-    }
-  }
-
-  void _showSnackBar(String message) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
     }
   }
 

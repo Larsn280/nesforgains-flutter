@@ -7,6 +7,7 @@ import 'package:nes_for_gains/screens/workoutScreens/display_workout_screen.dart
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'screens/home_screen.dart';
@@ -25,6 +26,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return AuthProvider(
       child: MaterialApp(
+        scaffoldMessengerKey: scaffoldMessengerKey,
         title: 'NESForGains',
         theme: ThemeData(
           colorScheme:

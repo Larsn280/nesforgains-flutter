@@ -6,6 +6,7 @@ import 'package:nes_for_gains/models/recipe_data.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class EditRecipeScreen extends StatefulWidget {
   final Isar isar;
@@ -65,20 +66,12 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
             Navigator.pop(context, true);
           }
         }
-
-        _showSnackBar(response.message);
+        CustomSnackbar.showSnackBar(message: response.message);
       } catch (e) {
-        _showSnackBar(
-            'An error occurred while editing the recipe. Please try again.');
+        CustomSnackbar.showSnackBar(
+            message:
+                'An error occurred while editing the recipe. Please try again.');
       }
-    }
-  }
-
-  void _showSnackBar(String message) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
     }
   }
 

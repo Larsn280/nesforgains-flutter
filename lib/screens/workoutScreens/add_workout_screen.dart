@@ -8,6 +8,7 @@ import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class AddWorkoutScreen extends StatefulWidget {
   final Isar isar;
@@ -77,25 +78,19 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
           responseMessage = response.message;
         });
 
-        _showSnackBar(responseMessage);
+        CustomSnackbar.showSnackBar(message: responseMessage);
       } else {
         setState(() {
           responseMessage = 'Please fill in all fields';
         });
-        _showSnackBar(responseMessage);
+
+        CustomSnackbar.showSnackBar(message: responseMessage);
       }
     } catch (e) {
       logger.e('Error adding workout', error: e);
-      _showSnackBar(
-          'An error occurred while adding the workout. Please try again.');
-    }
-  }
-
-  void _showSnackBar(String message) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while adding the workout. Please try again.');
     }
   }
 

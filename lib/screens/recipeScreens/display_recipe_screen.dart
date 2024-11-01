@@ -7,6 +7,7 @@ import 'package:nes_for_gains/screens/recipeScreens/edit_recipe_screen.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class DisplayRecipeScreen extends StatefulWidget {
   final Isar isar;
@@ -64,16 +65,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
       }
     } catch (e) {
       logger.e('Error navigating:', error: e);
-      _showSnackBar(
-          'An error occurred while trying to navigate. Please try again.');
-    }
-  }
-
-  void _showSnackBar(String message) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while trying to navigate. Please try again.');
     }
   }
 

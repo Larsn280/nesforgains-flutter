@@ -8,6 +8,7 @@ import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class DisplayWorkoutScreen extends StatefulWidget {
   final Isar isar;
@@ -37,8 +38,10 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
       return response;
     } catch (e) {
       logger.e('Error fetching workouts', error: e);
-      _showSnackBar(
-          'An error occurred while fetching the workouts. Please try again.');
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while fetching the workouts. Please try again.');
+
       return [];
     }
   }
@@ -61,8 +64,9 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
       }
     } catch (e) {
       logger.e('Error navigating:', error: e);
-      _showSnackBar(
-          'An error occurred while trying to navigate. Please try again.');
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while trying to navigate. Please try again.');
     }
   }
 
@@ -74,20 +78,13 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
         setState(() {
           _futureWorkouts = _fetchAllWorkouts();
         });
-        _showSnackBar(response.message);
+        CustomSnackbar.showSnackBar(message: response.message);
       }
     } catch (e) {
       logger.e('Error deleting workout', error: e);
-      _showSnackBar(
-          'An error occurred while deleting the workout. Please try again.');
-    }
-  }
-
-  void _showSnackBar(String message) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while deleting the workout. Please try again.');
     }
   }
 

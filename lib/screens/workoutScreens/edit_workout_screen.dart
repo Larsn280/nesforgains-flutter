@@ -7,6 +7,7 @@ import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class EditWorkoutScreen extends StatefulWidget {
   final Isar isar;
@@ -74,20 +75,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             Navigator.pop(context, true);
           }
         }
-        _showSnackBar(response.message);
+        CustomSnackbar.showSnackBar(message: response.message);
       }
     } catch (e) {
       logger.e('Error editing workout:', error: e);
-      _showSnackBar(
-          'An error occurred while editing the workout. Please try again.');
-    }
-  }
-
-  void _showSnackBar(String message) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while editing the workout. Please try again.');
     }
   }
 

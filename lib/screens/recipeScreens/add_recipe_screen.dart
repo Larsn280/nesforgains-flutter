@@ -7,6 +7,7 @@ import 'package:nes_for_gains/database/collections/stage.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   final Isar isar;
@@ -70,9 +71,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
       final result = await recipeService.addRecipeToDatabase(recipe);
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(result.message),
-      ));
+      CustomSnackbar.showSnackBar(message: result.message);
 
       // Clear the form fields
       _formKey.currentState!.reset();

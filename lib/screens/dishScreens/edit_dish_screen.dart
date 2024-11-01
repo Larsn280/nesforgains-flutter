@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class EditDishScreen extends StatefulWidget {
   final Isar isar;
@@ -79,20 +80,15 @@ class _EditDishScreenState extends State<EditDishScreen> {
             Navigator.pop(context, true);
           }
         }
-        _showSnackBar(response.message);
+
+        CustomSnackbar.showSnackBar(message: response.message);
       }
     } catch (e) {
       logger.e('Error editing', error: e);
-      _showSnackBar(
-          'An error occurred while editing the dish. Please try again.');
-    }
-  }
 
-  void _showSnackBar(String message) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while editing the dish. Please try again.');
     }
   }
 
