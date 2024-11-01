@@ -5,6 +5,8 @@ import 'package:nes_for_gains/database/collections/ingredient.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/database/collections/stage.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
+import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   final Isar isar;
@@ -97,7 +99,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         padding: const EdgeInsets.all(16.0),
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(AppConstants.backgroundimage),
+              image: AssetImage(AppConstants.appbackgroundimage),
               fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
@@ -106,7 +108,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
               const SizedBox(
                 height: 40.0,
               ),
-              AppConstants.buildFormCard(
+              CustomCards.buildFormCard(
                 context: context,
                 child: Form(
                   key: _formKey,
@@ -223,15 +225,18 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
               // Save Button
               const SizedBox(height: 20),
-              AppConstants.buildElevatedFunctionButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: _saveRecipe,
                   text: 'Save Recipe'),
-              AppConstants.buildElevatedButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
-                  path: '/displayrecipeScreen',
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/displayrecipeScreen');
+                  },
                   text: 'Display Recipes'),
-              AppConstants.buildElevatedFunctionButton(
+
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
                     Navigator.pop(context);

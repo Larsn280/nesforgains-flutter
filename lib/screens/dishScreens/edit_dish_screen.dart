@@ -5,6 +5,8 @@ import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
+import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class EditDishScreen extends StatefulWidget {
   final Isar isar;
@@ -103,7 +105,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(AppConstants.backgroundimage),
+              image: AssetImage(AppConstants.appbackgroundimage),
               fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
@@ -113,7 +115,7 @@ class _EditDishScreenState extends State<EditDishScreen> {
               const SizedBox(
                 height: 40.0,
               ),
-              AppConstants.buildFormCard(
+              CustomCards.buildFormCard(
                 context: context,
                 child: Form(
                   key: _formKey,
@@ -199,9 +201,9 @@ class _EditDishScreenState extends State<EditDishScreen> {
                   ),
                 ),
               ),
-              AppConstants.buildElevatedFunctionButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context, onPressed: _editDish, text: 'Save'),
-              AppConstants.buildElevatedFunctionButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
                     Navigator.pop(context);

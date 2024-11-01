@@ -6,6 +6,8 @@ import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
+import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class DisplayDishesScreen extends StatefulWidget {
   final Isar isar;
@@ -87,7 +89,7 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(AppConstants.backgroundimage),
+            image: AssetImage(AppConstants.appbackgroundimage),
             fit: BoxFit.cover,
           ),
         ),
@@ -120,7 +122,7 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
               ),
             ),
             const SizedBox(height: 8.0),
-            AppConstants.buildElevatedFunctionButton(
+            CustomButtons.buildElevatedFunctionButton(
                 context: context,
                 onPressed: () {
                   Navigator.pop(context);
@@ -195,7 +197,7 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
   }
 
   Widget _buildDishList(List<NutritionData> dishes, String message) {
-    return AppConstants.buildListCard(
+    return CustomCards.buildListCard(
       context: context,
       child: Column(
         children: [

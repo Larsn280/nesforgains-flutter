@@ -1,6 +1,7 @@
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(16.0),
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(AppConstants.backgroundimage),
+              image: AssetImage(AppConstants.appbackgroundimage),
               fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
@@ -66,23 +67,31 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 32.0,
               ),
-              AppConstants.buildElevatedButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
-                  path: '/nutritionScreen',
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/nutritionScreen');
+                  },
                   text: 'Go to Nutrition'),
+              CustomButtons.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/addworkoutScreen');
+                  },
+                  text: 'Go to Workouts'),
+              CustomButtons.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/addrecipeScreen');
+                  },
+                  text: 'Go to Recipes'),
+
               // AppConstants.buildElevatedButton(
               //     context: context,
               //     path: '/trainingcalculatorScreen',
               //     text: 'Go to Calculator'),
-              AppConstants.buildElevatedButton(
-                  context: context,
-                  path: '/addworkoutScreen',
-                  text: 'Go to Workouts'),
-              AppConstants.buildElevatedButton(
-                  context: context,
-                  path: '/addrecipeScreen',
-                  text: 'Go to Recipes'),
-              AppConstants.buildElevatedFunctionButton(
+
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
                     AuthProvider.of(context).logout();

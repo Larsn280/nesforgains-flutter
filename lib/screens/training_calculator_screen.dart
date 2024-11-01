@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
 
 class TrainingCalculatorScreen extends StatefulWidget {
   final Isar isar;
@@ -50,7 +51,7 @@ class _TrainingScreenState extends State<TrainingCalculatorScreen> {
         padding: const EdgeInsets.all(16.0),
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(AppConstants.backgroundimage),
+            image: AssetImage(AppConstants.appbackgroundimage),
             fit: BoxFit.cover,
           ),
         ),
@@ -81,11 +82,11 @@ class _TrainingScreenState extends State<TrainingCalculatorScreen> {
                   const SizedBox(
                     height: 16.0,
                   ),
-                  AppConstants.buildElevatedFunctionButton(
+                  CustomButtons.buildElevatedFunctionButton(
                       context: context,
                       onPressed: _submitTrainingdata,
                       text: 'Submit trainingdata'),
-                  AppConstants.buildElevatedFunctionButton(
+                  CustomButtons.buildElevatedFunctionButton(
                       context: context,
                       onPressed: () {
                         Navigator.pop(context);

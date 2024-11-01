@@ -6,6 +6,8 @@ import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
+import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class NutritionScreen extends StatefulWidget {
   final Isar isar;
@@ -179,7 +181,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(AppConstants.backgroundimage),
+              image: AssetImage(AppConstants.appbackgroundimage),
               fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
@@ -190,7 +192,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                   const SizedBox(
                     height: 40.0,
                   ),
-                  AppConstants.buildFormCard(
+                  CustomCards.buildFormCard(
                     context: context,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,19 +264,23 @@ class _NutritionScreenState extends State<NutritionScreen> {
                     ),
                   ),
                   const SizedBox(height: 20.0),
-                  AppConstants.buildElevatedFunctionButton(
+                  CustomButtons.buildElevatedFunctionButton(
                       context: context,
                       onPressed: _navigatetoadd,
                       text: 'Add new dish'),
-                  AppConstants.buildElevatedButton(
+                  CustomButtons.buildElevatedFunctionButton(
                       context: context,
-                      path: '/displaydishesScreen',
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/displaydishesScreen');
+                      },
                       text: 'Display Dishlist'),
-                  AppConstants.buildElevatedButton(
+                  CustomButtons.buildElevatedFunctionButton(
                       context: context,
-                      path: '/displaynutritionScreen',
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/displaynutritionScreen');
+                      },
                       text: 'Display NutritionList'),
-                  AppConstants.buildElevatedFunctionButton(
+                  CustomButtons.buildElevatedFunctionButton(
                       context: context,
                       onPressed: () {
                         Navigator.pop(context);

@@ -3,6 +3,8 @@ import 'package:nes_for_gains/service/register_service.dart';
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:isar/isar.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
+import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Isar isar;
@@ -72,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.all(16.0),
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(AppConstants.backgroundimage),
+              image: AssetImage(AppConstants.appbackgroundimage),
               fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
@@ -81,7 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(
                 height: 40.0,
               ),
-              AppConstants.buildFormCard(
+              CustomCards.buildFormCard(
                 context: context,
                 child: Form(
                   key: _formKey,
@@ -142,11 +144,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(
                 height: 32.0,
               ),
-              AppConstants.buildElevatedFunctionButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: _createNewUser,
                   text: 'Register'),
-              AppConstants.buildElevatedFunctionButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
                     Navigator.pop(context);

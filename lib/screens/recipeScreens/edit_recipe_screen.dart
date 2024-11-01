@@ -4,6 +4,8 @@ import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/models/recipe_data.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
+import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class EditRecipeScreen extends StatefulWidget {
   final Isar isar;
@@ -89,14 +91,14 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
         padding: const EdgeInsets.all(16.0),
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(AppConstants.backgroundimage),
+              image: AssetImage(AppConstants.appbackgroundimage),
               fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(height: 40),
-              AppConstants.buildFormCard(
+              CustomCards.buildFormCard(
                 context: context,
                 child: Form(
                   key: _formKey,
@@ -116,9 +118,9 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                 ),
               ),
               const SizedBox(height: 16.0),
-              AppConstants.buildElevatedFunctionButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context, onPressed: _editRecipe, text: 'Save'),
-              AppConstants.buildElevatedFunctionButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
                     Navigator.pop(context);

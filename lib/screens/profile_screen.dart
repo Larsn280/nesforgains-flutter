@@ -61,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(AppConstants.backgroundimage),
+            image: AssetImage(AppConstants.appbackgroundimage),
             fit: BoxFit.cover,
           ),
         ),

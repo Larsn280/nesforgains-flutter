@@ -6,6 +6,8 @@ import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
+import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class DisplayWorkoutScreen extends StatefulWidget {
   final Isar isar;
@@ -98,7 +100,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(AppConstants.backgroundimage),
+            image: AssetImage(AppConstants.appbackgroundimage),
             fit: BoxFit.cover,
           ),
         ),
@@ -131,7 +133,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
               ),
             ),
             const SizedBox(height: 8.0),
-            AppConstants.buildElevatedFunctionButton(
+            CustomButtons.buildElevatedFunctionButton(
                 context: context,
                 onPressed: () {
                   Navigator.pop(context);
@@ -214,7 +216,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   }
 
   Widget _buildTrainingList(List<WorkoutData> logs, String message) {
-    return AppConstants.buildListCard(
+    return CustomCards.buildListCard(
       context: context,
       child: Column(
         children: [

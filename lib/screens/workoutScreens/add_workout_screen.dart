@@ -6,6 +6,8 @@ import 'package:nes_for_gains/database/collections/workout_data.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
+import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class AddWorkoutScreen extends StatefulWidget {
   final Isar isar;
@@ -106,14 +108,14 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
         padding: const EdgeInsets.all(16.0),
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(AppConstants.backgroundimage),
+              image: AssetImage(AppConstants.appbackgroundimage),
               fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(height: 40.0),
-              AppConstants.buildFormCard(
+              CustomCards.buildFormCard(
                 context: context,
                 child: Form(
                   key: _formKey,
@@ -244,15 +246,18 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
 
               const SizedBox(height: 20),
               // Submit button
-              AppConstants.buildElevatedFunctionButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: _saveTrainingData,
                   text: 'Save Workout'),
-              AppConstants.buildElevatedButton(
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
-                  path: '/displayworkoutScreen',
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/displayworkoutScreen');
+                  },
                   text: 'Display Workouts'),
-              AppConstants.buildElevatedFunctionButton(
+
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
                     Navigator.pop(context);

@@ -7,6 +7,8 @@ import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
+import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class DisplayDailyNutritionScreen extends StatefulWidget {
   final Isar isar;
@@ -50,7 +52,7 @@ class _DisplayDailyNutritionScreenState
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(AppConstants.backgroundimage),
+            image: AssetImage(AppConstants.appbackgroundimage),
             fit: BoxFit.cover,
           ),
         ),
@@ -85,7 +87,7 @@ class _DisplayDailyNutritionScreenState
               ),
             ),
             const SizedBox(height: 8.0),
-            AppConstants.buildElevatedFunctionButton(
+            CustomButtons.buildElevatedFunctionButton(
                 context: context,
                 onPressed: () {
                   Navigator.pop(context);
@@ -146,7 +148,7 @@ class _DisplayDailyNutritionScreenState
 
   Widget _buildDailyNutritionList(
       List<DailyNutrition> dailyNutrition, String message) {
-    return AppConstants.buildListCard(
+    return CustomCards.buildListCard(
       context: context,
       child: Column(
         children: [
