@@ -15,8 +15,4 @@ class AppConstants {
     fontSize: 20.0,
     color: Colors.white,
   );
-
-  static const ButtonStyle buttonTextColor = ButtonStyle(
-    foregroundColor: WidgetStatePropertyAll<Color>(Colors.black),
-  );
 }
