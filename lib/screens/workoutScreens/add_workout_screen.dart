@@ -6,6 +6,7 @@ import 'package:nes_for_gains/database/collections/workout_data.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
+import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
 import 'package:nes_for_gains/widgets/custom_snackbar.dart';
@@ -100,7 +101,6 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.all(16.0),
         decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(AppConstants.appbackgroundimage),
@@ -109,6 +109,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const CustomAppbar(),
               const SizedBox(height: 40.0),
               CustomCards.buildFormCard(
                 context: context,

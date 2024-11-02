@@ -5,6 +5,7 @@ import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
 
@@ -88,7 +89,6 @@ class _AddDishScreenState extends State<AddDishScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(16.0),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
@@ -99,6 +99,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const CustomAppbar(),
               const SizedBox(height: 40.0),
               CustomCards.buildFormCard(
                 context: context,

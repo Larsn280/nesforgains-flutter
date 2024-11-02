@@ -1,6 +1,7 @@
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
+import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.all(16.0),
         decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(AppConstants.appbackgroundimage),
@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const CustomAppbar(),
               const SizedBox(height: 40.0),
               Card(
                 color: Colors.black54,

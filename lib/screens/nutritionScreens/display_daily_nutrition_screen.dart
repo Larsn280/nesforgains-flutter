@@ -7,6 +7,7 @@ import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
+import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
 
@@ -47,9 +48,8 @@ class _DisplayDailyNutritionScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(16.0),
-        width: double.infinity,
-        height: double.infinity,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AppConstants.appbackgroundimage),
@@ -59,6 +59,7 @@ class _DisplayDailyNutritionScreenState
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const CustomAppbar(),
             const SizedBox(
               height: 40.0,
             ),
