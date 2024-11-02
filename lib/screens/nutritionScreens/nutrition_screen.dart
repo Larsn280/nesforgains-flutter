@@ -156,7 +156,9 @@ class _NutritionScreenState extends State<NutritionScreen> {
             children: [
               Column(
                 children: [
-                  const CustomAppbar(),
+                  const CustomAppbar(
+                    title: 'Nutrition Screen',
+                  ),
                   const SizedBox(
                     height: 40.0,
                   ),
@@ -165,13 +167,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Nutrition Screen',
-                            style: AppConstants.headingStyle,
-                          ),
-                        ),
                         const SizedBox(height: 15.0),
                         Text('Total calories today: $calories g',
                             style: AppConstants.subheadingStyle),
@@ -231,7 +226,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 30.0),
                   CustomButtons.buildElevatedFunctionButton(
                       context: context,
                       onPressed: _navigatetoadd,

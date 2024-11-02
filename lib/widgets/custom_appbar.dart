@@ -4,24 +4,27 @@ import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize; // This is required to satisfy PreferredSizeWidget
+  final String title;
 
-  const CustomAppbar({super.key})
+  const CustomAppbar({super.key, required this.title})
       : preferredSize =
             const Size.fromHeight(60.0); // Adjust the height as needed
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text(
-        'NESForGains',
-        style: TextStyle(
+      title: Text(
+        title,
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.white,
           fontSize: 24,
         ),
       ),
       backgroundColor: Colors.black45,
-      shape: Border.all(color: Colors.white, width: 1.0),
+      shape: const Border(
+        bottom: BorderSide(color: Colors.white, width: 1.0),
+      ),
       centerTitle: true,
       actions: [
         IconButton(

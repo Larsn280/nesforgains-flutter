@@ -59,15 +59,12 @@ class _DisplayDailyNutritionScreenState
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CustomAppbar(),
+            const CustomAppbar(
+              title: 'Daily Nutrition List',
+            ),
             const SizedBox(
               height: 40.0,
             ),
-            const Text(
-              'Daily Nutrition List',
-              style: AppConstants.headingStyle,
-            ),
-            const SizedBox(height: 16.0),
             Expanded(
               child: FutureBuilder<List<DailyNutrition>>(
                 future: _fetchDailyNutritionItems(),

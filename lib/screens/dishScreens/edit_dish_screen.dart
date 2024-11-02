@@ -108,7 +108,9 @@ class _EditDishScreenState extends State<EditDishScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CustomAppbar(),
+              const CustomAppbar(
+                title: 'Edit Dish',
+              ),
               const SizedBox(
                 height: 40.0,
               ),
@@ -118,10 +120,6 @@ class _EditDishScreenState extends State<EditDishScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      const Text(
-                        'Edit Dish',
-                        style: AppConstants.headingStyle,
-                      ),
                       const SizedBox(height: 16.0),
                       TextFormField(
                         controller: _nameController,
@@ -197,6 +195,9 @@ class _EditDishScreenState extends State<EditDishScreen> {
                     ],
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 30,
               ),
               CustomButtons.buildElevatedFunctionButton(
                   context: context, onPressed: _editDish, text: 'Save'),

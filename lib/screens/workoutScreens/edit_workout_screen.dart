@@ -101,7 +101,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomAppbar(),
+              const CustomAppbar(
+                title: 'Edit Workout',
+              ),
               const SizedBox(
                 height: 40.0,
               ),
@@ -111,10 +113,6 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      const Text(
-                        'Edit Workout',
-                        style: AppConstants.headingStyle,
-                      ),
                       const SizedBox(height: 16.0),
                       _buildTextField(
                           'Exercise (eg: Benchpress)', _exerciseController),
@@ -127,7 +125,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 30.0),
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: _handleEditWorkout,

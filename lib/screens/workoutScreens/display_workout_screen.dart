@@ -104,13 +104,11 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CustomAppbar(),
+            const CustomAppbar(
+              title: 'Workouts',
+            ),
             const SizedBox(
               height: 40.0,
-            ),
-            const Text(
-              'Workouts',
-              style: AppConstants.headingStyle,
             ),
             const SizedBox(height: 16.0),
             Expanded(

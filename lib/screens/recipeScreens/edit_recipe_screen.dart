@@ -90,7 +90,9 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomAppbar(),
+              const CustomAppbar(
+                title: 'Edit Recipe',
+              ),
               const SizedBox(height: 40),
               CustomCards.buildFormCard(
                 context: context,
@@ -98,10 +100,6 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      const Text(
-                        'Edit Recipe',
-                        style: AppConstants.headingStyle,
-                      ),
                       const SizedBox(height: 16.0),
                       _buildTextField('Title', _titleController),
                       _buildTextField('Duration (mins)', _durationController,
@@ -111,7 +109,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 30.0),
               CustomButtons.buildElevatedFunctionButton(
                   context: context, onPressed: _editRecipe, text: 'Save'),
               CustomButtons.buildElevatedFunctionButton(

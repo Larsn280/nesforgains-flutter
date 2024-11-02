@@ -90,15 +90,12 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CustomAppbar(),
+            const CustomAppbar(
+              title: 'Dishlist',
+            ),
             const SizedBox(
               height: 40.0,
             ),
-            const Text(
-              'Dishlist',
-              style: AppConstants.headingStyle,
-            ),
-            const SizedBox(height: 16.0),
             Expanded(
               child: FutureBuilder<List<NutritionData>>(
                 future: _handlefetchAllDishes(),

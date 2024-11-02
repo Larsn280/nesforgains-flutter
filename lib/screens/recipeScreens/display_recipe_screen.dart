@@ -85,13 +85,11 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
         ),
         child: Column(
           children: [
-            const CustomAppbar(),
+            const CustomAppbar(
+              title: 'Recipes',
+            ),
             const SizedBox(
               height: 40.0,
-            ),
-            const Text(
-              'Recipes',
-              style: AppConstants.headingStyle,
             ),
             const SizedBox(height: 16.0),
             Expanded(
@@ -112,7 +110,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 8.0),
             CustomButtons.buildElevatedFunctionButton(
                 context: context,
                 onPressed: () {

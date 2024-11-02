@@ -104,7 +104,9 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomAppbar(),
+              const CustomAppbar(
+                title: 'Add new recipe',
+              ),
               const SizedBox(
                 height: 40.0,
               ),
@@ -115,10 +117,6 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Add new recipe',
-                        style: AppConstants.headingStyle,
-                      ),
                       const SizedBox(height: 16.0),
                       // Title Input
                       TextFormField(
@@ -224,7 +222,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
               ),
 
               // Save Button
-              const SizedBox(height: 20),
+              const SizedBox(height: 30.0),
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: _saveRecipe,

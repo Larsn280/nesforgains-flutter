@@ -11,10 +11,10 @@ class CustomSnackbar {
           color: Colors.black45,
           shape: RoundedRectangleBorder(
             side: const BorderSide(color: Colors.white, width: 1.0),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.0),
           ),
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16.0),
             color: Colors.black45,
             child: Row(
               children: [
@@ -31,8 +31,10 @@ class CustomSnackbar {
           ),
         ),
         duration: const Duration(seconds: 3),
-        backgroundColor:
-            Colors.transparent, // Make the default background transparent
+        backgroundColor: Colors.transparent,
+        behavior: SnackBarBehavior
+            .floating, // Optional: make it float above other widgets
+        margin: EdgeInsets.zero, // Make the default background transparent
       ),
     );
   }

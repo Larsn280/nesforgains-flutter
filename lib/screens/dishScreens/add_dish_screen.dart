@@ -99,7 +99,9 @@ class _AddDishScreenState extends State<AddDishScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomAppbar(),
+              const CustomAppbar(
+                title: 'Add dish',
+              ),
               const SizedBox(height: 40.0),
               CustomCards.buildFormCard(
                 context: context,
@@ -108,10 +110,6 @@ class _AddDishScreenState extends State<AddDishScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Add dish',
-                        style: AppConstants.headingStyle,
-                      ),
                       const SizedBox(height: 16.0),
                       TextFormField(
                         controller: _nameController,
@@ -213,7 +211,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
                 ),
               ),
               const SizedBox(
-                height: 8.0,
+                height: 30.0,
               ),
               CustomButtons.buildElevatedFunctionButton(
                   context: context,

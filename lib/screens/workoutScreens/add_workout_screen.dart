@@ -109,7 +109,9 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomAppbar(),
+              const CustomAppbar(
+                title: 'Log Workout',
+              ),
               const SizedBox(height: 40.0),
               CustomCards.buildFormCard(
                 context: context,
@@ -118,10 +120,6 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Log Workout',
-                        style: AppConstants.headingStyle,
-                      ),
                       const SizedBox(height: 16.0),
                       // Date Picker
                       Row(
@@ -240,7 +238,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 30.0),
               // Submit button
               CustomButtons.buildElevatedFunctionButton(
                   context: context,

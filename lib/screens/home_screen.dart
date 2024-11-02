@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomAppbar(),
+              const CustomAppbar(title: 'NESForGains!'),
               const SizedBox(height: 40.0),
               Card(
                 color: Colors.black54,
@@ -37,17 +37,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(20),
                   side: const BorderSide(color: Colors.white, width: 1.0),
                 ),
-                margin: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 16.0),
                 child: const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'NESForGains!',
-                        style: AppConstants.headingStyle,
-                      ),
                       SizedBox(height: 20.0),
                       Text('Welcome to NESForGains!',
                           style: TextStyle(fontWeight: FontWeight.bold)),
@@ -66,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(
-                height: 32.0,
+                height: 30.0,
               ),
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
