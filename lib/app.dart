@@ -13,7 +13,6 @@ import 'constants.dart';
 import 'screens/home_screen.dart';
 import 'screens/authScreens/login_screen.dart';
 import 'screens/authScreens/register_screen.dart';
-import 'screens/profile_screen.dart';
 import 'screens/training_calculator_screen.dart';
 import 'screens/workoutScreens/add_workout_screen.dart';
 
@@ -61,7 +60,6 @@ class App extends StatelessWidget {
           },
           '/homeScreen': (context) => const HomeScreen(),
           '/registerScreen': (context) => RegisterScreen(isar: isar),
-          '/profileScreen': (context) => ProfileScreen(isar: isar),
           '/nutritionScreen': (context) => NutritionScreen(isar: isar),
           '/displaynutritionScreen': (context) =>
               DisplayDailyNutritionScreen(isar: isar),
