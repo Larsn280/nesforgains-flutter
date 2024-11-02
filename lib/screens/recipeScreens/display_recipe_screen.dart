@@ -49,27 +49,28 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
   }
 
   void _navigateToEditRecipe(Recipe recipe) async {
-    try {
-      final result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => EditRecipeScreen(
-            recipe: recipe,
-            isar: widget.isar,
-          ),
-        ),
-      );
-      if (result == true) {
-        setState(() {
-          getAllRecipesInAlphabeticalOrder();
-        });
-      }
-    } catch (e) {
-      logger.e('Error navigating:', error: e);
-      CustomSnackbar.showSnackBar(
-          message:
-              'An error occurred while trying to navigate. Please try again.');
-    }
+    CustomSnackbar.showSnackBar(message: 'Edit feature coming soon!');
+    // try {
+    //   final result = await Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => EditRecipeScreen(
+    //         recipe: recipe,
+    //         isar: widget.isar,
+    //       ),
+    //     ),
+    //   );
+    //   if (result == true) {
+    //     setState(() {
+    //       getAllRecipesInAlphabeticalOrder();
+    //     });
+    //   }
+    // } catch (e) {
+    //   logger.e('Error navigating:', error: e);
+    //   CustomSnackbar.showSnackBar(
+    //       message:
+    //           'An error occurred while trying to navigate. Please try again.');
+    // }
   }
 
   @override

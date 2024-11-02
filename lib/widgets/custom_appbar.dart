@@ -44,7 +44,8 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
             color: Colors.white,
           ),
           onPressed: () {
-            // Define action for notifications
+            CustomSnackbar.showSnackBar(
+                message: 'Notification feature coming soon!');
           },
         ),
       ],
@@ -54,8 +55,8 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
           color: Colors.white,
         ),
         onPressed: () {
-          // Open a drawer or menu
-          Scaffold.of(context).openDrawer();
+          CustomSnackbar.showSnackBar(message: 'Menu feature coming soon!');
+          // Scaffold.of(context).openDrawer();
         },
       ),
       elevation: 4.0, // Adds a shadow for depth

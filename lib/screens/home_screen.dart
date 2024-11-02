@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.black54,
                 elevation: 4,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.0),
                   side: const BorderSide(color: Colors.white, width: 1.0),
                 ),
                 child: const Padding(
