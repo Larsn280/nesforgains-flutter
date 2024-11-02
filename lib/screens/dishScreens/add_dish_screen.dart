@@ -65,7 +65,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
           _fatController.clear();
 
           if (mounted) {
-            Navigator.pop(context, '${response.message},green');
+            Navigator.pop(context, response.message);
           }
         } else {
           _nameController.clear();

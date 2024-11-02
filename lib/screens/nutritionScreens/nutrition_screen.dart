@@ -8,6 +8,7 @@ import 'package:isar/isar.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class NutritionScreen extends StatefulWidget {
   final Isar isar;
@@ -20,14 +21,12 @@ class NutritionScreen extends StatefulWidget {
 
 class _NutritionScreenState extends State<NutritionScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<String> _allDishes = [];
+  List<String> _allDishNames = [];
   List<String> _filteredDishes = [];
   int calories = 0;
   int proteine = 0;
   int carbohydrates = 0;
   int fat = 0;
-  String message = 'Choose a dish or add a new one!';
-  Color _textmessageColor = Colors.yellowAccent;
 
   late DishService dishService;
   late NutritionService nutritionService;
@@ -37,7 +36,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
     super.initState();
     dishService = DishService(widget.isar);
     nutritionService = NutritionService(widget.isar);
-    _fetchDishItems();
+    _fetchAllDishNames();
     _fetchDailyIntake();
     _searchController.addListener(_filterDishes);
   }
@@ -49,12 +48,12 @@ class _NutritionScreenState extends State<NutritionScreen> {
     super.dispose();
   }
 
-  void _fetchDishItems() async {
+  void _fetchAllDishNames() async {
     try {
       final dishList =
           await dishService.fetchAllDishNamesById(AuthProvider.of(context).id);
       setState(() {
-        _allDishes = dishList;
+        _allDishNames = dishList;
       });
     } catch (e) {
       logger.e('Error fetching', error: e);
@@ -80,17 +79,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
     try {
       final response = await nutritionService.postDailyDish(
           dish, AuthProvider.of(context).id);
-      if (response.checksuccess == true) {
-        setState(() {
-          message = response.message;
-          _textmessageColor = Colors.greenAccent;
-        });
-      } else {
-        setState(() {
-          message = response.message;
-          _textmessageColor = Colors.redAccent;
-        });
-      }
       _searchController.clear();
       _fetchDailyIntake();
     } catch (e) {
@@ -102,18 +90,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
     try {
       final response = await nutritionService.putDailyDish(
           dish, AuthProvider.of(context).id);
-      if (response.checksuccess == true) {
-        setState(() {
-          message = response.message;
-          _textmessageColor = Colors.greenAccent;
-          _searchController.clear();
-        });
-      } else {
-        setState(() {
-          message = response.message;
-          _textmessageColor = Colors.redAccent;
-        });
-      }
       _fetchDailyIntake();
     } catch (e) {
       logger.e('Error puting:', error: e);
@@ -125,7 +101,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
       final query = _searchController.text.toLowerCase();
       setState(() {
         if (query.isNotEmpty) {
-          _filteredDishes = _allDishes.where((dish) {
+          _filteredDishes = _allDishNames.where((dish) {
             return dish.toLowerCase().startsWith(query);
           }).toList();
 
@@ -153,16 +129,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
       ),
     );
     if (result != null) {
-      List<String> split = result.toString().split(',');
-      setState(() {
-        message = split[0];
-        if (split[1] == 'green') {
-          _textmessageColor = Colors.greenAccent;
-        } else {
-          _textmessageColor = Colors.redAccent;
-        }
-      });
-      _fetchDishItems();
+      CustomSnackbar.showSnackBar(message: result);
     }
   }
 
