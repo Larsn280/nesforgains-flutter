@@ -40,6 +40,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   Future<void> _saveRecipe() async {
     // Validate the form
     if (_formKey.currentState!.validate()) {
+      final List<Ingredient> ingredientsList = [];
+      final List<Stage> stageList = [];
       // Create a new Recipe object
       final recipe = Recipe()
         ..title = _titleController.text
@@ -48,29 +50,30 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         ..difficulty = _difficultyController.text;
 
       // Create Ingredients and Steps from the text fields
-      final ingredientList =
+      final splitIngredientList =
           _ingredientsController.text.split(","); // Input like "Flour, Eggs"
-      final stageList = _stepsController.text
+      final splitStageList = _stepsController.text
           .split("."); // Input like "Boil water. Add pasta."
 
       // Add ingredients to the recipe
-      for (var ingredientText in ingredientList) {
+      for (var ingredientText in splitIngredientList) {
         final ingredient = Ingredient()
           ..name = ingredientText.trim() // Remove any extra spaces
           ..quantity = 1 // Default quantity, you can extend this for user input
           ..unit = "unit"; // Default unit
-        recipe.ingredients.add(ingredient);
+        ingredientsList.add(ingredient);
       }
 
       // Add steps to the recipe
-      for (int i = 0; i < stageList.length; i++) {
+      for (int i = 0; i < splitStageList.length; i++) {
         final stage = Stage()
           ..stageNumber = i + 1
-          ..instruction = stageList[i].trim();
-        recipe.stage.add(stage);
+          ..instruction = splitStageList[i].trim();
+        stageList.add(stage);
       }
 
-      final result = await recipeService.addRecipeToDatabase(recipe);
+      final result = await recipeService.addRecipeToDatabase(
+          recipe, ingredientsList, stageList);
 
       CustomSnackbar.showSnackBar(message: result.message);
 

@@ -144,7 +144,8 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                             'Duration: ${recipe.duration} mins, Difficulty: ${recipe.difficulty}'),
                         onTap: () {
                           // Navigate to recipe details (if needed)
-                          print('Selected Recipe: ${recipe.title}');
+                          print(
+                              'Selected Recipe: ${recipe.ingredients.map((i) => i.name).join(', ')}');
                         },
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,

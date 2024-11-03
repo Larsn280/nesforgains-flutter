@@ -55,8 +55,11 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
         // Create updated recipe object
         RecipeData updatedRecipe = RecipeData(
           title: _titleController.text,
+          description: '',
           duration: int.parse(_durationController.text),
           difficulty: _difficultyController.text,
+          ingredients: '',
+          stage: '',
         );
 
         // Update the recipe in the database
