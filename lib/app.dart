@@ -1,3 +1,4 @@
+import 'package:nes_for_gains/screens/book_of_exuses.dart';
 import 'package:nes_for_gains/screens/nutritionScreens/display_daily_nutrition_screen.dart';
 import 'package:nes_for_gains/screens/recipeScreens/add_recipe_screen.dart';
 import 'package:nes_for_gains/screens/dishScreens/display_dishes_screen.dart';
@@ -59,6 +60,7 @@ class App extends StatelessWidget {
             return isLoggedIn ? const HomeScreen() : LoginScreen(isar: isar);
           },
           '/homeScreen': (context) => const HomeScreen(),
+          '/bookofexusesScreen': (context) => const BookOfExuses(),
           '/registerScreen': (context) => RegisterScreen(isar: isar),
           '/nutritionScreen': (context) => NutritionScreen(isar: isar),
           '/displaynutritionScreen': (context) =>

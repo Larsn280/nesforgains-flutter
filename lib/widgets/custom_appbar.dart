@@ -29,13 +29,11 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: const Icon(
-            Icons.fitness_center,
-            color: Colors.white,
+            Icons.book_outlined,
+            color: Colors.blue,
           ),
           onPressed: () {
-            // Define action when this button is pressed
-            CustomSnackbar.showSnackBar(
-                message: 'Workout feature coming soon!');
+            Navigator.pushNamed(context, '/bookofexusesScreen');
           },
         ),
         IconButton(
