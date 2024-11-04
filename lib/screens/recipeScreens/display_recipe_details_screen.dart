@@ -18,7 +18,6 @@ class DisplayRecipeDetailsScreen extends StatefulWidget {
 class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -40,24 +39,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Text(
-                          widget.recipe.title,
-                          style: const TextStyle(
-                              fontSize: 16.0, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Duration: ${widget.recipe.duration} min'),
-                            Text('Difficulty: ${widget.recipe.difficulty}'),
-                          ],
-                        ),
-                        _buildIngredientList(widget.recipe.ingredients
-                            .map((i) => i.name)
-                            .toList()),
+                        _buildRecipeDetails(widget.recipe),
                       ],
                     ),
                   )),
@@ -75,13 +57,22 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
     );
   }
 
-  Widget _buildIngredientList(List<String> ingredients) {
+  Widget _buildRecipeDetails(Recipe recipe) {
+    final ingredients = recipe.ingredients.map((i) => i.name).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          widget.recipe.title,
+          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 20.0,
+        ),
+        Text('Duration: ${widget.recipe.duration} min'),
+        Text('Difficulty: ${widget.recipe.difficulty}'),
         ingredients.isNotEmpty
             ? SizedBox(
-                // height: 200.0, // Adjust this height as needed
                 child: ListView.builder(
                   shrinkWrap: true, // Helps to avoid layout overflow
                   physics:
@@ -100,12 +91,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                 ),
               )
             : const Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 25.0),
-                  child: SizedBox(
-                    child: Text('No ingredients to show...'),
-                  ),
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  child: Text('No ingredients to show...'),
                 ),
               ),
       ],
