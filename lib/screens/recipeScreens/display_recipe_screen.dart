@@ -3,6 +3,7 @@ import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/logger.dart';
+import 'package:nes_for_gains/screens/recipeScreens/display_recipe_details_screen.dart';
 import 'package:nes_for_gains/screens/recipeScreens/edit_recipe_screen.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
@@ -69,6 +70,21 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
       CustomSnackbar.showSnackBar(
           message:
               'An error occurred while trying to navigate. Please try again.');
+    }
+  }
+
+  void _navigateToRecipeDetails(Recipe recipe) async {
+    try {
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DisplayRecipeDetailsScreen(
+            recipe: recipe,
+          ),
+        ),
+      );
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
@@ -144,8 +160,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                             'Duration: ${recipe.duration} mins, Difficulty: ${recipe.difficulty}'),
                         onTap: () {
                           // Navigate to recipe details (if needed)
-                          print(
-                              'Selected Recipe: ${recipe.ingredients.map((i) => i.name).join(', ')}');
+                          _navigateToRecipeDetails(recipe);
+                          // print(
+                          //     'Selected Recipe: ${recipe.ingredients.map((i) => i.name).join(', ')}');
                         },
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
