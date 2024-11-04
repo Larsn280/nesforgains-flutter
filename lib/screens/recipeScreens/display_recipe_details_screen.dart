@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/database/collections/ingredient.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
@@ -54,9 +53,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
   }
 
   Widget _buildRecipeDetails(Recipe recipe) {
-    final ingredients = recipe.ingredients.map((i) => i.name).toList();
+    final ingredients = recipe.ingredients.map((i) => i).toList();
+    final stages = recipe.stage.map((i) => i.instruction).toList();
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           widget.recipe.title,
@@ -65,10 +64,15 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
         const SizedBox(
           height: 20.0,
         ),
-        Text('Duration: ${widget.recipe.duration} min'),
-        Text('Difficulty: ${widget.recipe.difficulty}'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text('Duration: ${widget.recipe.duration} min'),
+            Text('Difficulty: ${widget.recipe.difficulty}'),
+          ],
+        ),
         const SizedBox(
-          height: 10.0,
+          height: 30.0,
         ),
         ingredients.isNotEmpty
             ? SizedBox(
@@ -83,7 +87,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
-                        ingredient,
+                        '${ingredient.name}: ${ingredient.quantity} ${ingredient.unit}',
                         style: const TextStyle(fontSize: 14.0),
                       ),
                     );
@@ -97,6 +101,41 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                   child: SizedBox(
                     child: Text(
                       'No ingredients to show...',
+                      style: TextStyle(fontSize: 14.0),
+                    ),
+                  ),
+                ),
+              ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        stages.isNotEmpty
+            ? SizedBox(
+                child: ListView.builder(
+                  shrinkWrap: true, // Helps to avoid layout overflow
+                  padding: const EdgeInsets.all(0),
+                  physics:
+                      const NeverScrollableScrollPhysics(), // Prevents nested scroll issues
+                  itemCount: stages.length,
+                  itemBuilder: (context, index) {
+                    final stage = stages[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Text(
+                        'Steg ${index + 1}: $stage',
+                        style: const TextStyle(fontSize: 14.0),
+                      ),
+                    );
+                  },
+                ),
+              )
+            : const Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    child: Text(
+                      'No stages to show...',
                       style: TextStyle(fontSize: 14.0),
                     ),
                   ),
