@@ -49,7 +49,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                           height: 20.0,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Duration: ${widget.recipe.duration} min'),
                             Text('Difficulty: ${widget.recipe.difficulty}'),
@@ -76,41 +76,39 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
   }
 
   Widget _buildIngredientList(List<String> ingredients) {
-    return ingredients.isNotEmpty
-        ? Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  // height: 200.0, // Adjust this height as needed
-                  child: ListView.builder(
-                    shrinkWrap: true, // Helps to avoid layout overflow
-                    physics:
-                        const NeverScrollableScrollPhysics(), // Prevents nested scroll issues
-                    itemCount: ingredients.length,
-                    itemBuilder: (context, index) {
-                      final ingredient = ingredients[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Text(
-                          ingredient,
-                          style: const TextStyle(fontSize: 14.0),
-                        ),
-                      );
-                    },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ingredients.isNotEmpty
+            ? SizedBox(
+                // height: 200.0, // Adjust this height as needed
+                child: ListView.builder(
+                  shrinkWrap: true, // Helps to avoid layout overflow
+                  physics:
+                      const NeverScrollableScrollPhysics(), // Prevents nested scroll issues
+                  itemCount: ingredients.length,
+                  itemBuilder: (context, index) {
+                    final ingredient = ingredients[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Text(
+                        ingredient,
+                        style: const TextStyle(fontSize: 14.0),
+                      ),
+                    );
+                  },
+                ),
+              )
+            : const Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 25.0),
+                  child: SizedBox(
+                    child: Text('No ingredients to show...'),
                   ),
                 ),
               ),
-              const Align(
-                alignment: Alignment.topRight,
-                child: SizedBox(
-                  child: Text('Hej'),
-                ),
-              ),
-            ],
-          )
-        : const Center(
-            child: Text('No ingredients to show...'),
-          );
+      ],
+    );
   }
 }
