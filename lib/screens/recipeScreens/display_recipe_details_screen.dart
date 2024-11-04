@@ -37,11 +37,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
               child: CustomCards.buildListCard(
                   context: context,
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        _buildRecipeDetails(widget.recipe),
-                      ],
-                    ),
+                    child: _buildRecipeDetails(widget.recipe),
                   )),
             ),
             const SizedBox(height: 8.0),
@@ -71,10 +67,14 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
         ),
         Text('Duration: ${widget.recipe.duration} min'),
         Text('Difficulty: ${widget.recipe.difficulty}'),
+        const SizedBox(
+          height: 10.0,
+        ),
         ingredients.isNotEmpty
             ? SizedBox(
                 child: ListView.builder(
                   shrinkWrap: true, // Helps to avoid layout overflow
+                  padding: const EdgeInsets.all(0),
                   physics:
                       const NeverScrollableScrollPhysics(), // Prevents nested scroll issues
                   itemCount: ingredients.length,
@@ -90,10 +90,16 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                   },
                 ),
               )
-            : const Align(
-                alignment: Alignment.topLeft,
-                child: SizedBox(
-                  child: Text('No ingredients to show...'),
+            : const Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    child: Text(
+                      'No ingredients to show...',
+                      style: TextStyle(fontSize: 14.0),
+                    ),
+                  ),
                 ),
               ),
       ],
