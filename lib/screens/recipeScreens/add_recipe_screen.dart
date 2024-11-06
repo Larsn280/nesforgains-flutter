@@ -102,103 +102,108 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(AppConstants.appbackgroundimage),
-              fit: BoxFit.cover),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const CustomAppbar(
-                title: 'Add new recipe',
-              ),
-              const SizedBox(
-                height: 40.0,
-              ),
-              CustomCards.buildFormCard(
-                context: context,
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 16.0),
-                      // Title Input
-                      _buildTextFormField(
-                          controller: _titleController,
-                          labelText: 'Title',
-                          validatorMessage: 'Please enter the recipe title'),
+      body: SizedBox.expand(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(AppConstants.appbackgroundimage),
+                fit: BoxFit.cover),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomAppbar(
+                  title: 'Add new recipe',
+                ),
+                const SizedBox(
+                  height: 40.0,
+                ),
+                CustomCards.buildFormCard(
+                  context: context,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 16.0),
+                        // Title Input
+                        _buildTextFormField(
+                            controller: _titleController,
+                            labelText: 'Title',
+                            validatorMessage: 'Please enter the recipe title'),
 
-                      // Description Input
-                      _buildTextFormField(
-                          controller: _descriptionController,
-                          labelText: 'Description',
-                          validatorMessage: 'Please enter a description'),
+                        // Description Input
+                        _buildTextFormField(
+                            controller: _descriptionController,
+                            labelText: 'Description',
+                            validatorMessage: 'Please enter a description'),
 
-                      // Duration Input
-                      _buildTextFormField(
-                        controller: _durationController,
-                        labelText: 'Duration (in minutes)',
-                        validatorMessage: 'Please enter the duration',
-                      ),
+                        // Duration Input
+                        _buildTextFormField(
+                          controller: _durationController,
+                          labelText: 'Duration (in minutes)',
+                          validatorMessage: 'Please enter the duration',
+                          keyboardType: TextInputType.number,
+                          isNumeric: true,
+                        ),
 
-                      // Difficulty Input
-                      _buildTextFormField(
-                          controller: _difficultyController,
-                          labelText: 'Difficulty',
-                          validatorMessage: 'Please enter the difficulty'),
+                        // Difficulty Input
+                        _buildTextFormField(
+                            controller: _difficultyController,
+                            labelText: 'Difficulty',
+                            validatorMessage: 'Please enter the difficulty'),
 
-                      // Ingredients Input
-                      _buildTextFormField(
-                          controller: _ingredientsController,
-                          labelText: 'Ingredients (comma separated)',
-                          validatorMessage:
-                              'Please enter at least one ingredient'),
+                        // Ingredients Input
+                        _buildTextFormField(
+                            controller: _ingredientsController,
+                            labelText: 'Ingredients (comma separated)',
+                            validatorMessage:
+                                'Please enter at least one ingredient'),
 
-                      // Steps Input
-                      _buildTextFormField(
-                          controller: _stepsController,
-                          labelText: 'Steps (period separated)',
-                          validatorMessage: 'Please enter the steps'),
-                    ],
+                        // Steps Input
+                        _buildTextFormField(
+                            controller: _stepsController,
+                            labelText: 'Steps (period separated)',
+                            validatorMessage: 'Please enter the steps'),
+                      ],
+                    ),
                   ),
                 ),
-              ),
 
-              // Save Button
-              const SizedBox(height: 30.0),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: _handleSaveRecipe,
-                  text: 'Save Recipe'),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/displayrecipeScreen');
-                  },
-                  text: 'Display Recipes'),
+                // Save Button
+                const SizedBox(height: 30.0),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: _handleSaveRecipe,
+                    text: 'Save Recipe'),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/displayrecipeScreen');
+                    },
+                    text: 'Display Recipes'),
 
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'Go back'),
-            ],
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    text: 'Go back'),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTextFormField(
-      {required TextEditingController controller,
-      required String labelText,
-      required String validatorMessage}) {
+  Widget _buildTextFormField({
+    required TextEditingController controller,
+    required String labelText,
+    required String validatorMessage,
+    TextInputType keyboardType = TextInputType.text,
+    bool isNumeric = false,
+  }) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
@@ -206,11 +211,11 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         filled: true,
         fillColor: Colors.black54,
       ),
-      keyboardType: TextInputType.number,
+      keyboardType: keyboardType,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return validatorMessage;
-        } else if (int.tryParse(value) == null) {
+        } else if (isNumeric && int.tryParse(value) == null) {
           return 'Please enter a valid number';
         }
         return null;
