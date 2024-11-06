@@ -10,11 +10,9 @@ class RecipeService {
 
   RecipeService(this._isar);
 
-  Future<ResponseData> addRecipeToDatabase(
+  Future<ResponseData> addRecipe(
       Recipe recipe, List<Ingredient> ingredients, List<Stage> stages) async {
     try {
-      final ResponseData responseData;
-
       final checkRecipe =
           await _isar.recipes.filter().titleEqualTo(recipe.title).findFirst();
 
@@ -35,16 +33,16 @@ class RecipeService {
           await recipe.ingredients.save();
           await recipe.stage.save();
         });
-        responseData = ResponseData(
+
+        return ResponseData(
             checksuccess: true, message: '${recipe.title} was added');
-        return responseData;
       } else {
-        responseData = ResponseData(
+        return ResponseData(
             checksuccess: false, message: '${recipe.title} already exists');
-        return responseData;
       }
     } catch (e) {
-      throw Exception('Error while saving recipe: $e');
+      return ResponseData(
+          checksuccess: false, message: 'Error trying to add recipe: $e');
     }
   }
 

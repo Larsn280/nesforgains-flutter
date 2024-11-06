@@ -77,17 +77,16 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
         ingredients.isNotEmpty
             ? SizedBox(
                 child: ListView.builder(
-                  shrinkWrap: true, // Helps to avoid layout overflow
+                  shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
-                  physics:
-                      const NeverScrollableScrollPhysics(), // Prevents nested scroll issues
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: ingredients.length,
                   itemBuilder: (context, index) {
                     final ingredient = ingredients[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
-                        '${ingredient.name}: ${ingredient.quantity} ${ingredient.unit}',
+                        ingredient.name,
                         style: const TextStyle(fontSize: 14.0),
                       ),
                     );
@@ -112,10 +111,9 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
         stages.isNotEmpty
             ? SizedBox(
                 child: ListView.builder(
-                  shrinkWrap: true, // Helps to avoid layout overflow
+                  shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
-                  physics:
-                      const NeverScrollableScrollPhysics(), // Prevents nested scroll issues
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: stages.length,
                   itemBuilder: (context, index) {
                     final stage = stages[index];

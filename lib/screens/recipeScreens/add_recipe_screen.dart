@@ -4,6 +4,7 @@ import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/ingredient.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/database/collections/stage.dart';
+import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
@@ -37,51 +38,6 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
     recipeService = RecipeService(widget.isar);
   }
 
-  Future<void> _saveRecipe() async {
-    // Validate the form
-    if (_formKey.currentState!.validate()) {
-      final List<Ingredient> ingredientsList = [];
-      final List<Stage> stageList = [];
-      // Create a new Recipe object
-      final recipe = Recipe()
-        ..title = _titleController.text
-        ..description = _descriptionController.text
-        ..duration = int.parse(_durationController.text)
-        ..difficulty = _difficultyController.text;
-
-      // Create Ingredients and Steps from the text fields
-      final splitIngredientList =
-          _ingredientsController.text.split(","); // Input like "Flour, Eggs"
-      final splitStageList = _stepsController.text
-          .split("."); // Input like "Boil water. Add pasta."
-
-      // Add ingredients to the recipe
-      for (var ingredientText in splitIngredientList) {
-        final ingredient = Ingredient()
-          ..name = ingredientText.trim() // Remove any extra spaces
-          ..quantity = 1 // Default quantity, you can extend this for user input
-          ..unit = "unit"; // Default unit
-        ingredientsList.add(ingredient);
-      }
-
-      // Add steps to the recipe
-      for (int i = 0; i < splitStageList.length; i++) {
-        final stage = Stage()
-          ..stageNumber = i + 1
-          ..instruction = splitStageList[i].trim();
-        stageList.add(stage);
-      }
-
-      final result = await recipeService.addRecipeToDatabase(
-          recipe, ingredientsList, stageList);
-
-      CustomSnackbar.showSnackBar(message: result.message);
-
-      // Clear the form fields
-      _formKey.currentState!.reset();
-    }
-  }
-
   @override
   void dispose() {
     _titleController.dispose();
@@ -91,6 +47,56 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
     _ingredientsController.dispose();
     _stepsController.dispose();
     super.dispose();
+  }
+
+  void _handleSaveRecipe() async {
+    try {
+      // Validate the form
+      if (_formKey.currentState!.validate()) {
+        final List<Ingredient> ingredientsList = [];
+        final List<Stage> stageList = [];
+
+        final recipe = Recipe()
+          ..title = _titleController.text
+          ..description = _descriptionController.text
+          ..duration = int.parse(_durationController.text)
+          ..difficulty = _difficultyController.text;
+
+        final splitIngredientList =
+            _ingredientsController.text.split(","); // Input like "Flour, Eggs"
+        final splitStageList = _stepsController.text
+            .split("."); // Input like "Boil water. Add pasta."
+
+        for (var ingredientText in splitIngredientList) {
+          final ingredient = Ingredient()
+            ..name = ingredientText.trim() // Remove any extra spaces
+            ..quantity =
+                1 // Default quantity, you can extend this for user input
+            ..unit = "unit"; // Default unit
+          ingredientsList.add(ingredient);
+        }
+
+        for (int i = 0; i < splitStageList.length; i++) {
+          final stage = Stage()
+            ..stageNumber = i + 1
+            ..instruction = splitStageList[i].trim();
+          stageList.add(stage);
+        }
+
+        final result =
+            await recipeService.addRecipe(recipe, ingredientsList, stageList);
+
+        CustomSnackbar.showSnackBar(message: result.message);
+
+        // Clear the form fields
+        _formKey.currentState!.reset();
+      }
+    } catch (e) {
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while adding the recipe. Please try again.');
+      logger.e(e);
+    }
   }
 
   @override
@@ -122,103 +128,42 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     children: [
                       const SizedBox(height: 16.0),
                       // Title Input
-                      TextFormField(
-                        controller: _titleController,
-                        decoration: const InputDecoration(
-                          labelText: 'Recipe Title',
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the recipe title';
-                          }
-                          return null;
-                        },
-                      ),
+                      _buildTextFormField(
+                          controller: _titleController,
+                          labelText: 'Title',
+                          validatorMessage: 'Please enter the recipe title'),
 
                       // Description Input
-                      TextFormField(
-                        controller: _descriptionController,
-                        decoration: const InputDecoration(
+                      _buildTextFormField(
+                          controller: _descriptionController,
                           labelText: 'Description',
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a description';
-                          }
-                          return null;
-                        },
-                      ),
+                          validatorMessage: 'Please enter a description'),
 
                       // Duration Input
-                      TextFormField(
+                      _buildTextFormField(
                         controller: _durationController,
-                        decoration: const InputDecoration(
-                          labelText: 'Duration (in minutes)',
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the duration';
-                          } else if (int.tryParse(value) == null) {
-                            return 'Please enter a valid number';
-                          }
-                          return null;
-                        },
+                        labelText: 'Duration (in minutes)',
+                        validatorMessage: 'Please enter the duration',
                       ),
 
                       // Difficulty Input
-                      TextFormField(
-                        controller: _difficultyController,
-                        decoration: const InputDecoration(
+                      _buildTextFormField(
+                          controller: _difficultyController,
                           labelText: 'Difficulty',
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the difficulty';
-                          }
-                          return null;
-                        },
-                      ),
+                          validatorMessage: 'Please enter the difficulty'),
 
                       // Ingredients Input
-                      TextFormField(
-                        controller: _ingredientsController,
-                        decoration: const InputDecoration(
+                      _buildTextFormField(
+                          controller: _ingredientsController,
                           labelText: 'Ingredients (comma separated)',
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter at least one ingredient';
-                          }
-                          return null;
-                        },
-                      ),
+                          validatorMessage:
+                              'Please enter at least one ingredient'),
 
                       // Steps Input
-                      TextFormField(
-                        controller: _stepsController,
-                        decoration: const InputDecoration(
+                      _buildTextFormField(
+                          controller: _stepsController,
                           labelText: 'Steps (period separated)',
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the steps';
-                          }
-                          return null;
-                        },
-                      ),
+                          validatorMessage: 'Please enter the steps'),
                     ],
                   ),
                 ),
@@ -228,7 +173,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
               const SizedBox(height: 30.0),
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
-                  onPressed: _saveRecipe,
+                  onPressed: _handleSaveRecipe,
                   text: 'Save Recipe'),
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
@@ -247,6 +192,29 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextFormField(
+      {required TextEditingController controller,
+      required String labelText,
+      required String validatorMessage}) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        filled: true,
+        fillColor: Colors.black54,
+      ),
+      keyboardType: TextInputType.number,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return validatorMessage;
+        } else if (int.tryParse(value) == null) {
+          return 'Please enter a valid number';
+        }
+        return null;
+      },
     );
   }
 }
