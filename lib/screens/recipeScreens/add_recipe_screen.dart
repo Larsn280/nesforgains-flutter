@@ -91,11 +91,12 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         // Clear the form fields
         _formKey.currentState!.reset();
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.e('An error occurred add recipe: $e', stackTrace: stackTrace);
+
       CustomSnackbar.showSnackBar(
           message:
               'An error occurred while adding the recipe. Please try again.');
-      logger.e(e);
     }
   }
 

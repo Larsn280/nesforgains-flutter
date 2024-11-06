@@ -18,35 +18,35 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(AppConstants.appbackgroundimage),
-              fit: BoxFit.cover),
-        ),
-        child: Column(
-          children: [
-            const CustomAppbar(title: 'Recipe Details'),
-            const SizedBox(
-              height: 40.0,
-            ),
-            Expanded(
-              child: CustomCards.buildListCard(
+      body: SizedBox.expand(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(AppConstants.appbackgroundimage),
+                fit: BoxFit.cover),
+          ),
+          child: Column(
+            children: [
+              const CustomAppbar(title: 'Recipe Details'),
+              const SizedBox(
+                height: 40.0,
+              ),
+              Expanded(
+                child: CustomCards.buildListCard(
+                    context: context,
+                    child: SingleChildScrollView(
+                      child: _buildRecipeDetails(widget.recipe),
+                    )),
+              ),
+              const SizedBox(height: 8.0),
+              CustomButtons.buildElevatedFunctionButton(
                   context: context,
-                  child: SingleChildScrollView(
-                    child: _buildRecipeDetails(widget.recipe),
-                  )),
-            ),
-            const SizedBox(height: 8.0),
-            CustomButtons.buildElevatedFunctionButton(
-                context: context,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                text: 'Go back'),
-          ],
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Go back'),
+            ],
+          ),
         ),
       ),
     );

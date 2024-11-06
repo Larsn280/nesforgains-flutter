@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/ingredient.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/database/collections/stage.dart';
+import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/models/recipe_data.dart';
 import 'package:nes_for_gains/models/response_data.dart';
 
@@ -35,12 +36,13 @@ class RecipeService {
         });
 
         return ResponseData(
-            checksuccess: true, message: '${recipe.title} was added');
+            checksuccess: true, message: '${recipe.title} was added.');
       } else {
         return ResponseData(
-            checksuccess: false, message: '${recipe.title} already exists');
+            checksuccess: false, message: '${recipe.title} already exists.');
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.e('Error adding recipe: $e', stackTrace: stackTrace);
       return ResponseData(
           checksuccess: false, message: 'Error trying to add recipe: $e');
     }
@@ -70,12 +72,13 @@ class RecipeService {
           await _isar.recipes.delete(recipeToDelete.id);
         });
         return ResponseData(
-            checksuccess: true, message: '${recipe.title} was deleted');
+            checksuccess: true, message: '${recipe.title} was deleted.');
       }
       return ResponseData(
           checksuccess: false,
           message: 'Could not find ${recipe.title} to delete.');
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.e('Error during recipe deletion: $e', stackTrace: stackTrace);
       return ResponseData(
           checksuccess: false, message: 'Error trying to delete recipe: $e');
     }
