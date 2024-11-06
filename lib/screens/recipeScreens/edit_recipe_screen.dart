@@ -24,20 +24,27 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
   final _formKey = GlobalKey<FormState>();
 
   late TextEditingController _titleController;
+  late TextEditingController _descriptionController;
   late TextEditingController _durationController;
   late TextEditingController _difficultyController;
+  late TextEditingController _ingredientsController;
+  late TextEditingController _stagesController;
 
   @override
   void initState() {
     super.initState();
     recipeService = RecipeService(widget.isar);
-
     // Initialize controllers with existing recipe values
     _titleController = TextEditingController(text: widget.recipe.title);
+    _descriptionController =
+        TextEditingController(text: widget.recipe.description);
     _durationController =
         TextEditingController(text: widget.recipe.duration.toString());
     _difficultyController =
         TextEditingController(text: widget.recipe.difficulty);
+    _ingredientsController = TextEditingController();
+    _stagesController = TextEditingController();
+    _sortIsarLinks(widget.recipe);
   }
 
   @override
@@ -46,6 +53,20 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
     _durationController.dispose();
     _difficultyController.dispose();
     super.dispose();
+  }
+
+  void _sortIsarLinks(Recipe recipe) {
+    final ingredients = recipe.ingredients.map((i) => i.name).toList();
+    final stages = recipe.stage.map((i) => i.instruction).toList();
+
+    StringBuffer allIngredientsBuffer = StringBuffer();
+    StringBuffer allStagesBuffer = StringBuffer();
+
+    allIngredientsBuffer.writeAll(ingredients, ', ');
+    allStagesBuffer.writeAll(stages, ', ');
+
+    _ingredientsController.text = allIngredientsBuffer.toString();
+    _stagesController.text = allStagesBuffer.toString();
   }
 
   //TODO och Service
@@ -104,10 +125,34 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 16.0),
-                      _buildTextField('Title', _titleController),
-                      _buildTextField('Duration (mins)', _durationController,
-                          isNumeric: true),
-                      _buildTextField('Difficulty', _difficultyController),
+                      _buildTextFormField(
+                          controller: _titleController,
+                          labelText: 'Title',
+                          validatorMessage: 'Please enter title'),
+                      _buildTextFormField(
+                          controller: _descriptionController,
+                          labelText: 'Description',
+                          validatorMessage: 'Please enter description'),
+                      _buildTextFormField(
+                        controller: _durationController,
+                        labelText: 'Duration (mins)',
+                        validatorMessage: 'Please enter duration',
+                        isNumeric: true,
+                        keyboardType: TextInputType.number,
+                      ),
+                      _buildTextFormField(
+                          controller: _difficultyController,
+                          labelText: 'Difficulty',
+                          validatorMessage: 'Please enter difficulty'),
+                      _buildTextFormField(
+                          controller: _ingredientsController,
+                          labelText: 'Ingredients (comma separated)',
+                          validatorMessage:
+                              'Please enter atleast one ingredient'),
+                      _buildTextFormField(
+                          controller: _stagesController,
+                          labelText: 'Steps (period separated)',
+                          validatorMessage: 'Please enter stages'),
                     ],
                   ),
                 ),
@@ -128,27 +173,29 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller,
-      {bool isNumeric = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        controller: controller,
-        keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter $label';
-          }
-          if (isNumeric && int.tryParse(value) == null) {
-            return 'Please enter a valid number';
-          }
-          return null;
-        },
+  Widget _buildTextFormField({
+    required TextEditingController controller,
+    required String labelText,
+    required String validatorMessage,
+    TextInputType keyboardType = TextInputType.text,
+    bool isNumeric = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        filled: true,
+        fillColor: Colors.black54,
       ),
+      keyboardType: keyboardType,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return validatorMessage;
+        } else if (isNumeric && int.tryParse(value) == null) {
+          return 'Please enter a valid number';
+        }
+        return null;
+      },
     );
   }
 }
