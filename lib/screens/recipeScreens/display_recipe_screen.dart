@@ -29,14 +29,14 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
     recipeService = RecipeService(widget.isar);
   }
 
-  Future<List<Recipe>> getAllRecipesInAlphabeticalOrder() async {
+  Future<List<Recipe>> _fetchAllRecipes() async {
     try {
-      final result = await recipeService.getAllRecipes();
-      return result;
+      return await recipeService.getAllRecipesInAlphabeticalOrder();
     } catch (e, stackTrace) {
       logger.e('An error occurred while fetching recipes: $e',
           stackTrace: stackTrace);
-      return [];
+      throw Exception(
+          'Failed to fetch recipes'); // Throwing an exception so FutureBuilder can handle it
     }
   }
 
@@ -70,7 +70,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
     );
     if (result == true) {
       setState(() {
-        getAllRecipesInAlphabeticalOrder();
+        _fetchAllRecipes();
       });
     }
   }
@@ -107,7 +107,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
               const SizedBox(height: 16.0),
               Expanded(
                 child: FutureBuilder<List<Recipe>>(
-                  future: getAllRecipesInAlphabeticalOrder(),
+                  future: _fetchAllRecipes(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return _buildRecipeList([], 'Indicator');

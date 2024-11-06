@@ -84,7 +84,7 @@ class RecipeService {
     }
   }
 
-  Future<List<Recipe>> getAllRecipes() async {
+  Future<List<Recipe>> getAllRecipesInAlphabeticalOrder() async {
     try {
       List<Recipe> recipes =
           await _isar.recipes.where().sortByTitle().findAll();
