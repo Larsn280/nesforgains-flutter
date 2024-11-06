@@ -63,16 +63,16 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
           ..difficulty = _difficultyController.text;
 
         final splitIngredientList =
-            _ingredientsController.text.split(","); // Input like "Flour, Eggs"
+            _ingredientsController.text.split(','); // Input like "Flour, Eggs"
         final splitStageList = _stepsController.text
-            .split("."); // Input like "Boil water. Add pasta."
+            .split('.'); // Input like "Boil water. Add pasta."
 
         for (var ingredientText in splitIngredientList) {
           final ingredient = Ingredient()
             ..name = ingredientText.trim() // Remove any extra spaces
             ..quantity =
                 1 // Default quantity, you can extend this for user input
-            ..unit = "unit"; // Default unit
+            ..unit = 'unit'; // Default unit
           ingredientsList.add(ingredient);
         }
 
@@ -92,7 +92,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         _formKey.currentState!.reset();
       }
     } catch (e, stackTrace) {
-      logger.e('An error occurred add recipe: $e', stackTrace: stackTrace);
+      logger.e('Error adding recipe: $e', stackTrace: stackTrace);
 
       CustomSnackbar.showSnackBar(
           message:

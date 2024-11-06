@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
+import 'package:nes_for_gains/database/collections/ingredient.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
+import 'package:nes_for_gains/database/collections/stage.dart';
+import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/models/recipe_data.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
@@ -50,8 +53,11 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
   @override
   void dispose() {
     _titleController.dispose();
+    _descriptionController.dispose();
     _durationController.dispose();
     _difficultyController.dispose();
+    _ingredientsController.dispose();
+    _stagesController.dispose();
     super.dispose();
   }
 
@@ -69,22 +75,42 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
     _stagesController.text = allStagesBuffer.toString();
   }
 
-  //TODO och Service
-  void _editRecipe() async {
-    if (_formKey.currentState!.validate()) {
-      try {
+  void _handleEditRecipe() async {
+    try {
+      late List<Ingredient> ingredientsList = [];
+      final List<Stage> stageList = [];
+
+      if (_formKey.currentState!.validate()) {
         // Create updated recipe object
-        RecipeData updatedRecipe = RecipeData(
-          title: _titleController.text,
-          description: '',
-          duration: int.parse(_durationController.text),
-          difficulty: _difficultyController.text,
-          ingredients: '',
-          stage: '',
-        );
+        final recipe = Recipe()
+          ..id = widget.recipe.id
+          ..title = _titleController.text
+          ..description = _descriptionController.text
+          ..duration = int.parse(_durationController.text)
+          ..difficulty = _difficultyController.text;
+
+        final splitIngredientList = _ingredientsController.text.split(',');
+        final splitStageList = _stagesController.text.split('.');
+
+        for (var ingredientText in splitIngredientList) {
+          final ingredient = Ingredient()
+            ..name = ingredientText.trim() // Remove any extra spaces
+            ..quantity =
+                1 // Default quantity, you can extend this for user input
+            ..unit = 'unit'; // Default unit
+          ingredientsList.add(ingredient);
+        }
+
+        for (int i = 0; i < splitStageList.length; i++) {
+          final stage = Stage()
+            ..stageNumber = i + 1
+            ..instruction = splitStageList[i].trim();
+          stageList.add(stage);
+        }
 
         // Update the recipe in the database
-        final response = await recipeService.updateRecipe(updatedRecipe);
+        final response =
+            await recipeService.editRecipe(recipe, ingredientsList, stageList);
 
         if (response.checksuccess == true) {
           if (mounted) {
@@ -92,81 +118,84 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
           }
         }
         CustomSnackbar.showSnackBar(message: response.message);
-      } catch (e) {
-        CustomSnackbar.showSnackBar(
-            message:
-                'An error occurred while editing the recipe. Please try again.');
       }
+    } catch (e, stackTrace) {
+      logger.e('Error editing recipe: $e', stackTrace: stackTrace);
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while editing the recipe. Please try again.');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(AppConstants.appbackgroundimage),
-              fit: BoxFit.cover),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const CustomAppbar(
-                title: 'Edit Recipe',
-              ),
-              const SizedBox(height: 40),
-              CustomCards.buildFormCard(
-                context: context,
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 16.0),
-                      _buildTextFormField(
-                          controller: _titleController,
-                          labelText: 'Title',
-                          validatorMessage: 'Please enter title'),
-                      _buildTextFormField(
-                          controller: _descriptionController,
-                          labelText: 'Description',
-                          validatorMessage: 'Please enter description'),
-                      _buildTextFormField(
-                        controller: _durationController,
-                        labelText: 'Duration (mins)',
-                        validatorMessage: 'Please enter duration',
-                        isNumeric: true,
-                        keyboardType: TextInputType.number,
-                      ),
-                      _buildTextFormField(
-                          controller: _difficultyController,
-                          labelText: 'Difficulty',
-                          validatorMessage: 'Please enter difficulty'),
-                      _buildTextFormField(
-                          controller: _ingredientsController,
-                          labelText: 'Ingredients (comma separated)',
-                          validatorMessage:
-                              'Please enter atleast one ingredient'),
-                      _buildTextFormField(
-                          controller: _stagesController,
-                          labelText: 'Steps (period separated)',
-                          validatorMessage: 'Please enter stages'),
-                    ],
+      body: SizedBox.expand(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(AppConstants.appbackgroundimage),
+                fit: BoxFit.cover),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomAppbar(
+                  title: 'Edit Recipe',
+                ),
+                const SizedBox(height: 40),
+                CustomCards.buildFormCard(
+                  context: context,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 16.0),
+                        _buildTextFormField(
+                            controller: _titleController,
+                            labelText: 'Title',
+                            validatorMessage: 'Please enter title'),
+                        _buildTextFormField(
+                            controller: _descriptionController,
+                            labelText: 'Description',
+                            validatorMessage: 'Please enter description'),
+                        _buildTextFormField(
+                          controller: _durationController,
+                          labelText: 'Duration (mins)',
+                          validatorMessage: 'Please enter duration',
+                          isNumeric: true,
+                          keyboardType: TextInputType.number,
+                        ),
+                        _buildTextFormField(
+                            controller: _difficultyController,
+                            labelText: 'Difficulty',
+                            validatorMessage: 'Please enter difficulty'),
+                        _buildTextFormField(
+                            controller: _ingredientsController,
+                            labelText: 'Ingredients (comma separated)',
+                            validatorMessage:
+                                'Please enter atleast one ingredient'),
+                        _buildTextFormField(
+                            controller: _stagesController,
+                            labelText: 'Steps (period separated)',
+                            validatorMessage: 'Please enter stages'),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 30.0),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context, onPressed: _editRecipe, text: 'Save'),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'Cancle'),
-            ],
+                const SizedBox(height: 30.0),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: _handleEditRecipe,
+                    text: 'Save'),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    text: 'Cancle'),
+              ],
+            ),
           ),
         ),
       ),

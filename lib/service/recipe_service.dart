@@ -3,7 +3,6 @@ import 'package:nes_for_gains/database/collections/ingredient.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/database/collections/stage.dart';
 import 'package:nes_for_gains/logger.dart';
-import 'package:nes_for_gains/models/recipe_data.dart';
 import 'package:nes_for_gains/models/response_data.dart';
 
 class RecipeService {
@@ -37,10 +36,10 @@ class RecipeService {
 
         return ResponseData(
             checksuccess: true, message: '${recipe.title} was added.');
-      } else {
-        return ResponseData(
-            checksuccess: false, message: '${recipe.title} already exists.');
       }
+
+      return ResponseData(
+          checksuccess: false, message: '${recipe.title} already exists.');
     } catch (e, stackTrace) {
       logger.e('Error adding recipe: $e', stackTrace: stackTrace);
       return ResponseData(
@@ -48,14 +47,44 @@ class RecipeService {
     }
   }
 
-  Future<ResponseData> updateRecipe(RecipeData data) async {
+  Future<ResponseData> editRecipe(
+      Recipe recipe, List<Ingredient> ingredients, List<Stage> stages) async {
     try {
-      late ResponseData responseData;
-      responseData = ResponseData(checksuccess: true, message: '');
+      final existingRecipe =
+          await _isar.recipes.filter().idEqualTo(recipe.id).findFirst();
 
-      return responseData;
-    } catch (e) {
-      throw Exception('Something went wrong editing $e');
+      if (existingRecipe != null) {
+        await _isar.writeTxn(() async {
+          // Save ingredients and stages to the database
+          await _isar.ingredients.putAll(ingredients);
+          await _isar.stages.putAll(stages);
+
+          existingRecipe.ingredients.addAll(ingredients);
+          existingRecipe.stage.addAll(stages);
+
+          existingRecipe.title = recipe.title;
+          existingRecipe.description = recipe.description;
+          existingRecipe.duration = recipe.duration;
+          existingRecipe.difficulty = recipe.difficulty;
+
+          await _isar.recipes.put(existingRecipe);
+
+          await existingRecipe.ingredients.save();
+          await existingRecipe.stage.save();
+        });
+
+        return ResponseData(
+            checksuccess: true,
+            message: '${recipe.title} was edited successfully.');
+      }
+
+      return ResponseData(
+          checksuccess: false, message: 'Recipe not found for editing.');
+    } catch (e, stackTrace) {
+      logger.e('Error editing recipe: $e', stackTrace: stackTrace);
+
+      return ResponseData(
+          checksuccess: false, message: 'Something went wrong: $e');
     }
   }
 

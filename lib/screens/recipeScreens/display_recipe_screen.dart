@@ -68,6 +68,11 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
         ),
       ),
     );
+    if (result == true) {
+      setState(() {
+        _fetchAllRecipes();
+      });
+    }
   }
 
   void _navigateToRecipeDetails(Recipe recipe) async {
