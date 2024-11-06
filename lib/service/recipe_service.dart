@@ -47,22 +47,39 @@ class RecipeService {
     }
   }
 
-  Future<ResponseData> editRecipe(
-      Recipe recipe, List<Ingredient> ingredients, List<Stage> stages) async {
+  //Todo Ta bort olänkade bord i ingredients
+  Future<ResponseData> editRecipe(Recipe recipe,
+      List<Ingredient> newIngredients, List<Stage> newStages) async {
     try {
       final existingRecipe =
           await _isar.recipes.filter().idEqualTo(recipe.id).findFirst();
 
       if (existingRecipe != null) {
         await _isar.writeTxn(() async {
+          await existingRecipe.ingredients.load();
+          await existingRecipe.stage.load();
+
+          if (existingRecipe.ingredients.isNotEmpty) {
+            await _isar.ingredients.deleteAll(
+                existingRecipe.ingredients.map((ing) => ing.id).toList());
+          }
+
+          if (existingRecipe.stage.isNotEmpty) {
+            await _isar.stages
+                .deleteAll(existingRecipe.stage.map((s) => s.id).toList());
+          }
+
           existingRecipe.ingredients.reset();
           existingRecipe.ingredients.save();
-          // Save ingredients and stages to the database
-          await _isar.ingredients.putAll(ingredients);
-          await _isar.stages.putAll(stages);
+          existingRecipe.stage.reset();
+          existingRecipe.stage.save();
 
-          existingRecipe.ingredients.addAll(ingredients);
-          existingRecipe.stage.addAll(stages);
+          // Save ingredients and stages to the database
+          await _isar.ingredients.putAll(newIngredients);
+          await _isar.stages.putAll(newStages);
+
+          existingRecipe.ingredients.addAll(newIngredients);
+          existingRecipe.stage.addAll(newStages);
 
           existingRecipe.title = recipe.title;
           existingRecipe.description = recipe.description;
