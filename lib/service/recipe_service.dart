@@ -47,7 +47,6 @@ class RecipeService {
     }
   }
 
-  //Todo Ta bort olänkade bord i ingredients
   Future<ResponseData> editRecipe(Recipe recipe,
       List<Ingredient> newIngredients, List<Stage> newStages) async {
     try {
@@ -74,7 +73,6 @@ class RecipeService {
           existingRecipe.stage.reset();
           existingRecipe.stage.save();
 
-          // Save ingredients and stages to the database
           await _isar.ingredients.putAll(newIngredients);
           await _isar.stages.putAll(newStages);
 
@@ -103,7 +101,7 @@ class RecipeService {
       logger.e('Error editing recipe: $e', stackTrace: stackTrace);
 
       return ResponseData(
-          checksuccess: false, message: 'Something went wrong: $e');
+          checksuccess: false, message: 'Error editing recipe: $e');
     }
   }
 
@@ -142,7 +140,8 @@ class RecipeService {
         await recipe.stage.load();
       }
       return recipes;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.e('Error fetching recipes $e', stackTrace: stackTrace);
       throw Exception('Error while retriving recipes');
     }
   }
