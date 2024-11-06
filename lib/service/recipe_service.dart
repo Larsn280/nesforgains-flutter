@@ -55,6 +55,8 @@ class RecipeService {
 
       if (existingRecipe != null) {
         await _isar.writeTxn(() async {
+          existingRecipe.ingredients.reset();
+          existingRecipe.ingredients.save();
           // Save ingredients and stages to the database
           await _isar.ingredients.putAll(ingredients);
           await _isar.stages.putAll(stages);
