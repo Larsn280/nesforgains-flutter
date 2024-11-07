@@ -58,17 +58,18 @@ class CustomButtons {
           context: context,
           value: '/nutritionScreen',
           name: 'Nutrition',
+          icon: Icons.food_bank,
         ),
         buildPopupMenuItemCard(
-          context: context,
-          value: '/addworkoutScreen',
-          name: 'Workout',
-        ),
+            context: context,
+            value: '/addworkoutScreen',
+            name: 'Workout',
+            icon: Icons.fitness_center),
         buildPopupMenuItemCard(
-          context: context,
-          value: '/addrecipeScreen',
-          name: 'Recipes',
-        ),
+            context: context,
+            value: '/addrecipeScreen',
+            name: 'Recipes',
+            icon: Icons.book_online),
       ],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -103,6 +104,7 @@ class CustomButtons {
     required BuildContext context,
     required String value,
     required String name,
+    required IconData icon,
   }) {
     return PopupMenuItem(
       value: value,
@@ -117,8 +119,8 @@ class CustomButtons {
           padding: const EdgeInsets.all(6.0),
           child: Row(
             children: [
-              const Icon(
-                Icons.dining,
+              Icon(
+                icon,
                 color: Colors.white,
               ),
               const SizedBox(
