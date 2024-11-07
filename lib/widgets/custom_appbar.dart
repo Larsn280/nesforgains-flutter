@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
@@ -36,27 +37,9 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
             Navigator.pushNamed(context, '/bookofexusesScreen');
           },
         ),
-        IconButton(
-          icon: const Icon(
-            Icons.notifications,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            CustomSnackbar.showSnackBar(
-                message: 'Notification feature coming soon!');
-          },
-        ),
       ],
-      leading: IconButton(
-        icon: const Icon(
-          Icons.menu,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          CustomSnackbar.showSnackBar(message: 'Menu feature coming soon!');
-          // Scaffold.of(context).openDrawer();
-        },
-      ),
+      leading: CustomButtons.popupMenuButton(context),
+
       elevation: 4.0, // Adds a shadow for depth
     );
   }

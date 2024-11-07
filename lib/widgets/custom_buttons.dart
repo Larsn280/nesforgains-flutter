@@ -38,4 +38,100 @@ class CustomButtons {
       ),
     );
   }
+
+  static const TextStyle popupMenuItemStyle = TextStyle(
+      color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold);
+
+  static Widget popupMenuButton(BuildContext context) {
+    // Get the screen width
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Set the font size to scale with screen width (adjust the multiplier as needed)
+    double fontSize = screenWidth * 0.028; // For example, 5% of screen width
+
+    return PopupMenuButton<String>(
+      onSelected: (String route) {
+        Navigator.pushNamed(context, route);
+      },
+      itemBuilder: (BuildContext context) => [
+        buildPopupMenuItemCard(
+          context: context,
+          value: '/nutritionScreen',
+          name: 'Nutrition',
+        ),
+        buildPopupMenuItemCard(
+          context: context,
+          value: '/addworkoutScreen',
+          name: 'Workout',
+        ),
+        buildPopupMenuItemCard(
+          context: context,
+          value: '/addrecipeScreen',
+          name: 'Recipes',
+        ),
+      ],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(
+          color: Colors.white,
+          width: 1.0,
+        ),
+      ),
+      padding: const EdgeInsets.all(0),
+      color: Colors.black87, // Background color of popup menu
+      elevation: 8,
+      icon: Row(
+        children: [
+          const Icon(
+            Icons.more_vert,
+            color: Colors.white, // Change icon color
+          ),
+          Text(
+            'Menu',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: fontSize,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static PopupMenuEntry<String> buildPopupMenuItemCard({
+    required BuildContext context,
+    required String value,
+    required String name,
+  }) {
+    return PopupMenuItem(
+      value: value,
+      child: Card(
+        color: Colors.black54,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          side: const BorderSide(color: Colors.white, width: 1.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.dining,
+                color: Colors.white,
+              ),
+              const SizedBox(
+                width: 8.0,
+              ),
+              Text(
+                name,
+                style: popupMenuItemStyle,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

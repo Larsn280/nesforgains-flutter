@@ -14,7 +14,6 @@ import 'constants.dart';
 import 'screens/home_screen.dart';
 import 'screens/authScreens/login_screen.dart';
 import 'screens/authScreens/register_screen.dart';
-import 'screens/training_calculator_screen.dart';
 import 'screens/workoutScreens/add_workout_screen.dart';
 
 class App extends StatelessWidget {
@@ -28,30 +27,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         scaffoldMessengerKey: scaffoldMessengerKey,
         title: 'NESForGains',
-        theme: ThemeData(
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: AppConstants.primaryColor),
-          textSelectionTheme: TextSelectionThemeData(
-              cursorColor: AppConstants.primaryTextColor,
-              selectionColor: AppConstants.primaryTextColor,
-              selectionHandleColor: AppConstants.primaryTextColor),
-          inputDecorationTheme: InputDecorationTheme(
-            hintStyle: TextStyle(color: AppConstants.primaryTextColor),
-            labelStyle: TextStyle(color: AppConstants.primaryTextColor),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppConstants.primaryTextColor),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppConstants.primaryTextColor),
-            ),
-          ),
-          textTheme: TextTheme(
-            bodySmall: TextStyle(color: AppConstants.primaryTextColor),
-            bodyMedium: TextStyle(color: AppConstants.primaryTextColor),
-            bodyLarge: TextStyle(color: AppConstants.primaryTextColor),
-          ),
-          useMaterial3: true,
-        ),
+        theme: AppConstants.themeData,
         initialRoute: '/',
         routes: {
           '/': (context) {
@@ -66,8 +42,6 @@ class App extends StatelessWidget {
           '/displaynutritionScreen': (context) =>
               DisplayDailyNutritionScreen(isar: isar),
           '/displaydishesScreen': (context) => DisplayDishesScreen(isar: isar),
-          '/trainingcalculatorScreen': (context) =>
-              TrainingCalculatorScreen(isar: isar),
           '/addworkoutScreen': (context) => AddWorkoutScreen(isar: isar),
           '/displayworkoutScreen': (context) =>
               DisplayWorkoutScreen(isar: isar),
