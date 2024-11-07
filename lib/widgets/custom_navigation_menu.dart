@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class CustomNavigationMenu extends StatefulWidget {
   const CustomNavigationMenu({super.key});
   @override
-  _CustomNavigationMenuState createState() => _CustomNavigationMenuState();
+  CustomNavigationMenuState createState() => CustomNavigationMenuState();
 }
 
-class _CustomNavigationMenuState extends State<CustomNavigationMenu> {
+class CustomNavigationMenuState extends State<CustomNavigationMenu> {
   OverlayEntry? _overlayEntry;
 
   @override
