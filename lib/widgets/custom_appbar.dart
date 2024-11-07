@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nes_for_gains/widgets/custom_buttons.dart';
-import 'package:nes_for_gains/widgets/custom_snackbar.dart';
+import 'package:nes_for_gains/widgets/custom_navigation_menu.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -38,7 +37,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
           },
         ),
       ],
-      leading: CustomButtons.popupMenuButton(context),
+      leading: CustomNavigationMenu(),
 
       elevation: 4.0, // Adds a shadow for depth
     );
