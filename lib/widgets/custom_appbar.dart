@@ -26,20 +26,9 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
         bottom: BorderSide(color: Colors.white, width: 1.0),
       ),
       centerTitle: true,
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.book_outlined,
-            color: Colors.blue,
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, '/bookofexusesScreen');
-          },
-        ),
-      ],
+      actions: const [],
       leading: CustomNavigationMenu(),
-
-      elevation: 4.0, // Adds a shadow for depth
+      elevation: 4.0,
     );
   }
 }

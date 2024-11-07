@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomNavigationMenu extends StatefulWidget {
+  const CustomNavigationMenu({super.key});
   @override
   _CustomNavigationMenuState createState() => _CustomNavigationMenuState();
 }
@@ -71,6 +72,14 @@ class _CustomNavigationMenuState extends State<CustomNavigationMenu> {
                   _removeOverlay();
                 },
               ),
+              buildMenuOption(
+                icon: Icons.book_sharp,
+                label: 'Book of Exuses',
+                onPressed: () {
+                  Navigator.pushNamed(context, '/bookofexusesScreen');
+                  _removeOverlay();
+                },
+              ),
             ],
           ),
         ),
@@ -86,13 +95,13 @@ class _CustomNavigationMenuState extends State<CustomNavigationMenu> {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         color: Colors.black54,
         child: Row(
           children: [
             Icon(icon, color: Colors.white),
-            SizedBox(width: 8),
-            Text(label, style: TextStyle(color: Colors.white)),
+            const SizedBox(width: 8),
+            Text(label, style: const TextStyle(color: Colors.white)),
           ],
         ),
       ),
@@ -102,7 +111,7 @@ class _CustomNavigationMenuState extends State<CustomNavigationMenu> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.menu, color: Colors.white),
+      icon: const Icon(Icons.menu, color: Colors.white),
       onPressed: _toggleOverlay,
     );
   }
