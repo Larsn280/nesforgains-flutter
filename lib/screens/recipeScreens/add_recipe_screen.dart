@@ -177,19 +177,6 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     context: context,
                     onPressed: _handleSaveRecipe,
                     text: 'Save Recipe'),
-                CustomButtons.buildElevatedFunctionButton(
-                    context: context,
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/displayrecipeScreen');
-                    },
-                    text: 'Display Recipes'),
-
-                CustomButtons.buildElevatedFunctionButton(
-                    context: context,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    text: 'Go back'),
               ],
             ),
           ),

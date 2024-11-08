@@ -94,12 +94,6 @@ class _BookOfExusesScreenState extends State<BookOfExuses> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                CustomButtons.buildElevatedFunctionButton(
-                    context: context,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    text: 'Exit'),
               ],
             ),
           ),

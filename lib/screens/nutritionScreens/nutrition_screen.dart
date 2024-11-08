@@ -243,12 +243,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
                         Navigator.pushNamed(context, '/displaynutritionScreen');
                       },
                       text: 'Display NutritionList'),
-                  CustomButtons.buildElevatedFunctionButton(
-                      context: context,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      text: 'Go back'),
                 ],
               ),
               if (_filteredDishes.isNotEmpty)

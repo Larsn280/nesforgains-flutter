@@ -250,13 +250,6 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                     Navigator.pushNamed(context, '/displayworkoutScreen');
                   },
                   text: 'Display Workouts'),
-
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'Go back'),
             ],
           ),
         ),

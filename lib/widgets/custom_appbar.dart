@@ -27,7 +27,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       actions: const [],
-      leading: CustomNavigationMenu(),
+      leading: const CustomNavigationMenu(),
       elevation: 4.0,
     );
   }

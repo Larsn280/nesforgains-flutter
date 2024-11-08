@@ -8,6 +8,7 @@ class CustomNavigationMenu extends StatefulWidget {
 
 class CustomNavigationMenuState extends State<CustomNavigationMenu> {
   OverlayEntry? _overlayEntry;
+  late bool _isRecipeOpen = false;
 
   @override
   void dispose() {
@@ -25,7 +26,7 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
 
   void _showOverlay() {
     _overlayEntry = _createOverlayEntry();
-    Overlay.of(context)?.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
   }
 
   void _removeOverlay() {
@@ -44,7 +45,7 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
         top: offset.dy + size.height,
         width: 200, // Set width of the overlay menu
         child: Material(
-          color: Colors.blue,
+          color: Colors.transparent,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -52,31 +53,64 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                 icon: Icons.dining,
                 label: 'Nutrition',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/nutritionScreen');
+                  Navigator.pushReplacementNamed(context, '/nutritionScreen');
                   _removeOverlay();
                 },
               ),
               buildMenuOption(
                 icon: Icons.fitness_center,
-                label: 'Fitness',
+                label: 'Workouts',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/fitnessScreen');
+                  Navigator.pushReplacementNamed(context, '/addworkoutScreen');
                   _removeOverlay();
                 },
               ),
               buildMenuOption(
-                icon: Icons.health_and_safety,
-                label: 'Wellness',
+                icon: Icons.receipt,
+                label: 'Recipes',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/wellnessScreen');
-                  _removeOverlay();
+                  setState(() {
+                    if (_isRecipeOpen == false) {
+                      _isRecipeOpen = true;
+                    } else {
+                      _isRecipeOpen = false;
+                    }
+                    _removeOverlay();
+                    _showOverlay();
+                  });
                 },
               ),
+              _isRecipeOpen == true
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        buildMenuOption(
+                            icon: Icons.fitness_center,
+                            label: 'Add Recipe',
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                  context, '/addrecipeScreen');
+                              _removeOverlay();
+                            },
+                            color: Colors.blue),
+                        buildMenuOption(
+                            icon: Icons.health_and_safety,
+                            label: 'Recipelist',
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                  context, '/displayrecipeScreen');
+                              _removeOverlay();
+                            },
+                            color: Colors.blue),
+                      ],
+                    )
+                  : const Column(),
               buildMenuOption(
                 icon: Icons.book_sharp,
                 label: 'Book of Exuses',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/bookofexusesScreen');
+                  Navigator.pushReplacementNamed(
+                      context, '/bookofexusesScreen');
                   _removeOverlay();
                 },
               ),
@@ -91,12 +125,13 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
     required IconData icon,
     required String label,
     required VoidCallback onPressed,
+    Color color = Colors.black,
   }) {
     return InkWell(
       onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        color: Colors.black54,
+        color: color,
         child: Row(
           children: [
             Icon(icon, color: Colors.white),
