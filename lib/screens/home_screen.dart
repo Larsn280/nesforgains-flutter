@@ -65,24 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/addworkoutScreen');
-                  },
-                  text: 'Go to Workouts'),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/addrecipeScreen');
-                  },
-                  text: 'Go to Recipes'),
-
-              // AppConstants.buildElevatedButton(
-              //     context: context,
-              //     path: '/trainingcalculatorScreen',
-              //     text: 'Go to Calculator'),
-
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
                     AuthProvider.of(context).logout();
                   },
                   text: 'Logout'),

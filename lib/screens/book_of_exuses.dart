@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
-import 'package:nes_for_gains/widgets/custom_buttons.dart';
 
 class BookOfExuses extends StatefulWidget {
   const BookOfExuses({super.key});

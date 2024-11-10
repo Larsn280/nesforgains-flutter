@@ -244,12 +244,6 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                   context: context,
                   onPressed: _saveTrainingData,
                   text: 'Save Workout'),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/displayworkoutScreen');
-                  },
-                  text: 'Display Workouts'),
             ],
           ),
         ),

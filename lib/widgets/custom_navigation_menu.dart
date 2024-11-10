@@ -50,21 +50,94 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
             mainAxisSize: MainAxisSize.min,
             children: [
               buildMenuOption(
-                icon: Icons.dining,
-                label: 'Nutrition',
+                icon: Icons.home,
+                label: 'Home',
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/nutritionScreen');
+                  Navigator.pushReplacementNamed(context, '/');
                   _removeOverlay();
                 },
               ),
               buildMenuOption(
-                icon: Icons.fitness_center,
-                label: 'Workouts',
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/addworkoutScreen');
-                  _removeOverlay();
-                },
-              ),
+                  icon: Icons.fitness_center,
+                  label: 'Nutrition',
+                  onPressed: () {
+                    setState(() {
+                      if (_isRecipeOpen == false) {
+                        _isRecipeOpen = true;
+                      } else {
+                        _isRecipeOpen = false;
+                      }
+                      _removeOverlay();
+                      _showOverlay();
+                    });
+                  }),
+              _isRecipeOpen == true
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        buildMenuOption(
+                          icon: Icons.dining,
+                          label: 'Nutrition Calculator',
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, '/nutritionScreen');
+                            _removeOverlay();
+                          },
+                          color: Colors.blue,
+                        ),
+                        buildMenuOption(
+                            icon: Icons.nature,
+                            label: 'Display Nutrition',
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                  context, '/displaynutritionScreen');
+                              _removeOverlay();
+                            },
+                            color: Colors.blue),
+                      ],
+                    )
+                  : const Column(),
+              buildMenuOption(
+                  icon: Icons.fitness_center,
+                  label: 'Workouts',
+                  onPressed: () {
+                    setState(() {
+                      if (_isRecipeOpen == false) {
+                        _isRecipeOpen = true;
+                      } else {
+                        _isRecipeOpen = false;
+                      }
+                      _removeOverlay();
+                      _showOverlay();
+                    });
+                  }),
+              _isRecipeOpen == true
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        buildMenuOption(
+                          icon: Icons.fitness_center,
+                          label: 'Add Workout',
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, '/addworkoutScreen');
+                            _removeOverlay();
+                          },
+                          color: Colors.blue,
+                        ),
+                        buildMenuOption(
+                          icon: Icons.fitness_center,
+                          label: 'Display Workouts',
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, '/displayworkoutScreen');
+                            _removeOverlay();
+                          },
+                          color: Colors.blue,
+                        ),
+                      ],
+                    )
+                  : const Column(),
               buildMenuOption(
                 icon: Icons.receipt,
                 label: 'Recipes',
