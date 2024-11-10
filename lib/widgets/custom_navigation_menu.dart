@@ -8,7 +8,10 @@ class CustomNavigationMenu extends StatefulWidget {
 
 class CustomNavigationMenuState extends State<CustomNavigationMenu> {
   OverlayEntry? _overlayEntry;
+  late bool _isNutritionOpen = false;
+  late bool _isWorkoutOpen = false;
   late bool _isRecipeOpen = false;
+  final Color subColor = Colors.blueGrey;
 
   @override
   void dispose() {
@@ -58,60 +61,60 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                 },
               ),
               buildMenuOption(
-                  icon: Icons.fitness_center,
+                  icon: Icons.dining,
                   label: 'Nutrition',
                   onPressed: () {
                     setState(() {
-                      if (_isRecipeOpen == false) {
-                        _isRecipeOpen = true;
+                      if (_isNutritionOpen == false) {
+                        _isNutritionOpen = true;
                       } else {
-                        _isRecipeOpen = false;
+                        _isNutritionOpen = false;
                       }
                       _removeOverlay();
                       _showOverlay();
                     });
                   }),
-              _isRecipeOpen == true
+              _isNutritionOpen == true
                   ? Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         buildMenuOption(
-                          icon: Icons.dining,
+                          icon: Icons.calculate,
                           label: 'Nutrition Calculator',
                           onPressed: () {
                             Navigator.pushReplacementNamed(
                                 context, '/nutritionScreen');
                             _removeOverlay();
                           },
-                          color: Colors.blue,
+                          color: subColor,
                         ),
                         buildMenuOption(
-                            icon: Icons.nature,
+                            icon: Icons.list,
                             label: 'Display Nutrition',
                             onPressed: () {
                               Navigator.pushReplacementNamed(
                                   context, '/displaynutritionScreen');
                               _removeOverlay();
                             },
-                            color: Colors.blue),
+                            color: subColor),
                       ],
                     )
                   : const Column(),
               buildMenuOption(
-                  icon: Icons.fitness_center,
+                  icon: Icons.bar_chart,
                   label: 'Workouts',
                   onPressed: () {
                     setState(() {
-                      if (_isRecipeOpen == false) {
-                        _isRecipeOpen = true;
+                      if (_isWorkoutOpen == false) {
+                        _isWorkoutOpen = true;
                       } else {
-                        _isRecipeOpen = false;
+                        _isWorkoutOpen = false;
                       }
                       _removeOverlay();
                       _showOverlay();
                     });
                   }),
-              _isRecipeOpen == true
+              _isWorkoutOpen == true
                   ? Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -123,17 +126,17 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                                 context, '/addworkoutScreen');
                             _removeOverlay();
                           },
-                          color: Colors.blue,
+                          color: subColor,
                         ),
                         buildMenuOption(
-                          icon: Icons.fitness_center,
+                          icon: Icons.list,
                           label: 'Display Workouts',
                           onPressed: () {
                             Navigator.pushReplacementNamed(
                                 context, '/displayworkoutScreen');
                             _removeOverlay();
                           },
-                          color: Colors.blue,
+                          color: subColor,
                         ),
                       ],
                     )
@@ -158,23 +161,23 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         buildMenuOption(
-                            icon: Icons.fitness_center,
+                            icon: Icons.food_bank,
                             label: 'Add Recipe',
                             onPressed: () {
                               Navigator.pushReplacementNamed(
                                   context, '/addrecipeScreen');
                               _removeOverlay();
                             },
-                            color: Colors.blue),
+                            color: subColor),
                         buildMenuOption(
-                            icon: Icons.health_and_safety,
+                            icon: Icons.list,
                             label: 'Recipelist',
                             onPressed: () {
                               Navigator.pushReplacementNamed(
                                   context, '/displayrecipeScreen');
                               _removeOverlay();
                             },
-                            color: Colors.blue),
+                            color: subColor),
                       ],
                     )
                   : const Column(),

@@ -7,7 +7,6 @@ import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
-import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
 import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
