@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
 
 class BookOfExuses extends StatefulWidget {
   const BookOfExuses({super.key});
@@ -93,6 +94,12 @@ class _BookOfExusesScreenState extends State<BookOfExuses> {
                 const SizedBox(
                   height: 8.0,
                 ),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/');
+                    },
+                    text: 'Exit')
               ],
             ),
           ),
