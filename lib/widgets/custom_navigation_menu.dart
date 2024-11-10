@@ -61,10 +61,11 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                 },
               ),
               buildMenuOption(
-                  icon: Icons.dining,
-                  label: 'Nutrition',
-                  onPressed: () {
-                    setState(() {
+                icon: Icons.dining,
+                label: 'Nutrition',
+                onPressed: () {
+                  setState(
+                    () {
                       if (_isNutritionOpen == false) {
                         _isNutritionOpen = true;
                       } else {
@@ -72,8 +73,12 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                       }
                       _removeOverlay();
                       _showOverlay();
-                    });
-                  }),
+                    },
+                  );
+                },
+                hasSubcategories: true,
+                isOpen: _isNutritionOpen,
+              ),
               _isNutritionOpen == true
                   ? Column(
                       mainAxisSize: MainAxisSize.min,
@@ -101,19 +106,22 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                     )
                   : const Column(),
               buildMenuOption(
-                  icon: Icons.bar_chart,
-                  label: 'Workouts',
-                  onPressed: () {
-                    setState(() {
-                      if (_isWorkoutOpen == false) {
-                        _isWorkoutOpen = true;
-                      } else {
-                        _isWorkoutOpen = false;
-                      }
-                      _removeOverlay();
-                      _showOverlay();
-                    });
-                  }),
+                icon: Icons.bar_chart,
+                label: 'Workouts',
+                onPressed: () {
+                  setState(() {
+                    if (_isWorkoutOpen == false) {
+                      _isWorkoutOpen = true;
+                    } else {
+                      _isWorkoutOpen = false;
+                    }
+                    _removeOverlay();
+                    _showOverlay();
+                  });
+                },
+                hasSubcategories: true,
+                isOpen: _isWorkoutOpen,
+              ),
               _isWorkoutOpen == true
                   ? Column(
                       mainAxisSize: MainAxisSize.min,
@@ -155,6 +163,8 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                     _showOverlay();
                   });
                 },
+                hasSubcategories: true,
+                isOpen: _isRecipeOpen,
               ),
               _isRecipeOpen == true
                   ? Column(
@@ -202,6 +212,8 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
     required String label,
     required VoidCallback onPressed,
     Color color = Colors.black,
+    bool hasSubcategories = false,
+    bool isOpen = false,
   }) {
     return InkWell(
       onTap: onPressed,
@@ -209,10 +221,20 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         color: color,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(icon, color: Colors.white),
-            const SizedBox(width: 8),
-            Text(label, style: const TextStyle(color: Colors.white)),
+            Row(
+              children: [
+                Icon(icon, color: Colors.white),
+                const SizedBox(width: 8),
+                Text(label, style: const TextStyle(color: Colors.white)),
+              ],
+            ),
+            if (hasSubcategories)
+              Icon(
+                isOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                color: Colors.white,
+              ),
           ],
         ),
       ),
