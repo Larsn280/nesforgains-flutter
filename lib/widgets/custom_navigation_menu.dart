@@ -8,15 +8,24 @@ class CustomNavigationMenu extends StatefulWidget {
 
 class CustomNavigationMenuState extends State<CustomNavigationMenu> {
   OverlayEntry? _overlayEntry;
-  late bool _isNutritionOpen = false;
-  late bool _isWorkoutOpen = false;
-  late bool _isRecipeOpen = false;
+  final Map<String, bool> _submenuOpen = {
+    "nutrition": false,
+    "workout": false,
+    "recipe": false,
+  };
   final Color subColor = Colors.blueGrey;
 
   @override
   void dispose() {
     _removeOverlay();
     super.dispose();
+  }
+
+  void _toggleSubmenu(String menuKey) {
+    setState(() {
+      _submenuOpen.updateAll((key, value) => key == menuKey ? !value : false);
+    });
+    _overlayEntry!.markNeedsBuild();
   }
 
   void _toggleOverlay() {
@@ -47,6 +56,8 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
               children: [
                 GestureDetector(
                   onTap: _removeOverlay,
+                  behavior: HitTestBehavior
+                      .opaque, // Ensures the whole area responds to taps
                   child: Container(
                     color: Colors.transparent,
                     width: MediaQuery.of(context).size.width,
@@ -56,7 +67,7 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                 Positioned(
                   left: offset.dx,
                   top: offset.dy + size.height,
-                  width: 200, // Set width of the overlay menu
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: Material(
                     color: Colors.transparent,
                     child: SingleChildScrollView(
@@ -74,135 +85,99 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                           buildMenuOption(
                             icon: Icons.dining,
                             label: 'Nutrition',
-                            onPressed: () {
-                              setState(
-                                () {
-                                  if (_isNutritionOpen == false) {
-                                    _isNutritionOpen = true;
-                                  } else {
-                                    _isNutritionOpen = false;
-                                  }
-                                  _removeOverlay();
-                                  _showOverlay();
-                                },
-                              );
-                            },
+                            onPressed: () => _toggleSubmenu('nutrition'),
                             hasSubcategories: true,
-                            isOpen: _isNutritionOpen,
+                            isOpen: _submenuOpen['nutrition']!,
                           ),
-                          _isNutritionOpen == true
-                              ? Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    buildMenuOption(
-                                      icon: Icons.calculate,
-                                      label: 'Nutrition Calculator',
-                                      onPressed: () {
-                                        Navigator.pushReplacementNamed(
-                                            context, '/nutritionScreen');
-                                        _removeOverlay();
-                                      },
-                                      color: subColor,
-                                    ),
-                                    buildMenuOption(
-                                        icon: Icons.list,
-                                        label: 'Display Nutrition',
-                                        onPressed: () {
-                                          Navigator.pushReplacementNamed(
-                                              context,
-                                              '/displaynutritionScreen');
-                                          _removeOverlay();
-                                        },
-                                        color: subColor),
-                                  ],
-                                )
-                              : const Column(),
+                          if (_submenuOpen['nutrition']!)
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                buildMenuOption(
+                                  icon: Icons.calculate,
+                                  label: 'Nutrition Calculator',
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/nutritionScreen');
+                                    _removeOverlay();
+                                  },
+                                  color: subColor,
+                                ),
+                                buildMenuOption(
+                                    icon: Icons.list,
+                                    label: 'Display Nutrition',
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/displaynutritionScreen');
+                                      _removeOverlay();
+                                    },
+                                    color: subColor),
+                              ],
+                            ),
                           buildMenuOption(
                             icon: Icons.bar_chart,
                             label: 'Workouts',
-                            onPressed: () {
-                              setState(() {
-                                if (_isWorkoutOpen == false) {
-                                  _isWorkoutOpen = true;
-                                } else {
-                                  _isWorkoutOpen = false;
-                                }
-                                _removeOverlay();
-                                _showOverlay();
-                              });
-                            },
+                            onPressed: () => _toggleSubmenu('workout'),
                             hasSubcategories: true,
-                            isOpen: _isWorkoutOpen,
+                            isOpen: _submenuOpen['workout']!,
                           ),
-                          _isWorkoutOpen == true
-                              ? Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    buildMenuOption(
-                                      icon: Icons.fitness_center,
-                                      label: 'Add Workout',
-                                      onPressed: () {
-                                        Navigator.pushReplacementNamed(
-                                            context, '/addworkoutScreen');
-                                        _removeOverlay();
-                                      },
-                                      color: subColor,
-                                    ),
-                                    buildMenuOption(
-                                      icon: Icons.list,
-                                      label: 'Display Workouts',
-                                      onPressed: () {
-                                        Navigator.pushReplacementNamed(
-                                            context, '/displayworkoutScreen');
-                                        _removeOverlay();
-                                      },
-                                      color: subColor,
-                                    ),
-                                  ],
-                                )
-                              : const Column(),
+                          if (_submenuOpen['workout']!)
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                buildMenuOption(
+                                  icon: Icons.fitness_center,
+                                  label: 'Add Workout',
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/addworkoutScreen');
+                                    _removeOverlay();
+                                  },
+                                  color: subColor,
+                                ),
+                                buildMenuOption(
+                                  icon: Icons.list,
+                                  label: 'Display Workouts',
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/displayworkoutScreen');
+                                    _removeOverlay();
+                                  },
+                                  color: subColor,
+                                ),
+                              ],
+                            ),
                           buildMenuOption(
                             icon: Icons.receipt,
                             label: 'Recipes',
-                            onPressed: () {
-                              setState(() {
-                                if (_isRecipeOpen == false) {
-                                  _isRecipeOpen = true;
-                                } else {
-                                  _isRecipeOpen = false;
-                                }
-                                _removeOverlay();
-                                _showOverlay();
-                              });
-                            },
+                            onPressed: () => _toggleSubmenu('recipe'),
                             hasSubcategories: true,
-                            isOpen: _isRecipeOpen,
+                            isOpen: _submenuOpen['recipe']!,
                           ),
-                          _isRecipeOpen == true
-                              ? Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    buildMenuOption(
-                                        icon: Icons.food_bank,
-                                        label: 'Add Recipe',
-                                        onPressed: () {
-                                          Navigator.pushReplacementNamed(
-                                              context, '/addrecipeScreen');
-                                          _removeOverlay();
-                                        },
-                                        color: subColor),
-                                    buildMenuOption(
-                                        icon: Icons.list,
-                                        label: 'Recipelist',
-                                        onPressed: () {
-                                          Navigator.pushReplacementNamed(
-                                              context, '/displayrecipeScreen');
-                                          _removeOverlay();
-                                        },
-                                        color: subColor),
-                                  ],
-                                )
-                              : const Column(),
+                          if (_submenuOpen['recipe']!)
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                buildMenuOption(
+                                    icon: Icons.food_bank,
+                                    label: 'Add Recipe',
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/addrecipeScreen');
+                                      _removeOverlay();
+                                    },
+                                    color: subColor),
+                                buildMenuOption(
+                                    icon: Icons.list,
+                                    label: 'Recipelist',
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/displayrecipeScreen');
+                                      _removeOverlay();
+                                    },
+                                    color: subColor),
+                              ],
+                            ),
                           buildMenuOption(
                             icon: Icons.book_sharp,
                             label: 'Book of Exuses',
@@ -258,7 +233,11 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.menu, color: Colors.white),
+      icon: const Icon(
+        Icons.menu,
+        color: Colors.white,
+        semanticLabel: 'Navigation Menu',
+      ),
       onPressed: _toggleOverlay,
     );
   }
