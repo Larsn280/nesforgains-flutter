@@ -91,14 +91,15 @@ DailyNutrition _dailyNutritionDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = DailyNutrition();
-  object.calories = reader.readLongOrNull(offsets[0]);
-  object.carbohydrates = reader.readLongOrNull(offsets[1]);
-  object.date = reader.readDateTimeOrNull(offsets[2]);
-  object.fat = reader.readLongOrNull(offsets[3]);
+  final object = DailyNutrition(
+    calories: reader.readLongOrNull(offsets[0]),
+    carbohydrates: reader.readLongOrNull(offsets[1]),
+    date: reader.readDateTimeOrNull(offsets[2]),
+    fat: reader.readLongOrNull(offsets[3]),
+    protein: reader.readLongOrNull(offsets[4]),
+    userId: reader.readLongOrNull(offsets[5]),
+  );
   object.id = id;
-  object.protein = reader.readLongOrNull(offsets[4]);
-  object.userId = reader.readLongOrNull(offsets[5]);
   return object;
 }
 
