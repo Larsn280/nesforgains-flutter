@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:nes_for_gains/database/collections/workout_data.dart';
+import 'package:nes_for_gains/database/collections/exercise_data.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/models/response_data.dart';
 
@@ -8,7 +8,7 @@ class WorkoutService {
 
   WorkoutService(this._isar);
 
-  Future<ResponseData> addWorkout(WorkoutData data) async {
+  Future<ResponseData> addWorkout(Exercise data) async {
     try {
       String parseDate(String dateTime) => dateTime.split(' ')[0];
 
@@ -22,7 +22,7 @@ class WorkoutService {
       final String date = parseDate(data.date!);
 
       // Check for existing workout
-      final existingWorkout = await _isar.workoutDatas
+      final existingWorkout = await _isar.exercises
           .filter()
           .exerciseEqualTo(data.exercise)
           .repEqualTo(data.rep)
@@ -33,7 +33,7 @@ class WorkoutService {
 
       // If no existing workout, create a new one
       if (existingWorkout == null) {
-        final newWorkout = WorkoutData()
+        final newWorkout = Exercise()
           ..exercise = capitalizeFirstLetter(data.exercise.toString())
           ..date = date
           ..rep = data.rep
@@ -41,8 +41,7 @@ class WorkoutService {
           ..kg = data.kg
           ..userId = data.userId;
 
-        await _isar
-            .writeTxn(() async => await _isar.workoutDatas.put(newWorkout));
+        await _isar.writeTxn(() async => await _isar.exercises.put(newWorkout));
 
         return ResponseData(
             checksuccess: true,
@@ -63,9 +62,9 @@ class WorkoutService {
     }
   }
 
-  Future<List<WorkoutData>> fetchAllWorkouts(int userId) async {
+  Future<List<Exercise>> fetchAllWorkouts(int userId) async {
     try {
-      final logs = await _isar.workoutDatas
+      final logs = await _isar.exercises
           .filter()
           .userIdEqualTo(userId)
           .sortByDateDesc()
@@ -79,10 +78,10 @@ class WorkoutService {
     }
   }
 
-  Future<ResponseData> editWorkout(WorkoutData data, int workoutId) async {
+  Future<ResponseData> editWorkout(Exercise data, int workoutId) async {
     try {
       // Attempt to find the workout by ID and user ID
-      final workoutToEdit = await _isar.workoutDatas
+      final workoutToEdit = await _isar.exercises
           .filter()
           .idEqualTo(workoutId)
           .userIdEqualTo(data.userId)
@@ -99,7 +98,7 @@ class WorkoutService {
 
         // Save changes within a transaction
         await _isar.writeTxn(() async {
-          await _isar.workoutDatas.put(workoutToEdit);
+          await _isar.exercises.put(workoutToEdit);
         });
 
         return ResponseData(
@@ -121,10 +120,10 @@ class WorkoutService {
     }
   }
 
-  Future<ResponseData> deleteWorkout(WorkoutData data) async {
+  Future<ResponseData> deleteWorkout(Exercise data) async {
     try {
       // Find the workout to delete based on the given data
-      final workoutToDelete = await _isar.workoutDatas
+      final workoutToDelete = await _isar.exercises
           .filter()
           .userIdEqualTo(data.userId)
           .dateEqualTo(data.date)
@@ -134,7 +133,7 @@ class WorkoutService {
       // If the workout is found, proceed with deletion
       if (workoutToDelete != null) {
         await _isar.writeTxn(() async {
-          await _isar.workoutDatas.delete(workoutToDelete.id);
+          await _isar.exercises.delete(workoutToDelete.id);
         });
         return ResponseData(
             checksuccess: true, message: 'Workout was successfully deleted.');

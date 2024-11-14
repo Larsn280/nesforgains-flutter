@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/database/collections/workout_data.dart';
+import 'package:nes_for_gains/database/collections/exercise_data.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
@@ -12,7 +12,7 @@ import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class EditWorkoutScreen extends StatefulWidget {
   final Isar isar;
-  final WorkoutData workout; // Pass the log to edit
+  final Exercise workout; // Pass the log to edit
 
   const EditWorkoutScreen(
       {super.key, required this.isar, required this.workout});
@@ -59,7 +59,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Future<void> _handleEditWorkout() async {
     try {
       if (_formKey.currentState!.validate()) {
-        WorkoutData updatedWorkout = WorkoutData(
+        Exercise updatedWorkout = Exercise(
           exercise: _exerciseController.text.toString(),
           date: _dateController.text.toString(),
           rep: int.parse(_repsController.text),

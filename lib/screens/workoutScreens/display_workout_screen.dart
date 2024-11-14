@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/database/collections/workout_data.dart';
+import 'package:nes_for_gains/database/collections/exercise_data.dart';
+import 'package:nes_for_gains/screens/workoutScreens/display_workout_details_screen.dart';
 import 'package:nes_for_gains/screens/workoutScreens/edit_workout_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
@@ -22,7 +23,7 @@ class DisplayWorkoutScreen extends StatefulWidget {
 class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   static const double sizedBoxHeight = 18.0;
   late WorkoutService workoutService;
-  late Future<List<WorkoutData>> _futureWorkouts;
+  late Future<List<Exercise>> _futureWorkouts;
 
   @override
   void initState() {
@@ -31,7 +32,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     _futureWorkouts = _fetchAllWorkouts();
   }
 
-  Future<List<WorkoutData>> _fetchAllWorkouts() async {
+  Future<List<Exercise>> _fetchAllWorkouts() async {
     try {
       final userId = AuthProvider.of(context).id;
       final response = await workoutService.fetchAllWorkouts(userId);
@@ -46,7 +47,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     }
   }
 
-  void _navigateToEditWorkout(WorkoutData workout) async {
+  void _navigateToEditWorkout(Exercise workout) async {
     try {
       final result = await Navigator.push(
         context,
@@ -70,7 +71,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     }
   }
 
-  Future<void> _handleDeleteWorkout(WorkoutData data) async {
+  Future<void> _handleDeleteWorkout(Exercise data) async {
     try {
       final response = await workoutService.deleteWorkout(data);
 
@@ -86,6 +87,17 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
           message:
               'An error occurred while deleting the workout. Please try again.');
     }
+  }
+
+  void _navigateToWorkoutDetails(Exercise workout) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DisplayWorkoutDetailsScreen(
+          workout: workout,
+        ),
+      ),
+    );
   }
 
   @override
@@ -111,7 +123,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
             ),
             const SizedBox(height: 16.0),
             Expanded(
-              child: FutureBuilder<List<WorkoutData>>(
+              child: FutureBuilder<List<Exercise>>(
                 future: _futureWorkouts,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -154,44 +166,49 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     );
   }
 
-  Widget _buildTrainingRow(WorkoutData log) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.25,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(log.exercise.toString()),
-                Text(log.date.toString()),
-              ],
+  Widget _buildTrainingRow(Exercise log) {
+    return GestureDetector(
+      onTap: () {
+        _navigateToWorkoutDetails(log);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        child: Row(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.25,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(log.exercise.toString()),
+                  Text(log.date.toString()),
+                ],
+              ),
             ),
-          ),
-          _buildTrainingColumn(log.rep.toString(), 0.10),
-          _buildTrainingColumn(log.set.toString(), 0.10),
-          _buildTrainingColumn('${log.kg.toString()} kg', 0.15),
-          Flexible(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.greenAccent),
-                  onPressed: () {
-                    _navigateToEditWorkout(log);
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.redAccent),
-                  onPressed: () {
-                    _handleDeleteWorkout(log);
-                  },
-                ),
-              ],
+            _buildTrainingColumn(log.rep.toString(), 0.10),
+            _buildTrainingColumn(log.set.toString(), 0.10),
+            _buildTrainingColumn('${log.kg.toString()} kg', 0.15),
+            Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.greenAccent),
+                    onPressed: () {
+                      _navigateToEditWorkout(log);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.redAccent),
+                    onPressed: () {
+                      _handleDeleteWorkout(log);
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -204,7 +221,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     );
   }
 
-  Widget _buildTrainingList(List<WorkoutData> logs, String message) {
+  Widget _buildTrainingList(List<Exercise> logs, String message) {
     return CustomCards.buildListCard(
       context: context,
       child: Column(

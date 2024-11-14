@@ -33,7 +33,7 @@ const WorkoutSchema = CollectionSchema(
     r'exercise': LinkSchema(
       id: 2915180210688732038,
       name: r'exercise',
-      target: r'WorkoutData',
+      target: r'Exercise',
       single: false,
     )
   },
@@ -99,8 +99,7 @@ List<IsarLinkBase<dynamic>> _workoutGetLinks(Workout object) {
 
 void _workoutAttach(IsarCollection<dynamic> col, Id id, Workout object) {
   object.id = id;
-  object.exercise
-      .attach(col, col.isar.collection<WorkoutData>(), r'exercise', id);
+  object.exercise.attach(col, col.isar.collection<Exercise>(), r'exercise', id);
 }
 
 extension WorkoutQueryWhereSort on QueryBuilder<Workout, Workout, QWhere> {
@@ -369,7 +368,7 @@ extension WorkoutQueryObject
 extension WorkoutQueryLinks
     on QueryBuilder<Workout, Workout, QFilterCondition> {
   QueryBuilder<Workout, Workout, QAfterFilterCondition> exercise(
-      FilterQuery<WorkoutData> q) {
+      FilterQuery<Exercise> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'exercise');
     });

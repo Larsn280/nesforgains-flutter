@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'workout_data.dart';
+part of 'exercise_data.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,13 +9,13 @@ part of 'workout_data.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetWorkoutDataCollection on Isar {
-  IsarCollection<WorkoutData> get workoutDatas => this.collection();
+extension GetExerciseCollection on Isar {
+  IsarCollection<Exercise> get exercises => this.collection();
 }
 
-const WorkoutDataSchema = CollectionSchema(
-  name: r'WorkoutData',
-  id: 8266263936000631167,
+const ExerciseSchema = CollectionSchema(
+  name: r'Exercise',
+  id: 2972066467915231902,
   properties: {
     r'date': PropertySchema(
       id: 0,
@@ -48,22 +48,22 @@ const WorkoutDataSchema = CollectionSchema(
       type: IsarType.long,
     )
   },
-  estimateSize: _workoutDataEstimateSize,
-  serialize: _workoutDataSerialize,
-  deserialize: _workoutDataDeserialize,
-  deserializeProp: _workoutDataDeserializeProp,
+  estimateSize: _exerciseEstimateSize,
+  serialize: _exerciseSerialize,
+  deserialize: _exerciseDeserialize,
+  deserializeProp: _exerciseDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {},
   embeddedSchemas: {},
-  getId: _workoutDataGetId,
-  getLinks: _workoutDataGetLinks,
-  attach: _workoutDataAttach,
+  getId: _exerciseGetId,
+  getLinks: _exerciseGetLinks,
+  attach: _exerciseAttach,
   version: '3.1.0+1',
 );
 
-int _workoutDataEstimateSize(
-  WorkoutData object,
+int _exerciseEstimateSize(
+  Exercise object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -83,8 +83,8 @@ int _workoutDataEstimateSize(
   return bytesCount;
 }
 
-void _workoutDataSerialize(
-  WorkoutData object,
+void _exerciseSerialize(
+  Exercise object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -97,13 +97,13 @@ void _workoutDataSerialize(
   writer.writeLong(offsets[5], object.userId);
 }
 
-WorkoutData _workoutDataDeserialize(
+Exercise _exerciseDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = WorkoutData(
+  final object = Exercise(
     date: reader.readStringOrNull(offsets[0]),
     exercise: reader.readStringOrNull(offsets[1]),
     kg: reader.readDoubleOrNull(offsets[2]),
@@ -115,7 +115,7 @@ WorkoutData _workoutDataDeserialize(
   return object;
 }
 
-P _workoutDataDeserializeProp<P>(
+P _exerciseDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -139,31 +139,28 @@ P _workoutDataDeserializeProp<P>(
   }
 }
 
-Id _workoutDataGetId(WorkoutData object) {
+Id _exerciseGetId(Exercise object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _workoutDataGetLinks(WorkoutData object) {
+List<IsarLinkBase<dynamic>> _exerciseGetLinks(Exercise object) {
   return [];
 }
 
-void _workoutDataAttach(
-    IsarCollection<dynamic> col, Id id, WorkoutData object) {
+void _exerciseAttach(IsarCollection<dynamic> col, Id id, Exercise object) {
   object.id = id;
 }
 
-extension WorkoutDataQueryWhereSort
-    on QueryBuilder<WorkoutData, WorkoutData, QWhere> {
-  QueryBuilder<WorkoutData, WorkoutData, QAfterWhere> anyId() {
+extension ExerciseQueryWhereSort on QueryBuilder<Exercise, Exercise, QWhere> {
+  QueryBuilder<Exercise, Exercise, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension WorkoutDataQueryWhere
-    on QueryBuilder<WorkoutData, WorkoutData, QWhereClause> {
-  QueryBuilder<WorkoutData, WorkoutData, QAfterWhereClause> idEqualTo(Id id) {
+extension ExerciseQueryWhere on QueryBuilder<Exercise, Exercise, QWhereClause> {
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -172,8 +169,7 @@ extension WorkoutDataQueryWhere
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterWhereClause> idNotEqualTo(
-      Id id) {
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -195,7 +191,7 @@ extension WorkoutDataQueryWhere
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -204,7 +200,7 @@ extension WorkoutDataQueryWhere
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -213,7 +209,7 @@ extension WorkoutDataQueryWhere
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterWhereClause> idBetween(
+  QueryBuilder<Exercise, Exercise, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -230,9 +226,9 @@ extension WorkoutDataQueryWhere
   }
 }
 
-extension WorkoutDataQueryFilter
-    on QueryBuilder<WorkoutData, WorkoutData, QFilterCondition> {
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateIsNull() {
+extension ExerciseQueryFilter
+    on QueryBuilder<Exercise, Exercise, QFilterCondition> {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'date',
@@ -240,8 +236,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      dateIsNotNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'date',
@@ -249,7 +244,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateEqualTo(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -262,7 +257,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateGreaterThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -277,7 +272,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateLessThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -292,7 +287,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateBetween(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -311,7 +306,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateStartsWith(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -324,7 +319,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateEndsWith(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -337,7 +332,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateContains(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -349,7 +344,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateMatches(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -361,7 +356,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> dateIsEmpty() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'date',
@@ -370,8 +365,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      dateIsNotEmpty() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> dateIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'date',
@@ -380,8 +374,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      exerciseIsNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'exercise',
@@ -389,8 +382,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      exerciseIsNotNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'exercise',
@@ -398,7 +390,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> exerciseEqualTo(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -411,8 +403,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      exerciseGreaterThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -427,8 +418,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      exerciseLessThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -443,7 +433,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> exerciseBetween(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -462,8 +452,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      exerciseStartsWith(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -476,8 +465,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      exerciseEndsWith(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -490,8 +478,9 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      exerciseContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseContains(
+      String value,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'exercise',
@@ -501,7 +490,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> exerciseMatches(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -513,8 +502,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      exerciseIsEmpty() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'exercise',
@@ -523,8 +511,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      exerciseIsNotEmpty() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> exerciseIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'exercise',
@@ -533,8 +520,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> idEqualTo(
-      Id value) {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -543,7 +529,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -556,7 +542,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> idLessThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -569,7 +555,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> idBetween(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -586,7 +572,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> kgIsNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> kgIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'kg',
@@ -594,7 +580,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> kgIsNotNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> kgIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'kg',
@@ -602,7 +588,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> kgEqualTo(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> kgEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
@@ -615,7 +601,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> kgGreaterThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> kgGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -630,7 +616,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> kgLessThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> kgLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -645,7 +631,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> kgBetween(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> kgBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -664,7 +650,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> repIsNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> repIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'rep',
@@ -672,7 +658,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> repIsNotNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> repIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'rep',
@@ -680,7 +666,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> repEqualTo(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> repEqualTo(
       int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -690,7 +676,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> repGreaterThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> repGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -703,7 +689,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> repLessThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> repLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -716,7 +702,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> repBetween(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> repBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -733,7 +719,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> setIsNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> setIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'set',
@@ -741,7 +727,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> setIsNotNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> setIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'set',
@@ -749,7 +735,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> setEqualTo(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> setEqualTo(
       int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -759,7 +745,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> setGreaterThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> setGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -772,7 +758,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> setLessThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> setLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -785,7 +771,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> setBetween(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> setBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -802,7 +788,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> userIdIsNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> userIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'userId',
@@ -810,8 +796,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      userIdIsNotNull() {
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> userIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'userId',
@@ -819,7 +804,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> userIdEqualTo(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> userIdEqualTo(
       int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -829,8 +814,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition>
-      userIdGreaterThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> userIdGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -843,7 +827,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> userIdLessThan(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> userIdLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -856,7 +840,7 @@ extension WorkoutDataQueryFilter
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterFilterCondition> userIdBetween(
+  QueryBuilder<Exercise, Exercise, QAfterFilterCondition> userIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -874,254 +858,253 @@ extension WorkoutDataQueryFilter
   }
 }
 
-extension WorkoutDataQueryObject
-    on QueryBuilder<WorkoutData, WorkoutData, QFilterCondition> {}
+extension ExerciseQueryObject
+    on QueryBuilder<Exercise, Exercise, QFilterCondition> {}
 
-extension WorkoutDataQueryLinks
-    on QueryBuilder<WorkoutData, WorkoutData, QFilterCondition> {}
+extension ExerciseQueryLinks
+    on QueryBuilder<Exercise, Exercise, QFilterCondition> {}
 
-extension WorkoutDataQuerySortBy
-    on QueryBuilder<WorkoutData, WorkoutData, QSortBy> {
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByDate() {
+extension ExerciseQuerySortBy on QueryBuilder<Exercise, Exercise, QSortBy> {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByDateDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByExercise() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByExercise() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exercise', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByExerciseDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByExerciseDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exercise', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByKg() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByKg() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'kg', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByKgDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByKgDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'kg', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByRep() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByRep() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rep', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByRepDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByRepDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rep', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortBySet() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortBySet() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'set', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortBySetDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortBySetDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'set', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByUserId() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByUserId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'userId', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> sortByUserIdDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> sortByUserIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'userId', Sort.desc);
     });
   }
 }
 
-extension WorkoutDataQuerySortThenBy
-    on QueryBuilder<WorkoutData, WorkoutData, QSortThenBy> {
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByDate() {
+extension ExerciseQuerySortThenBy
+    on QueryBuilder<Exercise, Exercise, QSortThenBy> {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByDateDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByExercise() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByExercise() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exercise', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByExerciseDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByExerciseDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'exercise', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenById() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByKg() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByKg() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'kg', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByKgDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByKgDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'kg', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByRep() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByRep() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rep', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByRepDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByRepDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rep', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenBySet() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenBySet() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'set', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenBySetDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenBySetDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'set', Sort.desc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByUserId() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByUserId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'userId', Sort.asc);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QAfterSortBy> thenByUserIdDesc() {
+  QueryBuilder<Exercise, Exercise, QAfterSortBy> thenByUserIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'userId', Sort.desc);
     });
   }
 }
 
-extension WorkoutDataQueryWhereDistinct
-    on QueryBuilder<WorkoutData, WorkoutData, QDistinct> {
-  QueryBuilder<WorkoutData, WorkoutData, QDistinct> distinctByDate(
+extension ExerciseQueryWhereDistinct
+    on QueryBuilder<Exercise, Exercise, QDistinct> {
+  QueryBuilder<Exercise, Exercise, QDistinct> distinctByDate(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'date', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QDistinct> distinctByExercise(
+  QueryBuilder<Exercise, Exercise, QDistinct> distinctByExercise(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'exercise', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QDistinct> distinctByKg() {
+  QueryBuilder<Exercise, Exercise, QDistinct> distinctByKg() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'kg');
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QDistinct> distinctByRep() {
+  QueryBuilder<Exercise, Exercise, QDistinct> distinctByRep() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'rep');
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QDistinct> distinctBySet() {
+  QueryBuilder<Exercise, Exercise, QDistinct> distinctBySet() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'set');
     });
   }
 
-  QueryBuilder<WorkoutData, WorkoutData, QDistinct> distinctByUserId() {
+  QueryBuilder<Exercise, Exercise, QDistinct> distinctByUserId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'userId');
     });
   }
 }
 
-extension WorkoutDataQueryProperty
-    on QueryBuilder<WorkoutData, WorkoutData, QQueryProperty> {
-  QueryBuilder<WorkoutData, int, QQueryOperations> idProperty() {
+extension ExerciseQueryProperty
+    on QueryBuilder<Exercise, Exercise, QQueryProperty> {
+  QueryBuilder<Exercise, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<WorkoutData, String?, QQueryOperations> dateProperty() {
+  QueryBuilder<Exercise, String?, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
     });
   }
 
-  QueryBuilder<WorkoutData, String?, QQueryOperations> exerciseProperty() {
+  QueryBuilder<Exercise, String?, QQueryOperations> exerciseProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'exercise');
     });
   }
 
-  QueryBuilder<WorkoutData, double?, QQueryOperations> kgProperty() {
+  QueryBuilder<Exercise, double?, QQueryOperations> kgProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'kg');
     });
   }
 
-  QueryBuilder<WorkoutData, int?, QQueryOperations> repProperty() {
+  QueryBuilder<Exercise, int?, QQueryOperations> repProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'rep');
     });
   }
 
-  QueryBuilder<WorkoutData, int?, QQueryOperations> setProperty() {
+  QueryBuilder<Exercise, int?, QQueryOperations> setProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'set');
     });
   }
 
-  QueryBuilder<WorkoutData, int?, QQueryOperations> userIdProperty() {
+  QueryBuilder<Exercise, int?, QQueryOperations> userIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'userId');
     });

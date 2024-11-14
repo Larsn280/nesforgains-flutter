@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/database/collections/workout_data.dart';
+import 'package:nes_for_gains/database/collections/exercise_data.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
@@ -55,7 +55,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
         final setValue = int.tryParse(_setsController.text);
         final userIdValue = AuthProvider.of(context).id;
 
-        final workoutData = WorkoutData(
+        final workoutData = Exercise(
           exercise: exerciseValue.toString(),
           date: _selectedDate.toString(),
           kg: kgValue,

@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:nes_for_gains/database/collections/workout_data.dart';
+import 'package:nes_for_gains/database/collections/exercise_data.dart';
 
 part 'workout.g.dart';
 
@@ -9,5 +9,5 @@ class Workout {
 
   late String name;
 
-  final exercise = IsarLinks<WorkoutData>();
+  final exercise = IsarLinks<Exercise>();
 }
