@@ -75,7 +75,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
 
         setState(() {
           if (response.checksuccess) {
-            _weightController.clear();
+            _workoutController.clear();
             _exerciseController.clear();
             _weightController.clear();
             _repsController.clear();

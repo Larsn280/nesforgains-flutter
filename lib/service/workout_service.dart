@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/exercise.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
@@ -96,11 +94,17 @@ class WorkoutService {
           await checkWorkoutForEdit.exercise.load();
 
           final checkExercisesForEdit =
-              workoutToEdit.exercise.map((e) => e).toList();
+              workoutToEdit.exercise.map((e) => e.id).toList();
 
-          for (var checkExercise in checkExercisesForEdit) {
+          // Find the existing exercise to edit
+          for (var checkExercise in checkWorkoutForEdit.exercise) {
             if (checkExercise.id == exercise.id) {
-              checkExercise == exercise;
+              // Update exercise fields
+              checkExercise.exercise = exercise.exercise;
+              checkExercise.set = exercise.set;
+              checkExercise.rep = exercise.rep;
+              checkExercise.kg = exercise.kg;
+              // Update other fields as needed...
             }
           }
 
@@ -112,12 +116,12 @@ class WorkoutService {
           checkWorkoutForEdit.exercise.reset();
           checkWorkoutForEdit.exercise.save();
 
-          await _isar.exercises.putAll(checkExercisesForEdit);
-          checkWorkoutForEdit.exercise.addAll(checkExercisesForEdit);
+          // await _isar.exercises.putAll(checkExercisesForEdit);
+          // checkWorkoutForEdit.exercise.addAll(checkExercisesForEdit);
 
           await _isar.workouts.put(checkWorkoutForEdit);
 
-          checkWorkoutForEdit.exercise.save();
+          await checkWorkoutForEdit.exercise.save();
         });
 
         return ResponseData(

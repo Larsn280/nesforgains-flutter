@@ -3,7 +3,6 @@ import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/exercise.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
-import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
@@ -26,6 +25,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   late WorkoutService workoutService;
   final _formKey = GlobalKey<FormState>();
 
+  late TextEditingController _workoutController;
   late TextEditingController _exerciseController;
   late TextEditingController _dateController;
   late TextEditingController _repsController;
@@ -36,8 +36,10 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   void initState() {
     super.initState();
     workoutService = WorkoutService(widget.isar);
-    _exerciseController =
-        TextEditingController(text: widget.workout.exercise.toString());
+    _workoutController =
+        TextEditingController(text: widget.workout.name.toString());
+    _exerciseController = TextEditingController(
+        text: widget.workout.exercise.map((e) => e.exercise).toString());
     _dateController =
         TextEditingController(text: widget.workout.date.toString());
     _repsController = TextEditingController(
@@ -50,6 +52,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
 
   @override
   void dispose() {
+    _workoutController.dispose();
     _exerciseController.dispose();
     _dateController.dispose();
     _repsController.dispose();
@@ -62,9 +65,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     try {
       if (_formKey.currentState!.validate()) {
         Workout updatedWorkout = Workout(
-          name: _exerciseController.text.toString(),
+          name: _workoutController.text.toString(),
           date: _dateController.text.toString(),
-          userId: widget.workout.id,
+          userId: widget.workout.userId,
         );
 
         Exercise updatedExercise = Exercise(
@@ -120,6 +123,8 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 16.0),
+                      _buildTextField(
+                          'Workout (eg: Chest)', _workoutController),
                       _buildTextField(
                           'Exercise (eg: Benchpress)', _exerciseController),
                       _buildTextField('Date (YYYY-MM-DD)', _dateController),
