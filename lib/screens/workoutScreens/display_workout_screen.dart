@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/database/collections/exercise_data.dart';
+import 'package:nes_for_gains/database/collections/exercise.dart';
+import 'package:nes_for_gains/database/collections/workout.dart';
 import 'package:nes_for_gains/screens/workoutScreens/display_workout_details_screen.dart';
 import 'package:nes_for_gains/screens/workoutScreens/edit_workout_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
@@ -23,7 +24,7 @@ class DisplayWorkoutScreen extends StatefulWidget {
 class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   static const double sizedBoxHeight = 18.0;
   late WorkoutService workoutService;
-  late Future<List<Exercise>> _futureWorkouts;
+  late Future<List<Workout>> _futureWorkouts;
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     _futureWorkouts = _fetchAllWorkouts();
   }
 
-  Future<List<Exercise>> _fetchAllWorkouts() async {
+  Future<List<Workout>> _fetchAllWorkouts() async {
     try {
       final userId = AuthProvider.of(context).id;
       final response = await workoutService.fetchAllWorkouts(userId);
@@ -47,7 +48,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     }
   }
 
-  void _navigateToEditWorkout(Exercise workout) async {
+  void _navigateToEditWorkout(Workout workout) async {
     try {
       final result = await Navigator.push(
         context,
@@ -71,9 +72,9 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     }
   }
 
-  Future<void> _handleDeleteWorkout(Exercise data) async {
+  Future<void> _handleDeleteWorkout(Workout workout) async {
     try {
-      final response = await workoutService.deleteWorkout(data);
+      final response = await workoutService.deleteWorkout(workout);
 
       if (response.checksuccess) {
         setState(() {
@@ -89,7 +90,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     }
   }
 
-  void _navigateToWorkoutDetails(Exercise workout) async {
+  void _navigateToWorkoutDetails(Workout workout) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -123,7 +124,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
             ),
             const SizedBox(height: 16.0),
             Expanded(
-              child: FutureBuilder<List<Exercise>>(
+              child: FutureBuilder<List<Workout>>(
                 future: _futureWorkouts,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -166,7 +167,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     );
   }
 
-  Widget _buildTrainingRow(Exercise log) {
+  Widget _buildTrainingRow(Workout log) {
     return GestureDetector(
       onTap: () {
         _navigateToWorkoutDetails(log);
@@ -180,14 +181,17 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(log.exercise.toString()),
+                  Text(log.name),
                   Text(log.date.toString()),
                 ],
               ),
             ),
-            _buildTrainingColumn(log.rep.toString(), 0.10),
-            _buildTrainingColumn(log.set.toString(), 0.10),
-            _buildTrainingColumn('${log.kg.toString()} kg', 0.15),
+            _buildTrainingColumn(
+                log.exercise.map((e) => e.rep).toString(), 0.10),
+            _buildTrainingColumn(
+                log.exercise.map((e) => e.set).toString(), 0.10),
+            _buildTrainingColumn(
+                '${log.exercise.map((e) => e.kg).toString()} kg', 0.15),
             Flexible(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -221,7 +225,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     );
   }
 
-  Widget _buildTrainingList(List<Exercise> logs, String message) {
+  Widget _buildTrainingList(List<Workout> logs, String message) {
     return CustomCards.buildListCard(
       context: context,
       child: Column(

@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:nes_for_gains/database/collections/exercise_data.dart';
+import 'package:nes_for_gains/database/collections/exercise.dart';
 
 part 'workout.g.dart';
 
@@ -9,5 +9,11 @@ class Workout {
 
   late String name;
 
+  String? date;
+
+  int? userId;
+
   final exercise = IsarLinks<Exercise>();
+
+  Workout({required this.name, required this.date, required this.userId});
 }

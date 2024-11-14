@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
-import 'package:nes_for_gains/database/collections/exercise_data.dart';
+import 'package:nes_for_gains/database/collections/exercise.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class DisplayWorkoutDetailsScreen extends StatefulWidget {
-  final Exercise workout;
+  final Workout workout;
 
   const DisplayWorkoutDetailsScreen({super.key, required this.workout});
 
@@ -56,7 +56,7 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
     );
   }
 
-  Widget _buildWorkoutDetails(Exercise workout) {
+  Widget _buildWorkoutDetails(Workout workout) {
     return Column();
   }
 }

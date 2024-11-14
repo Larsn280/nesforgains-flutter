@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/database/collections/exercise_data.dart';
+import 'package:nes_for_gains/database/collections/exercise.dart';
+import 'package:nes_for_gains/database/collections/workout.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
@@ -22,6 +23,7 @@ class AddWorkoutScreen extends StatefulWidget {
 
 class _AddWorkoutScreen extends State<AddWorkoutScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _workoutController = TextEditingController();
   final _exerciseController = TextEditingController();
   final _weightController = TextEditingController();
   final _repsController = TextEditingController();
@@ -39,6 +41,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
 
   @override
   void dispose() {
+    _workoutController.dispose();
     _exerciseController.dispose();
     _weightController.dispose();
     _repsController.dispose();
@@ -49,27 +52,30 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
   void _saveTrainingData() async {
     try {
       if (_formKey.currentState!.validate() && _selectedDate != null) {
+        final workoutValue = _workoutController.text.toString();
         final exerciseValue = _exerciseController.text.toString();
         final kgValue = double.tryParse(_weightController.text);
         final repValue = int.tryParse(_repsController.text);
         final setValue = int.tryParse(_setsController.text);
         final userIdValue = AuthProvider.of(context).id;
 
-        final workoutData = Exercise(
-          exercise: exerciseValue.toString(),
-          date: _selectedDate.toString(),
+        final workout = Workout(
+            name: workoutValue,
+            date: _selectedDate.toString(),
+            userId: userIdValue);
+
+        final exercise = Exercise(
+          exercise: exerciseValue,
           kg: kgValue,
           rep: repValue,
           set: setValue,
-          userId: userIdValue,
         );
 
-        final response = await workoutService.addWorkout(
-          workoutData,
-        );
+        final response = await workoutService.addWorkout(workout, exercise);
 
         setState(() {
           if (response.checksuccess) {
+            _weightController.clear();
             _exerciseController.clear();
             _weightController.clear();
             _repsController.clear();
@@ -149,6 +155,26 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 10),
+
+                      TextFormField(
+                        controller: _workoutController,
+                        decoration: const InputDecoration(
+                          labelText: 'Workout (eg: Chest, Legs, Bak)',
+                          labelStyle: TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor: Colors.black54,
+                        ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter workout eg: Legs...';
+                          }
+                          return null;
+                        },
+                        style: const TextStyle(color: Colors.white),
+                      ),
+
                       const SizedBox(height: 10),
                       TextFormField(
                         controller: _exerciseController,

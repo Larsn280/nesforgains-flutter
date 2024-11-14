@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
-import 'package:nes_for_gains/database/collections/exercise_data.dart';
+import 'package:nes_for_gains/database/collections/exercise.dart';
+import 'package:nes_for_gains/database/collections/workout.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
@@ -12,7 +13,7 @@ import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class EditWorkoutScreen extends StatefulWidget {
   final Isar isar;
-  final Exercise workout; // Pass the log to edit
+  final Workout workout; // Pass the log to edit
 
   const EditWorkoutScreen(
       {super.key, required this.isar, required this.workout});
@@ -39,11 +40,12 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         TextEditingController(text: widget.workout.exercise.toString());
     _dateController =
         TextEditingController(text: widget.workout.date.toString());
-    _repsController =
-        TextEditingController(text: widget.workout.rep.toString());
-    _setsController =
-        TextEditingController(text: widget.workout.set.toString());
-    _kgController = TextEditingController(text: widget.workout.kg.toString());
+    _repsController = TextEditingController(
+        text: widget.workout.exercise.map((e) => e.rep).toString());
+    _setsController = TextEditingController(
+        text: widget.workout.exercise.map((e) => e.set).toString());
+    _kgController = TextEditingController(
+        text: widget.workout.exercise.map((e) => e.kg).toString());
   }
 
   @override
@@ -59,17 +61,21 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   Future<void> _handleEditWorkout() async {
     try {
       if (_formKey.currentState!.validate()) {
-        Exercise updatedWorkout = Exercise(
-          exercise: _exerciseController.text.toString(),
+        Workout updatedWorkout = Workout(
+          name: _exerciseController.text.toString(),
           date: _dateController.text.toString(),
+          userId: widget.workout.id,
+        );
+
+        Exercise updatedExercise = Exercise(
+          exercise: _exerciseController.text.toString(),
           rep: int.parse(_repsController.text),
           set: int.parse(_setsController.text),
           kg: double.parse(_kgController.text),
-          userId: AuthProvider.of(context).id,
         );
 
-        final response =
-            await workoutService.editWorkout(updatedWorkout, widget.workout.id);
+        final response = await workoutService.editWorkout(
+            updatedWorkout, updatedExercise, widget.workout.id);
 
         if (response.checksuccess == true) {
           if (mounted) {
