@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
@@ -60,6 +62,16 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
     final exercises = workout.exercise.map((e) => e).toList();
     return Column(
       children: [
+        Text(
+          workout.name,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          workout.date.toString(),
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
         SizedBox(
           child: ListView.builder(
             shrinkWrap: true,
@@ -71,7 +83,7 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                 child: Text(
-                  exercise.exercise.toString(),
+                  '${exercise.exercise}: ${exercise.rep} X ${exercise.set}  ${exercise.kg} kg',
                   style: const TextStyle(fontSize: 14.0),
                 ),
               );
