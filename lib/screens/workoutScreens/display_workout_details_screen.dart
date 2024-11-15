@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
-import 'package:nes_for_gains/database/collections/exercise.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
@@ -72,6 +69,20 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
           style: const TextStyle(
               color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold),
         ),
+        const SizedBox(height: 30.0),
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Exercises',
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.white,
+              decorationThickness: 2.0,
+            ),
+          ),
+        ),
         SizedBox(
           child: ListView.builder(
             shrinkWrap: true,
@@ -83,7 +94,7 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                 child: Text(
-                  '${exercise.exercise}: ${exercise.rep} X ${exercise.set}  ${exercise.kg} kg',
+                  '${index + 1}. ${exercise.exercise}: ${exercise.rep}x${exercise.set}  ${exercise.kg} kg',
                   style: const TextStyle(fontSize: 14.0),
                 ),
               );

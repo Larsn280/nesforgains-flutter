@@ -185,12 +185,10 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                 ],
               ),
             ),
+            _buildTrainingColumn(log.exercise.map((e) => e.rep).join(''), 0.10),
+            _buildTrainingColumn(log.exercise.map((e) => e.set).join(''), 0.10),
             _buildTrainingColumn(
-                log.exercise.map((e) => e.rep).toString(), 0.10),
-            _buildTrainingColumn(
-                log.exercise.map((e) => e.set).toString(), 0.10),
-            _buildTrainingColumn(
-                '${log.exercise.map((e) => e.kg).toString()} kg', 0.15),
+                '${log.exercise.map((e) => e.kg).join('')} kg', 0.15),
             Flexible(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
