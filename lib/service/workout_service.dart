@@ -78,8 +78,8 @@ class WorkoutService {
     }
   }
 
-  Future<ResponseData> editWorkout(
-      Workout workoutToEdit, Exercise exercise, int workoutId) async {
+  Future<ResponseData> editWorkout(Workout workoutToEdit,
+      List<Exercise> exerciseListToEdit, int workoutId) async {
     try {
       // Attempt to find the workout by ID and user ID
       final checkWorkoutForEdit =
@@ -89,8 +89,27 @@ class WorkoutService {
       if (checkWorkoutForEdit != null) {
         await _isar.writeTxn(() async {
           await checkWorkoutForEdit.exercise.load();
+          final listToEdit =
+              checkWorkoutForEdit.exercise.map((e) => e).toList();
 
-          for (var oldExercise in checkWorkoutForEdit.exercise) {}
+          if (listToEdit.length != exerciseListToEdit.length) {
+            checkWorkoutForEdit.exercise.addAll(exerciseListToEdit);
+            await checkWorkoutForEdit.exercise.save();
+            await _isar.workouts.put(checkWorkoutForEdit);
+          } else {
+            for (int i = 0; i < exerciseListToEdit.length; i++) {
+              if (listToEdit[i] != exerciseListToEdit[i]) {
+                listToEdit[i].exercise = exerciseListToEdit[i].exercise;
+                listToEdit[i].rep = exerciseListToEdit[i].rep;
+                listToEdit[i].set = exerciseListToEdit[i].set;
+                listToEdit[i].kg = exerciseListToEdit[i].kg;
+              }
+            }
+            checkWorkoutForEdit.exercise.clear();
+            checkWorkoutForEdit.exercise.addAll(listToEdit);
+            await checkWorkoutForEdit.exercise.save();
+            await _isar.workouts.put(checkWorkoutForEdit);
+          }
         });
 
         return ResponseData(

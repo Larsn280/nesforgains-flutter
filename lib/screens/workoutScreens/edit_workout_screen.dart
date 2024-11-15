@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/exercise.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
+import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
@@ -38,16 +39,13 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     workoutService = WorkoutService(widget.isar);
     _workoutController =
         TextEditingController(text: widget.workout.name.toString());
-    _exerciseController = TextEditingController(
-        text: widget.workout.exercise.map((e) => e.exercise).toString());
+    _exerciseController = TextEditingController();
     _dateController =
         TextEditingController(text: widget.workout.date.toString());
-    _repsController = TextEditingController(
-        text: widget.workout.exercise.map((e) => e.rep).toString());
-    _setsController = TextEditingController(
-        text: widget.workout.exercise.map((e) => e.set).toString());
-    _kgController = TextEditingController(
-        text: widget.workout.exercise.map((e) => e.kg).toString());
+    _repsController = TextEditingController();
+    _setsController = TextEditingController();
+    _kgController = TextEditingController();
+    _sortIsarLinks(widget.workout);
   }
 
   @override
@@ -61,30 +59,67 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     super.dispose();
   }
 
+  void _sortIsarLinks(Workout workout) {
+    final exerciseList = workout.exercise.map((e) => e.exercise).toList();
+    final repList = workout.exercise.map((e) => e.rep).toList();
+    final setList = workout.exercise.map((e) => e.set).toList();
+    final kgList = workout.exercise.map((e) => e.kg).toList();
+
+    StringBuffer allExercisesBuffer = StringBuffer();
+    StringBuffer allRepsBuffer = StringBuffer();
+    StringBuffer allSetsBuffer = StringBuffer();
+    StringBuffer allWeigthsBuffer = StringBuffer();
+
+    allExercisesBuffer.writeAll(exerciseList, ', ');
+    allRepsBuffer.writeAll(repList, '. ');
+    allSetsBuffer.writeAll(setList, '. ');
+    allWeigthsBuffer.writeAll(kgList, '. ');
+
+    _exerciseController.text = allExercisesBuffer.toString();
+    _repsController.text = allRepsBuffer.toString();
+    _setsController.text = allSetsBuffer.toString();
+    _kgController.text = allWeigthsBuffer.toString();
+  }
+
   Future<void> _handleEditWorkout() async {
     try {
+      final List<Exercise> exerciseList = [];
+      final int workoutId = widget.workout.id;
       if (_formKey.currentState!.validate()) {
-        Workout updatedWorkout = Workout(
-          name: _workoutController.text.toString(),
-          date: _dateController.text.toString(),
-          userId: widget.workout.userId,
-        );
+        final workoutValue = _workoutController.text.toString();
+        final splitExerciseList = _exerciseController.text.split(',');
+        final splitKgList = _kgController.text.split('.');
+        final splitRepList = _repsController.text.split('.');
+        final splitSetList = _setsController.text.split('.');
 
-        Exercise updatedExercise = Exercise(
-          exercise: _exerciseController.text.toString(),
-          rep: int.parse(_repsController.text),
-          set: int.parse(_setsController.text),
-          kg: double.parse(_kgController.text),
-        );
-
-        final response = await workoutService.editWorkout(
-            updatedWorkout, updatedExercise, widget.workout.id);
-
-        if (response.checksuccess == true) {
-          if (mounted) {
-            Navigator.pop(context, true);
-          }
+        // Validate matching lengths of lists
+        if (splitExerciseList.length != splitKgList.length ||
+            splitExerciseList.length != splitRepList.length ||
+            splitExerciseList.length != splitSetList.length) {
+          CustomSnackbar.showSnackBar(
+              message:
+                  'Please ensure all fields have the same number of entries.');
+          return;
         }
+
+        final userIdValue = AuthProvider.of(context).id;
+
+        final workout = Workout(
+            name: workoutValue, date: widget.workout.date, userId: userIdValue);
+
+        for (int i = 0; i < splitExerciseList.length; i++) {
+          final exercise = Exercise(
+            exercise: splitExerciseList[i].trim(),
+            kg: double.tryParse(splitKgList[i].trim()),
+            rep: int.tryParse(splitRepList[i].trim()),
+            set: int.tryParse(splitSetList[i].trim()),
+          );
+          exerciseList.add(exercise);
+        }
+
+        final response =
+            await workoutService.editWorkout(workout, exerciseList, workoutId);
+
         CustomSnackbar.showSnackBar(message: response.message);
       }
     } catch (e) {
@@ -128,10 +163,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
                       _buildTextField(
                           'Exercise (eg: Benchpress)', _exerciseController),
                       _buildTextField('Date (YYYY-MM-DD)', _dateController),
-                      _buildTextField('Reps', _repsController, isNumeric: true),
-                      _buildTextField('Sets', _setsController, isNumeric: true),
-                      _buildTextField('Weight (kg)', _kgController,
-                          isNumeric: true),
+                      _buildTextField('Reps', _repsController),
+                      _buildTextField('Sets', _setsController),
+                      _buildTextField('Weight (kg)', _kgController),
                     ],
                   ),
                 ),
