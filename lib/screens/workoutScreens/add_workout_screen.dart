@@ -51,12 +51,26 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
 
   void _saveTrainingData() async {
     try {
+      final List<Exercise> exerciseList = [];
       if (_formKey.currentState!.validate() && _selectedDate != null) {
         final workoutValue = _workoutController.text.toString();
-        final exerciseValue = _exerciseController.text.toString();
-        final kgValue = double.tryParse(_weightController.text);
-        final repValue = int.tryParse(_repsController.text);
-        final setValue = int.tryParse(_setsController.text);
+        final splitExerciseList = _exerciseController.text.split(',');
+        final splitKgList = _weightController.text.split('.');
+        final splitRepList = _repsController.text.split('.');
+        final splitSetList = _setsController.text.split('.');
+
+        // Validate matching lengths of lists
+        if (splitExerciseList.length != splitKgList.length ||
+            splitExerciseList.length != splitRepList.length ||
+            splitExerciseList.length != splitSetList.length) {
+          setState(() {
+            responseMessage =
+                'Please ensure all fields have the same number of entries.';
+          });
+          CustomSnackbar.showSnackBar(message: responseMessage);
+          return;
+        }
+
         final userIdValue = AuthProvider.of(context).id;
 
         final workout = Workout(
@@ -64,14 +78,17 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
             date: _selectedDate.toString(),
             userId: userIdValue);
 
-        final exercise = Exercise(
-          exercise: exerciseValue,
-          kg: kgValue,
-          rep: repValue,
-          set: setValue,
-        );
+        for (int i = 0; i < splitExerciseList.length; i++) {
+          final exercise = Exercise(
+            exercise: splitExerciseList[i].trim(),
+            kg: double.tryParse(splitKgList[i].trim()),
+            rep: int.tryParse(splitRepList[i].trim()),
+            set: int.tryParse(splitSetList[i].trim()),
+          );
+          exerciseList.add(exercise);
+        }
 
-        final response = await workoutService.addWorkout(workout, exercise);
+        final response = await workoutService.addWorkout(workout, exerciseList);
 
         setState(() {
           if (response.checksuccess) {
@@ -179,7 +196,8 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                       TextFormField(
                         controller: _exerciseController,
                         decoration: const InputDecoration(
-                          labelText: 'Exercise (eg: Benchpress)',
+                          labelText:
+                              'Exercises eg: (Benchpress, comma separated)',
                           labelStyle: TextStyle(color: Colors.white),
                           filled: true,
                           fillColor: Colors.black54,
@@ -198,18 +216,15 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                       TextFormField(
                         controller: _weightController,
                         decoration: const InputDecoration(
-                          labelText: 'Weight (kg)',
+                          labelText: 'Weight (kg, period separated)',
                           labelStyle: TextStyle(color: Colors.white),
                           filled: true,
                           fillColor: Colors.black54,
                         ),
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter weight in kg';
-                          }
-                          if (double.tryParse(value) == null) {
-                            return 'Please enter a valid number';
                           }
                           return null;
                         },
@@ -225,13 +240,10 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                           filled: true,
                           fillColor: Colors.black54,
                         ),
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter reps';
-                          }
-                          if (int.tryParse(value) == null) {
-                            return 'Please enter a valid number';
+                            return 'Please enter reps (period separated)';
                           }
                           return null;
                         },
@@ -247,14 +259,12 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                           filled: true,
                           fillColor: Colors.black54,
                         ),
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter sets';
+                            return 'Please enter sets (period separated)';
                           }
-                          if (int.tryParse(value) == null) {
-                            return 'Please enter a valid number';
-                          }
+
                           return null;
                         },
                         style: const TextStyle(color: Colors.white),

@@ -9,7 +9,8 @@ class WorkoutService {
 
   WorkoutService(this._isar);
 
-  Future<ResponseData> addWorkout(Workout workout, Exercise exercise) async {
+  Future<ResponseData> addWorkout(
+      Workout workout, List<Exercise> exercise) async {
     try {
       String parseDate(String dateTime) => dateTime.split(' ')[0];
 
@@ -33,9 +34,9 @@ class WorkoutService {
         await _isar.writeTxn(() async {
           workout.date = date;
 
-          await _isar.exercises.put(exercise);
+          await _isar.exercises.putAll(exercise);
 
-          workout.exercise.add(exercise);
+          workout.exercise.addAll(exercise);
 
           await _isar.workouts.put(workout);
 
@@ -44,14 +45,13 @@ class WorkoutService {
         return ResponseData(
             checksuccess: true,
             message:
-                'Successfully added workout: ${exercise.exercise}: ${exercise.kg}kg X ${exercise.rep} X ${exercise.set}');
+                'Successfully added workout: ${workout.name}: ${workout.date}');
       }
 
       // If workout already exists, respond accordingly
       return ResponseData(
           checksuccess: false,
-          message:
-              'Workout already logged: ${exercise.exercise}: ${exercise.kg}kg X ${exercise.rep} X ${exercise.set}');
+          message: 'Workout already logged: ${workout.name}: ${workout.date}');
     } catch (e) {
       return ResponseData(
           checksuccess: false,
@@ -82,46 +82,15 @@ class WorkoutService {
       Workout workoutToEdit, Exercise exercise, int workoutId) async {
     try {
       // Attempt to find the workout by ID and user ID
-      final checkWorkoutForEdit = await _isar.workouts
-          .filter()
-          .idEqualTo(workoutId)
-          .userIdEqualTo(workoutToEdit.userId)
-          .findFirst();
+      final checkWorkoutForEdit =
+          await _isar.workouts.filter().idEqualTo(workoutId).findFirst();
 
       // If workout is found, proceed with edits
       if (checkWorkoutForEdit != null) {
         await _isar.writeTxn(() async {
           await checkWorkoutForEdit.exercise.load();
 
-          final checkExercisesForEdit =
-              workoutToEdit.exercise.map((e) => e.id).toList();
-
-          // Find the existing exercise to edit
-          for (var checkExercise in checkWorkoutForEdit.exercise) {
-            if (checkExercise.id == exercise.id) {
-              // Update exercise fields
-              checkExercise.exercise = exercise.exercise;
-              checkExercise.set = exercise.set;
-              checkExercise.rep = exercise.rep;
-              checkExercise.kg = exercise.kg;
-              // Update other fields as needed...
-            }
-          }
-
-          if (checkWorkoutForEdit.exercise.isNotEmpty) {
-            await _isar.exercises.deleteAll(
-                checkWorkoutForEdit.exercise.map((e) => e.id).toList());
-          }
-
-          checkWorkoutForEdit.exercise.reset();
-          checkWorkoutForEdit.exercise.save();
-
-          // await _isar.exercises.putAll(checkExercisesForEdit);
-          // checkWorkoutForEdit.exercise.addAll(checkExercisesForEdit);
-
-          await _isar.workouts.put(checkWorkoutForEdit);
-
-          await checkWorkoutForEdit.exercise.save();
+          for (var oldExercise in checkWorkoutForEdit.exercise) {}
         });
 
         return ResponseData(

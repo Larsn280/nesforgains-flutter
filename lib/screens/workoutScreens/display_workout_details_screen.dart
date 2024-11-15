@@ -57,6 +57,28 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
   }
 
   Widget _buildWorkoutDetails(Workout workout) {
-    return Column();
+    final exercises = workout.exercise.map((e) => e).toList();
+    return Column(
+      children: [
+        SizedBox(
+          child: ListView.builder(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(0),
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: exercises.length,
+            itemBuilder: (context, index) {
+              final exercise = exercises[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Text(
+                  exercise.exercise.toString(),
+                  style: const TextStyle(fontSize: 14.0),
+                ),
+              );
+            },
+          ),
+        )
+      ],
+    );
   }
 }
