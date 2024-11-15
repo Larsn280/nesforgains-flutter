@@ -71,9 +71,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     StringBuffer allWeigthsBuffer = StringBuffer();
 
     allExercisesBuffer.writeAll(exerciseList, ', ');
-    allRepsBuffer.writeAll(repList, '. ');
-    allSetsBuffer.writeAll(setList, '. ');
-    allWeigthsBuffer.writeAll(kgList, '. ');
+    allRepsBuffer.writeAll(repList, ', ');
+    allSetsBuffer.writeAll(setList, ', ');
+    allWeigthsBuffer.writeAll(kgList, ', ');
 
     _exerciseController.text = allExercisesBuffer.toString();
     _repsController.text = allRepsBuffer.toString();
@@ -88,9 +88,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
       if (_formKey.currentState!.validate()) {
         final workoutValue = _workoutController.text.toString();
         final splitExerciseList = _exerciseController.text.split(',');
-        final splitKgList = _kgController.text.split('.');
-        final splitRepList = _repsController.text.split('.');
-        final splitSetList = _setsController.text.split('.');
+        final splitKgList = _kgController.text.split(',');
+        final splitRepList = _repsController.text.split(',');
+        final splitSetList = _setsController.text.split(',');
 
         // Validate matching lengths of lists
         if (splitExerciseList.length != splitKgList.length ||
@@ -178,9 +178,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, true);
                   },
-                  text: 'Cancle'),
+                  text: 'Back'),
             ],
           ),
         ),

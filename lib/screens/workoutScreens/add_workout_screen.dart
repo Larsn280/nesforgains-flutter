@@ -55,9 +55,9 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
       if (_formKey.currentState!.validate() && _selectedDate != null) {
         final workoutValue = _workoutController.text.toString();
         final splitExerciseList = _exerciseController.text.split(',');
-        final splitKgList = _weightController.text.split('.');
-        final splitRepList = _repsController.text.split('.');
-        final splitSetList = _setsController.text.split('.');
+        final splitKgList = _weightController.text.split(',');
+        final splitRepList = _repsController.text.split(',');
+        final splitSetList = _setsController.text.split(',');
 
         // Validate matching lengths of lists
         if (splitExerciseList.length != splitKgList.length ||
@@ -216,7 +216,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                       TextFormField(
                         controller: _weightController,
                         decoration: const InputDecoration(
-                          labelText: 'Weight (kg, period separated)',
+                          labelText: 'Weight (kg, comma separated)',
                           labelStyle: TextStyle(color: Colors.white),
                           filled: true,
                           fillColor: Colors.black54,
@@ -243,7 +243,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter reps (period separated)';
+                            return 'Please enter reps (comma separated)';
                           }
                           return null;
                         },
@@ -262,7 +262,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter sets (period separated)';
+                            return 'Please enter sets (comma separated)';
                           }
 
                           return null;

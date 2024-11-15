@@ -93,6 +93,11 @@ class WorkoutService {
               checkWorkoutForEdit.exercise.map((e) => e).toList();
 
           if (listToEdit.length != exerciseListToEdit.length) {
+            await _isar.exercises.deleteAll(
+                checkWorkoutForEdit.exercise.map((e) => e.id).toList());
+            checkWorkoutForEdit.exercise.reset();
+            await _isar.exercises.putAll(exerciseListToEdit);
+            checkWorkoutForEdit.exercise.clear();
             checkWorkoutForEdit.exercise.addAll(exerciseListToEdit);
             await checkWorkoutForEdit.exercise.save();
             await _isar.workouts.put(checkWorkoutForEdit);
@@ -105,6 +110,8 @@ class WorkoutService {
                 listToEdit[i].kg = exerciseListToEdit[i].kg;
               }
             }
+            await _isar.exercises.putAll(listToEdit);
+
             checkWorkoutForEdit.exercise.clear();
             checkWorkoutForEdit.exercise.addAll(listToEdit);
             await checkWorkoutForEdit.exercise.save();
