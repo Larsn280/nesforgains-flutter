@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
-import 'package:nes_for_gains/database/collections/workout_data.dart';
 import 'package:nes_for_gains/screens/workoutScreens/display_workout_details_screen.dart';
 import 'package:nes_for_gains/screens/workoutScreens/edit_workout_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
@@ -182,43 +181,83 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Row(
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.25,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: log.exercise.length == 1
+            ? Row(
                 children: [
-                  Text(log.name),
-                  Text(log.date.toString()),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(log.exercise.map((e) => e.exercise).join('')),
+                        Text(log.date.toString()),
+                      ],
+                    ),
+                  ),
+                  _buildTrainingColumn(
+                      log.exercise.map((e) => e.rep).join(''), 0.10),
+                  _buildTrainingColumn(
+                      log.exercise.map((e) => e.set).join(''), 0.10),
+                  _buildTrainingColumn(
+                      '${log.exercise.map((e) => e.kg).join('')} kg', 0.15),
+                  Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon:
+                              const Icon(Icons.edit, color: Colors.greenAccent),
+                          onPressed: () {
+                            _navigateToEditWorkout(log);
+                          },
+                        ),
+                        IconButton(
+                          icon:
+                              const Icon(Icons.delete, color: Colors.redAccent),
+                          onPressed: () {
+                            _handleDeleteWorkout(log);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            : Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(log.name),
+                        Text(log.date.toString()),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon:
+                              const Icon(Icons.edit, color: Colors.greenAccent),
+                          onPressed: () {
+                            _navigateToEditWorkout(log);
+                          },
+                        ),
+                        IconButton(
+                          icon:
+                              const Icon(Icons.delete, color: Colors.redAccent),
+                          onPressed: () {
+                            _handleDeleteWorkout(log);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-            _buildTrainingColumn(log.exercise.map((e) => e.rep).join(''), 0.10),
-            _buildTrainingColumn(log.exercise.map((e) => e.set).join(''), 0.10),
-            _buildTrainingColumn(
-                '${log.exercise.map((e) => e.kg).join('')} kg', 0.15),
-            Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: Colors.greenAccent),
-                    onPressed: () {
-                      _navigateToEditWorkout(log);
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.redAccent),
-                    onPressed: () {
-                      _handleDeleteWorkout(log);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
