@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
+import 'package:nes_for_gains/database/collections/workout_data.dart';
 import 'package:nes_for_gains/screens/workoutScreens/display_workout_details_screen.dart';
 import 'package:nes_for_gains/screens/workoutScreens/edit_workout_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';

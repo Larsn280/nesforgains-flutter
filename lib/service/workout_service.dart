@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/database/collections/exercise.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
+import 'package:nes_for_gains/database/collections/workout_data.dart';
 import 'package:nes_for_gains/logger.dart';
 import 'package:nes_for_gains/models/response_data.dart';
 
@@ -175,5 +176,61 @@ class WorkoutService {
   String capitalizeFirstLetter(String str) {
     if (str.isEmpty) return str; // Check for empty string
     return str[0].toUpperCase() + str.substring(1).toLowerCase();
+  }
+
+  Future<void> migrateWorkoutData() async {
+    try {
+      // Fetch all existing records from the old table
+      final oldWorkouts = await _isar.workoutDatas.where().findAll();
+
+      if (oldWorkouts.isNotEmpty) {
+        // Perform migration
+        await _isar.writeTxn(() async {
+          for (var workout in oldWorkouts) {
+            // Create a new Workout
+            final newWorkout = Workout(
+              name: 'Workout for ${workout.date ?? 'Unknown Date'}',
+              date: workout.date,
+              userId: workout.userId,
+            );
+
+            // Save the new Workout to attach it to Isar
+            final workoutId = await _isar.workouts.put(newWorkout);
+
+            // Fetch the saved Workout (attached to Isar)
+            final savedWorkout = await _isar.workouts.get(workoutId);
+
+            if (savedWorkout != null) {
+              // Create a new Exercise and add it to the Workout's link
+              final newExercise = Exercise(
+                exercise: workout.exercise ?? 'Unknown Exercise',
+                rep: workout.rep ?? 0,
+                set: workout.set ?? 0,
+                kg: workout.kg ?? 0.0,
+              );
+
+              // Save the Exercise explicitly
+              final exerciseId = await _isar.exercises.put(newExercise);
+
+              // Link the Exercise to the Workout
+              final savedExercise = await _isar.exercises.get(exerciseId);
+              if (savedExercise != null) {
+                savedWorkout.exercise.add(savedExercise);
+                savedWorkout.exercise.save();
+                // Save the updated Workout with the linked Exercise
+                await _isar.workouts.put(savedWorkout);
+              }
+            }
+          }
+          await _isar.workoutDatas
+              .deleteAll(oldWorkouts.map((o) => o.id).toList());
+        });
+      } else {
+        logger.e('Nothing in database');
+      }
+    } catch (e) {
+      logger.e('Data migration failed: $e');
+      throw Exception(e);
+    }
   }
 }
