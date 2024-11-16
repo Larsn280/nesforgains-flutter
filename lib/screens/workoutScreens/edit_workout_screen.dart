@@ -120,6 +120,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         final response =
             await workoutService.editWorkout(workout, exerciseList, workoutId);
 
+        if (mounted) {
+          Navigator.pop(context, workout);
+        }
         CustomSnackbar.showSnackBar(message: response.message);
       }
     } catch (e) {

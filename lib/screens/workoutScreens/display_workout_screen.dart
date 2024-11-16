@@ -96,9 +96,15 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
       MaterialPageRoute(
         builder: (context) => DisplayWorkoutDetailsScreen(
           workout: workout,
+          isar: widget.isar,
         ),
       ),
     );
+    if (result == true) {
+      setState(() {
+        _futureWorkouts = _fetchAllWorkouts();
+      });
+    }
   }
 
   @override

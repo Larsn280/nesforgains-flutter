@@ -79,6 +79,24 @@ class WorkoutService {
     }
   }
 
+  Future<Workout> fetchWorkoutById(int workoutId) async {
+    try {
+      final workoutToFetch =
+          await _isar.workouts.filter().idEqualTo(workoutId).findFirst();
+
+      if (workoutToFetch == null) {
+        throw Exception('Workout not found for ID $workoutId');
+      }
+
+      await workoutToFetch.exercise.load();
+
+      return workoutToFetch;
+    } catch (e, stackTrace) {
+      logger.e('Error fetching workout: $e', stackTrace: stackTrace);
+      throw Exception('Failed to fetch workout: $e');
+    }
+  }
+
   Future<ResponseData> editWorkout(Workout workoutToEdit,
       List<Exercise> exerciseListToEdit, int workoutId) async {
     try {
