@@ -59,6 +59,17 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
     super.dispose();
   }
 
+  Future<Workout> _fetchWorkout() async {
+    try {
+      final fetchedWorkout =
+          await workoutService.fetchWorkoutById(widget.workout.id);
+      return fetchedWorkout;
+    } catch (e, stackTrace) {
+      logger.e('Error fetching workout:', error: e, stackTrace: stackTrace);
+      throw Exception('Failed to fetch workout: $e');
+    }
+  }
+
   void _sortIsarLinks(Workout workout) {
     final exerciseList = workout.exercise.map((e) => e.exercise).toList();
     final repList = workout.exercise.map((e) => e.rep).toList();
@@ -105,7 +116,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         final userIdValue = AuthProvider.of(context).id;
 
         final workout = Workout(
-            name: workoutValue, date: widget.workout.date, userId: userIdValue);
+            name: workoutValue,
+            date: _dateController.text.toString(),
+            userId: userIdValue);
 
         for (int i = 0; i < splitExerciseList.length; i++) {
           final exercise = Exercise(
@@ -121,7 +134,9 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
             await workoutService.editWorkout(workout, exerciseList, workoutId);
 
         if (mounted) {
-          Navigator.pop(context, workout);
+          final finalWorkout = await _fetchWorkout();
+
+          Navigator.pop(context, finalWorkout);
         }
         CustomSnackbar.showSnackBar(message: response.message);
       }

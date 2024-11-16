@@ -131,6 +131,9 @@ class WorkoutService {
             }
             await _isar.exercises.putAll(listToEdit);
 
+            checkWorkoutForEdit.name = workoutToEdit.name;
+            checkWorkoutForEdit.date = workoutToEdit.date;
+
             checkWorkoutForEdit.exercise.clear();
             checkWorkoutForEdit.exercise.addAll(listToEdit);
             await checkWorkoutForEdit.exercise.save();
