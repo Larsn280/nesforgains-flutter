@@ -126,16 +126,6 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 buildMenuOption(
-                                  icon: Icons.fitness_center,
-                                  label: 'Add Workout',
-                                  onPressed: () {
-                                    Navigator.pushReplacementNamed(
-                                        context, '/addworkoutScreen');
-                                    _removeOverlay();
-                                  },
-                                  color: subColor,
-                                ),
-                                buildMenuOption(
                                   icon: Icons.list,
                                   label: 'Display Workouts',
                                   onPressed: () {
@@ -158,15 +148,6 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                buildMenuOption(
-                                    icon: Icons.food_bank,
-                                    label: 'Add Recipe',
-                                    onPressed: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, '/addrecipeScreen');
-                                      _removeOverlay();
-                                    },
-                                    color: subColor),
                                 buildMenuOption(
                                     icon: Icons.list,
                                     label: 'Recipelist',

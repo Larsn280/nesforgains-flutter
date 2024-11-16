@@ -31,13 +31,11 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
               const SizedBox(
                 height: 40.0,
               ),
-              Expanded(
-                child: CustomCards.buildListCard(
-                    context: context,
-                    child: SingleChildScrollView(
-                      child: _buildRecipeDetails(widget.recipe),
-                    )),
-              ),
+              CustomCards.buildListCard(
+                  context: context,
+                  child: SingleChildScrollView(
+                    child: _buildRecipeDetails(widget.recipe),
+                  )),
               const SizedBox(height: 8.0),
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
@@ -59,7 +57,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
       children: [
         Text(
           widget.recipe.title,
-          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 20.0,
@@ -67,8 +65,16 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text('Duration: ${widget.recipe.duration} min'),
-            Text('Difficulty: ${widget.recipe.difficulty}'),
+            Text(
+              'Duration: ${widget.recipe.duration} min',
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+            ),
+            Text(
+              'Difficulty: ${widget.recipe.difficulty}',
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+            ),
           ],
         ),
         const SizedBox(
@@ -85,9 +91,19 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                     final ingredient = ingredients[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(
-                        ingredient.name,
-                        style: const TextStyle(fontSize: 14.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            '${index + 1}. ',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16.0),
+                          ),
+                          Text(
+                            ingredient.name,
+                            style: const TextStyle(
+                                fontSize: 14.0, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -118,12 +134,21 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                   itemBuilder: (context, index) {
                     final stage = stages[index];
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(
-                        'Steg ${index + 1}: $stage',
-                        style: const TextStyle(fontSize: 14.0),
-                      ),
-                    );
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Steg ${index + 1}: ',
+                              style: const TextStyle(
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              stage,
+                              style: const TextStyle(
+                                  fontSize: 14.0, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ));
                   },
                 ),
               )

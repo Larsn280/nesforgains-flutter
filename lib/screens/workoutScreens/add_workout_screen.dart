@@ -274,12 +274,18 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
                 ),
               ),
 
-              const SizedBox(height: 30.0),
+              const SizedBox(height: 8.0),
               // Submit button
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: _saveTrainingData,
                   text: 'Save Workout'),
+              CustomButtons.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  text: 'Back')
             ],
           ),
         ),

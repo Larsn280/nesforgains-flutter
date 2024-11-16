@@ -172,11 +172,17 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 ),
 
                 // Save Button
-                const SizedBox(height: 30.0),
+                const SizedBox(height: 8.0),
                 CustomButtons.buildElevatedFunctionButton(
                     context: context,
                     onPressed: _handleSaveRecipe,
                     text: 'Save Recipe'),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    text: 'Back')
               ],
             ),
           ),
