@@ -118,6 +118,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     if (result == true) {
       setState(() {
         _futureWorkouts = _fetchAllWorkouts();
+        _initializeIsCheckedList();
       });
     }
   }
@@ -128,6 +129,16 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
         setState(() {
           bool.isChecked = !bool.isChecked;
         });
+
+        await widget.isar.writeTxn(() async {
+          final workout =
+              await widget.isar.workouts.get(id); // Fetch the workout by ID
+          if (workout != null) {
+            workout.markedColor =
+                bool.isChecked ? 'green' : null; // Update colorHex
+            await widget.isar.workouts.put(workout); // Save the updated workout
+          }
+        });
       }
     }
   }
@@ -137,6 +148,17 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
       if (bool.id == id) {
         setState(() {
           bool.isChecked = !bool.isChecked;
+        });
+
+        await widget.isar.writeTxn(() async {
+          final workout =
+              await widget.isar.workouts.get(id - 1); // Fetch the workout by ID
+          if (workout != null) {
+            workout.markedColor =
+                bool.isChecked ? 'red' : null; // Update colorHex
+            await widget.isar.workouts.put(workout);
+            // Save the updated workout
+          }
         });
       }
     }
@@ -255,29 +277,32 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                           '${log.exercise.map((e) => e.rep).join('')}x${log.exercise.map((e) => e.set).join('')} : ${log.exercise.map((e) => e.kg).join('')}kg',
                       widthFactor: 0.30),
                   Flexible(
-                      child: SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CustomCheckBoxes.buildCheckBox(
-                            context: context,
-                            isChecked: setFirstIsChecked(log.id),
-                            onToggle: () {
-                              toggleFirstCheckBox(log.id);
-                            },
-                            icon: Icons.radio_button_checked,
-                            color: Colors.green),
-                        CustomCheckBoxes.buildCheckBox(
-                            context: context,
-                            isChecked: setSecondIsChecked(log.id + 1),
-                            onToggle: () {
-                              toggleSecondCheckBox(log.id + 1);
-                            },
-                            icon: Icons.radio_button_unchecked,
-                            color: Colors.red)
-                      ],
-                    ),
-                  )),
+                      child: log.markedColor == null
+                          ? SizedBox(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomCheckBoxes.buildCheckBox(
+                                      context: context,
+                                      isChecked: setFirstIsChecked(log.id),
+                                      onToggle: () {
+                                        toggleFirstCheckBox(log.id);
+                                      },
+                                      icon: Icons.radio_button_checked,
+                                      color: Colors.green),
+                                  CustomCheckBoxes.buildCheckBox(
+                                      context: context,
+                                      isChecked: setSecondIsChecked(log.id + 1),
+                                      onToggle: () {
+                                        toggleSecondCheckBox(log.id + 1);
+                                      },
+                                      icon: Icons.radio_button_unchecked,
+                                      color: Colors.red)
+                                ],
+                              ),
+                            )
+                          : const SizedBox()),
                 ],
               )
             : Row(
@@ -293,29 +318,32 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                     ),
                   ),
                   Flexible(
-                      child: SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CustomCheckBoxes.buildCheckBox(
-                            context: context,
-                            isChecked: setFirstIsChecked(log.id),
-                            onToggle: () {
-                              toggleFirstCheckBox(log.id);
-                            },
-                            icon: Icons.radio_button_checked,
-                            color: Colors.green),
-                        CustomCheckBoxes.buildCheckBox(
-                            context: context,
-                            isChecked: setSecondIsChecked(log.id + 1),
-                            onToggle: () {
-                              toggleSecondCheckBox(log.id + 1);
-                            },
-                            icon: Icons.radio_button_unchecked,
-                            color: Colors.red)
-                      ],
-                    ),
-                  )),
+                    child: log.markedColor == null
+                        ? SizedBox(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CustomCheckBoxes.buildCheckBox(
+                                    context: context,
+                                    isChecked: setFirstIsChecked(log.id),
+                                    onToggle: () {
+                                      toggleFirstCheckBox(log.id);
+                                    },
+                                    icon: Icons.radio_button_checked,
+                                    color: Colors.green),
+                                CustomCheckBoxes.buildCheckBox(
+                                    context: context,
+                                    isChecked: setSecondIsChecked(log.id + 1),
+                                    onToggle: () {
+                                      toggleSecondCheckBox(log.id + 1);
+                                    },
+                                    icon: Icons.radio_button_unchecked,
+                                    color: Colors.red)
+                              ],
+                            ),
+                          )
+                        : const SizedBox(),
+                  ),
                 ],
               ),
       ),
