@@ -15,5 +15,11 @@ class Workout {
 
   final exercise = IsarLinks<Exercise>();
 
-  Workout({required this.name, required this.date, required this.userId});
+  String? markedColor;
+
+  Workout(
+      {required this.name,
+      required this.date,
+      required this.userId,
+      this.markedColor});
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/workout.dart';
+import 'package:nes_for_gains/models/checkbox_item.dart';
+import 'package:nes_for_gains/screens/workoutScreens/add_workout_screen.dart';
 import 'package:nes_for_gains/screens/workoutScreens/display_workout_details_screen.dart';
-import 'package:nes_for_gains/screens/workoutScreens/edit_workout_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:isar/isar.dart';
 import 'package:nes_for_gains/logger.dart';
@@ -10,6 +11,7 @@ import 'package:nes_for_gains/service/workout_service.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_checkboxes.dart';
 import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class DisplayWorkoutScreen extends StatefulWidget {
@@ -25,12 +27,51 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   static const double sizedBoxHeight = 18.0;
   late WorkoutService workoutService;
   late Future<List<Workout>> _futureWorkouts;
+  List<CheckboxItem> isFirstCheckedList = [];
+  List<CheckboxItem> isSecondCheckedList = [];
 
   @override
   void initState() {
     super.initState();
     workoutService = WorkoutService(widget.isar);
     _futureWorkouts = _fetchAllWorkouts();
+    _initializeIsCheckedList();
+  }
+
+  void _initializeIsCheckedList() async {
+    final workoutList = await _fetchAllWorkouts();
+    for (var workout in workoutList) {
+      if (workout.markedColor == 'green') {
+        final firstItem = CheckboxItem(id: workout.id, isChecked: true);
+        isFirstCheckedList.add(firstItem);
+      } else if (workout.markedColor == 'red') {
+        final secondItem = CheckboxItem(id: workout.id + 1, isChecked: true);
+        isSecondCheckedList.add(secondItem);
+      } else {
+        final firstItem = CheckboxItem(id: workout.id);
+        final secondItem = CheckboxItem(id: workout.id + 1);
+        isFirstCheckedList.add(firstItem);
+        isSecondCheckedList.add(secondItem);
+      }
+    }
+  }
+
+  bool setFirstIsChecked(int id) {
+    for (var bool in isFirstCheckedList) {
+      if (bool.id == id) {
+        return bool.isChecked;
+      }
+    }
+    return false;
+  }
+
+  bool setSecondIsChecked(int id) {
+    for (var bool in isSecondCheckedList) {
+      if (bool.id == id) {
+        return bool.isChecked;
+      }
+    }
+    return false;
   }
 
   Future<List<Workout>> _fetchAllWorkouts() async {
@@ -48,48 +89,6 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     }
   }
 
-  void _navigateToEditWorkout(Workout workout) async {
-    try {
-      final result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => EditWorkoutScreen(
-            workout: workout,
-            isar: widget.isar,
-          ),
-        ),
-      );
-      if (result == true) {
-        setState(() {
-          _futureWorkouts = _fetchAllWorkouts();
-        });
-      }
-    } catch (e) {
-      logger.e('Error navigating:', error: e);
-      CustomSnackbar.showSnackBar(
-          message:
-              'An error occurred while trying to navigate. Please try again.');
-    }
-  }
-
-  Future<void> _handleDeleteWorkout(Workout workout) async {
-    try {
-      final response = await workoutService.deleteWorkout(workout);
-
-      if (response.checksuccess) {
-        setState(() {
-          _futureWorkouts = _fetchAllWorkouts();
-        });
-        CustomSnackbar.showSnackBar(message: response.message);
-      }
-    } catch (e) {
-      logger.e('Error deleting workout', error: e);
-      CustomSnackbar.showSnackBar(
-          message:
-              'An error occurred while deleting the workout. Please try again.');
-    }
-  }
-
   void _navigateToWorkoutDetails(Workout workout) async {
     final result = await Navigator.push(
       context,
@@ -104,6 +103,42 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
       setState(() {
         _futureWorkouts = _fetchAllWorkouts();
       });
+    }
+  }
+
+  void _navigateToAddWorkout() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddWorkoutScreen(
+          isar: widget.isar,
+        ),
+      ),
+    );
+    if (result == true) {
+      setState(() {
+        _futureWorkouts = _fetchAllWorkouts();
+      });
+    }
+  }
+
+  void toggleFirstCheckBox(int id) async {
+    for (var bool in isFirstCheckedList) {
+      if (bool.id == id) {
+        setState(() {
+          bool.isChecked = !bool.isChecked;
+        });
+      }
+    }
+  }
+
+  void toggleSecondCheckBox(int id) async {
+    for (var bool in isSecondCheckedList) {
+      if (bool.id == id) {
+        setState(() {
+          bool.isChecked = !bool.isChecked;
+        });
+      }
     }
   }
 
@@ -150,7 +185,7 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
             CustomButtons.buildElevatedFunctionButton(
                 context: context,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/addworkoutScreen');
+                  _navigateToAddWorkout();
                 },
                 text: 'Add'),
             const SizedBox(height: 20.0),
@@ -161,23 +196,38 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   }
 
   Widget _buildTrainingHeader() {
-    return Row(
-      children: [
-        _buildTrainingColumnHeader('Exercise', 0.25),
-        _buildTrainingColumnHeader('Reps', 0.10),
-        _buildTrainingColumnHeader('Sets', 0.10),
-        _buildTrainingColumnHeader('Weight (kg)', 0.15),
-        const Flexible(child: SizedBox()),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          _buildTrainingColumnHeader(
+              title: 'Workout/Exercise', widthFactor: 0.60),
+          Flexible(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildTrainingColumnHeader(title: 'Pass'),
+              _buildTrainingColumnHeader(title: 'Fail'),
+            ],
+          ))
+        ],
+      ),
     );
   }
 
-  Widget _buildTrainingColumnHeader(String title, double widthFactor) {
-    return SizedBox(
-      height: sizedBoxHeight,
-      width: MediaQuery.of(context).size.width * widthFactor,
-      child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-    );
+  Widget _buildTrainingColumnHeader(
+      {required String title, double? widthFactor}) {
+    return widthFactor != null
+        ? SizedBox(
+            height: sizedBoxHeight,
+            width: MediaQuery.of(context).size.width * widthFactor,
+            child: Text(title,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+          )
+        : SizedBox(
+            height: sizedBoxHeight,
+            child: Text(title,
+                style: const TextStyle(fontWeight: FontWeight.bold)));
   }
 
   Widget _buildTrainingRow(Workout log) {
@@ -185,13 +235,13 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
       onTap: () {
         _navigateToWorkoutDetails(log);
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: CustomCards.buildWorkoutListItemCard(
+        context: context,
         child: log.exercise.length == 1
             ? Row(
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.25,
+                    width: MediaQuery.of(context).size.width * 0.30,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -201,38 +251,39 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                     ),
                   ),
                   _buildTrainingColumn(
-                      log.exercise.map((e) => e.rep).join(''), 0.10),
-                  _buildTrainingColumn(
-                      log.exercise.map((e) => e.set).join(''), 0.10),
-                  _buildTrainingColumn(
-                      '${log.exercise.map((e) => e.kg).join('')} kg', 0.15),
+                      text:
+                          '${log.exercise.map((e) => e.rep).join('')}x${log.exercise.map((e) => e.set).join('')} : ${log.exercise.map((e) => e.kg).join('')}kg',
+                      widthFactor: 0.30),
                   Flexible(
+                      child: SizedBox(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        IconButton(
-                          icon:
-                              const Icon(Icons.edit, color: Colors.greenAccent),
-                          onPressed: () {
-                            _navigateToEditWorkout(log);
-                          },
-                        ),
-                        IconButton(
-                          icon:
-                              const Icon(Icons.delete, color: Colors.redAccent),
-                          onPressed: () {
-                            _handleDeleteWorkout(log);
-                          },
-                        ),
+                        CustomCheckBoxes.buildCheckBox(
+                            context: context,
+                            isChecked: setFirstIsChecked(log.id),
+                            onToggle: () {
+                              toggleFirstCheckBox(log.id);
+                            },
+                            icon: Icons.radio_button_checked,
+                            color: Colors.green),
+                        CustomCheckBoxes.buildCheckBox(
+                            context: context,
+                            isChecked: setSecondIsChecked(log.id + 1),
+                            onToggle: () {
+                              toggleSecondCheckBox(log.id + 1);
+                            },
+                            icon: Icons.radio_button_unchecked,
+                            color: Colors.red)
                       ],
                     ),
-                  ),
+                  )),
                 ],
               )
             : Row(
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.25,
+                    width: MediaQuery.of(context).size.width * 0.60,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -242,38 +293,46 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                     ),
                   ),
                   Flexible(
+                      child: SizedBox(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        IconButton(
-                          icon:
-                              const Icon(Icons.edit, color: Colors.greenAccent),
-                          onPressed: () {
-                            _navigateToEditWorkout(log);
-                          },
-                        ),
-                        IconButton(
-                          icon:
-                              const Icon(Icons.delete, color: Colors.redAccent),
-                          onPressed: () {
-                            _handleDeleteWorkout(log);
-                          },
-                        ),
+                        CustomCheckBoxes.buildCheckBox(
+                            context: context,
+                            isChecked: setFirstIsChecked(log.id),
+                            onToggle: () {
+                              toggleFirstCheckBox(log.id);
+                            },
+                            icon: Icons.radio_button_checked,
+                            color: Colors.green),
+                        CustomCheckBoxes.buildCheckBox(
+                            context: context,
+                            isChecked: setSecondIsChecked(log.id + 1),
+                            onToggle: () {
+                              toggleSecondCheckBox(log.id + 1);
+                            },
+                            icon: Icons.radio_button_unchecked,
+                            color: Colors.red)
                       ],
                     ),
-                  ),
+                  )),
                 ],
               ),
       ),
     );
   }
 
-  Widget _buildTrainingColumn(String text, double widthFactor) {
-    return SizedBox(
-      height: sizedBoxHeight,
-      width: MediaQuery.of(context).size.width * widthFactor,
-      child: Text(text),
-    );
+  Widget _buildTrainingColumn({required String text, double? widthFactor}) {
+    return widthFactor != null
+        ? SizedBox(
+            height: sizedBoxHeight,
+            width: MediaQuery.of(context).size.width * widthFactor,
+            child: Text(text),
+          )
+        : SizedBox(
+            height: sizedBoxHeight,
+            child: Text(text),
+          );
   }
 
   Widget _buildTrainingList(List<Workout> logs, String message) {

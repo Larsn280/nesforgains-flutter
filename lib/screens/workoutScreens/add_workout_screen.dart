@@ -283,7 +283,7 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pop(context, true);
                   },
                   text: 'Back')
             ],

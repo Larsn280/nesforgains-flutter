@@ -22,13 +22,18 @@ const WorkoutSchema = CollectionSchema(
       name: r'date',
       type: IsarType.string,
     ),
-    r'name': PropertySchema(
+    r'markedColor': PropertySchema(
       id: 1,
+      name: r'markedColor',
+      type: IsarType.string,
+    ),
+    r'name': PropertySchema(
+      id: 2,
       name: r'name',
       type: IsarType.string,
     ),
     r'userId': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'userId',
       type: IsarType.long,
     )
@@ -66,6 +71,12 @@ int _workoutEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.markedColor;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
@@ -77,8 +88,9 @@ void _workoutSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.date);
-  writer.writeString(offsets[1], object.name);
-  writer.writeLong(offsets[2], object.userId);
+  writer.writeString(offsets[1], object.markedColor);
+  writer.writeString(offsets[2], object.name);
+  writer.writeLong(offsets[3], object.userId);
 }
 
 Workout _workoutDeserialize(
@@ -89,8 +101,9 @@ Workout _workoutDeserialize(
 ) {
   final object = Workout(
     date: reader.readStringOrNull(offsets[0]),
-    name: reader.readString(offsets[1]),
-    userId: reader.readLongOrNull(offsets[2]),
+    markedColor: reader.readStringOrNull(offsets[1]),
+    name: reader.readString(offsets[2]),
+    userId: reader.readLongOrNull(offsets[3]),
   );
   object.id = id;
   return object;
@@ -106,8 +119,10 @@ P _workoutDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -402,6 +417,153 @@ extension WorkoutQueryFilter
     });
   }
 
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'markedColor',
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'markedColor',
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'markedColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'markedColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'markedColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'markedColor',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'markedColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'markedColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'markedColor',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'markedColor',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition> markedColorIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'markedColor',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterFilterCondition>
+      markedColorIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'markedColor',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Workout, Workout, QAfterFilterCondition> nameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -678,6 +840,18 @@ extension WorkoutQuerySortBy on QueryBuilder<Workout, Workout, QSortBy> {
     });
   }
 
+  QueryBuilder<Workout, Workout, QAfterSortBy> sortByMarkedColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'markedColor', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterSortBy> sortByMarkedColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'markedColor', Sort.desc);
+    });
+  }
+
   QueryBuilder<Workout, Workout, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -729,6 +903,18 @@ extension WorkoutQuerySortThenBy
     });
   }
 
+  QueryBuilder<Workout, Workout, QAfterSortBy> thenByMarkedColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'markedColor', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Workout, Workout, QAfterSortBy> thenByMarkedColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'markedColor', Sort.desc);
+    });
+  }
+
   QueryBuilder<Workout, Workout, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -763,6 +949,13 @@ extension WorkoutQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Workout, Workout, QDistinct> distinctByMarkedColor(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'markedColor', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Workout, Workout, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -788,6 +981,12 @@ extension WorkoutQueryProperty
   QueryBuilder<Workout, String?, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
+    });
+  }
+
+  QueryBuilder<Workout, String?, QQueryOperations> markedColorProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'markedColor');
     });
   }
 
