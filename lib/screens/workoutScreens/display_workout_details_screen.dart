@@ -40,7 +40,7 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
       return fetchedWorkout;
     } catch (e, stackTrace) {
       logger.e(e, stackTrace: stackTrace);
-      throw Exception(e);
+      throw Exception('$e ,$stackTrace');
     }
   }
 
