@@ -8,6 +8,7 @@ import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/service/nutrition_service.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
+import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
 
 class DisplayDailyNutritionScreen extends StatefulWidget {
@@ -83,6 +84,13 @@ class _DisplayDailyNutritionScreenState
                 },
               ),
             ),
+            const SizedBox(height: 8.0),
+            CustomButtons.buildElevatedFunctionButton(
+                context: context,
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/');
+                },
+                text: 'Home'),
             const SizedBox(height: 8.0),
           ],
         ),

@@ -229,21 +229,23 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
     );
   }
 
-  Widget _buildTrainingHeader() {
+  Widget _buildTrainingHeader(bool areAllWorkoutsMarked) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
           _buildTrainingColumnHeader(
               title: 'Workout/Exercise', widthFactor: 0.60),
-          Flexible(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildTrainingColumnHeader(title: 'Pass'),
-              _buildTrainingColumnHeader(title: 'Fail'),
-            ],
-          ))
+          !areAllWorkoutsMarked
+              ? Flexible(
+                  child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildTrainingColumnHeader(title: 'Pass'),
+                    _buildTrainingColumnHeader(title: 'Fail'),
+                  ],
+                ))
+              : const Flexible(child: Row())
         ],
       ),
     );
@@ -387,11 +389,13 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   }
 
   Widget _buildTrainingList(List<Workout> logs, String message) {
+    final areAllWorkoutsMarked =
+        logs.isNotEmpty && logs.every((log) => log.markedColor != null);
     return CustomCards.buildListCard(
       context: context,
       child: Column(
         children: [
-          _buildTrainingHeader(),
+          _buildTrainingHeader(areAllWorkoutsMarked),
           const Divider(),
           Expanded(
             child: logs.isNotEmpty

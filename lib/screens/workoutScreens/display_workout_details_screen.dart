@@ -129,7 +129,7 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               workout.name,
@@ -138,13 +138,16 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold),
             ),
+            const Spacer(),
             IconButton(
-              icon: const Icon(Icons.edit, color: Colors.greenAccent),
+              icon: const Icon(
+                Icons.edit,
+                color: Colors.greenAccent,
+              ),
               onPressed: () {
                 _navigateToEditWorkout(workout);
               },
             ),
-            const Spacer(),
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.redAccent),
               onPressed: () {
