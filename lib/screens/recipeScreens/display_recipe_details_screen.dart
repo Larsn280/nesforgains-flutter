@@ -98,10 +98,14 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.0),
                           ),
-                          Text(
-                            ingredient.name,
-                            style: const TextStyle(
-                                fontSize: 14.0, fontWeight: FontWeight.bold),
+                          Expanded(
+                            child: Text(
+                              ingredient.name,
+                              style: const TextStyle(
+                                  fontSize: 14.0, fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 5,
+                            ),
                           ),
                         ],
                       ),
@@ -142,10 +146,15 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                               style: const TextStyle(
                                   fontSize: 16.0, fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              stage,
-                              style: const TextStyle(
-                                  fontSize: 14.0, fontWeight: FontWeight.bold),
+                            Expanded(
+                              child: Text(
+                                stage,
+                                style: const TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 5,
+                              ),
                             ),
                           ],
                         ));
