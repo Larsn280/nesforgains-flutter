@@ -216,7 +216,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: _submitNewDish,
-                  text: 'Submit new dish'),
+                  text: 'Save Dish'),
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {

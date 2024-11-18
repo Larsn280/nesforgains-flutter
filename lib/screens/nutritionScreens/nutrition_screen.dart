@@ -120,20 +120,6 @@ class _NutritionScreenState extends State<NutritionScreen> {
     }
   }
 
-  void _navigatetoadd() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddDishScreen(
-          isar: widget.isar,
-        ),
-      ),
-    );
-    if (result != null) {
-      CustomSnackbar.showSnackBar(message: result);
-    }
-  }
-
   void _setsearchcontollertext(String dish) {
     setState(() {
       _searchController.text = dish;
@@ -229,14 +215,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
                   const SizedBox(height: 30.0),
                   CustomButtons.buildElevatedFunctionButton(
                       context: context,
-                      onPressed: _navigatetoadd,
-                      text: 'Add new dish'),
-                  CustomButtons.buildElevatedFunctionButton(
-                      context: context,
                       onPressed: () {
                         Navigator.pushNamed(context, '/displaydishesScreen');
                       },
-                      text: 'Display Dishlist'),
+                      text: 'Dishlist'),
                   CustomButtons.buildElevatedFunctionButton(
                       context: context,
                       onPressed: () {

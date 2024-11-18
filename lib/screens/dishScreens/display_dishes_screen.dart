@@ -1,5 +1,6 @@
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/models/nutrition_data.dart';
+import 'package:nes_for_gains/screens/dishScreens/add_dish_screen.dart';
 import 'package:nes_for_gains/screens/dishScreens/edit_dish_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/dish_service.dart';
@@ -75,6 +76,20 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
     }
   }
 
+  void _navigatetoadd() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddDishScreen(
+          isar: widget.isar,
+        ),
+      ),
+    );
+    if (result != null) {
+      CustomSnackbar.showSnackBar(message: result);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,11 +130,17 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
             ),
             const SizedBox(height: 8.0),
             CustomButtons.buildElevatedFunctionButton(
+              context: context,
+              onPressed: _navigatetoadd,
+              text: 'Add',
+            ),
+            CustomButtons.buildElevatedFunctionButton(
                 context: context,
                 onPressed: () {
                   Navigator.pop(context);
                 },
                 text: 'Go back'),
+            const SizedBox(height: 8.0),
           ],
         ),
       ),
