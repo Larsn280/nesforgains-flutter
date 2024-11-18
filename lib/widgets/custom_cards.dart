@@ -21,26 +21,16 @@ class CustomCards {
   static Widget buildWorkoutListItemCard({
     required BuildContext context,
     required Widget child,
-    Color color = Colors.black54,
-    Color? markedColor,
+    required Color color,
   }) {
-    return markedColor != null
-        ? Card(
-            color: markedColor,
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                side: const BorderSide(color: Colors.white, width: 1.0)),
-            child: Padding(padding: const EdgeInsets.all(8.0), child: child),
-          )
-        : Card(
-            color: color,
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                side: const BorderSide(color: Colors.white, width: 1.0)),
-            child: Padding(padding: const EdgeInsets.all(8.0), child: child),
-          );
+    return Card(
+      color: color,
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          side: const BorderSide(color: Colors.white, width: 1.0)),
+      child: Padding(padding: const EdgeInsets.all(8.0), child: child),
+    );
   }
 
   static Widget buildListCard({

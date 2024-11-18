@@ -141,6 +141,9 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
         });
       }
     }
+    setState(() {
+      _futureWorkouts = _fetchAllWorkouts();
+    });
   }
 
   void toggleSecondCheckBox(int id) async {
@@ -162,6 +165,9 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
         });
       }
     }
+    setState(() {
+      _futureWorkouts = _fetchAllWorkouts();
+    });
   }
 
   @override
@@ -253,11 +259,22 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
   }
 
   Widget _buildTrainingRow(Workout log) {
+    Color color = Colors.black54;
+
+    if (log.markedColor != null) {
+      if (log.markedColor == 'green') {
+        color = Colors.green;
+      } else {
+        color = Colors.red;
+      }
+    }
+
     return GestureDetector(
       onTap: () {
         _navigateToWorkoutDetails(log);
       },
       child: CustomCards.buildWorkoutListItemCard(
+        color: color,
         context: context,
         child: log.exercise.length == 1
             ? Row(
