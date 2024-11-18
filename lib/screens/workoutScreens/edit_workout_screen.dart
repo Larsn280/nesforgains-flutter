@@ -136,7 +136,7 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
         if (mounted) {
           final finalWorkout = await _fetchWorkout();
 
-          Navigator.pop(context, finalWorkout);
+          Navigator.pop(context, true);
         }
         CustomSnackbar.showSnackBar(message: response.message);
       }
@@ -151,62 +151,63 @@ class _EditWorkoutScreenState extends State<EditWorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(AppConstants.appbackgroundimage),
-            fit: BoxFit.cover,
+      body: SizedBox.expand(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(AppConstants.appbackgroundimage),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const CustomAppbar(
-                title: 'Edit Workout',
-              ),
-              const SizedBox(
-                height: 40.0,
-              ),
-              CustomCards.buildFormCard(
-                context: context,
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 16.0),
-                      _buildTextField(
-                          'Workout (eg: Chest)', _workoutController),
-                      _buildTextField(
-                          'Exercise (eg: Benchpress)', _exerciseController),
-                      _buildTextField('Date (YYYY-MM-DD)', _dateController),
-                      _buildTextField('Reps', _repsController),
-                      _buildTextField('Sets', _setsController),
-                      _buildTextField('Weight (kg)', _kgController),
-                    ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomAppbar(
+                  title: 'Edit Workout',
+                ),
+                const SizedBox(
+                  height: 40.0,
+                ),
+                CustomCards.buildFormCard(
+                  context: context,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 16.0),
+                        _buildFormTextFormField(
+                            'Workout (eg: Chest)', _workoutController),
+                        _buildFormTextFormField(
+                            'Exercise (eg: Benchpress)', _exerciseController),
+                        _buildFormTextFormField(
+                            'Date (YYYY-MM-DD)', _dateController),
+                        _buildFormTextFormField('Reps', _repsController),
+                        _buildFormTextFormField('Sets', _setsController),
+                        _buildFormTextFormField('Weight (kg)', _kgController),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 30.0),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: _handleEditWorkout,
-                  text: 'Save'),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  text: 'Back'),
-            ],
+                const SizedBox(height: 30.0),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: _handleEditWorkout,
+                    text: 'Save'),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    text: 'Back'),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller,
+  Widget _buildFormTextFormField(String label, TextEditingController controller,
       {bool isNumeric = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),

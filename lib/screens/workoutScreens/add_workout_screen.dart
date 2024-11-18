@@ -121,175 +121,132 @@ class _AddWorkoutScreen extends State<AddWorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(AppConstants.appbackgroundimage),
-              fit: BoxFit.cover),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const CustomAppbar(
-                title: 'Log Workout',
-              ),
-              const SizedBox(height: 40.0),
-              CustomCards.buildFormCard(
-                context: context,
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 16.0),
-                      // Date Picker
-                      Row(
-                        children: [
-                          Text(
-                            _selectedDate == null
-                                ? 'Select Date'
-                                : DateFormat('y-MMM-d').format(_selectedDate!),
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.calendar_today,
-                                color: Colors.white),
-                            onPressed: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2101),
-                              );
-                              if (pickedDate != null) {
-                                setState(() {
-                                  _selectedDate = pickedDate;
-                                });
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
+      body: SizedBox.expand(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(AppConstants.appbackgroundimage),
+                fit: BoxFit.cover),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomAppbar(
+                  title: 'Log Workout',
+                ),
+                const SizedBox(height: 40.0),
+                CustomCards.buildFormCard(
+                  context: context,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 16.0),
+                        // Date Picker
+                        Row(
+                          children: [
+                            Text(
+                              _selectedDate == null
+                                  ? 'Select Date'
+                                  : DateFormat('y-MMM-d')
+                                      .format(_selectedDate!),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.calendar_today,
+                                  color: Colors.white),
+                              onPressed: () async {
+                                DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2101),
+                                );
+                                if (pickedDate != null) {
+                                  setState(() {
+                                    _selectedDate = pickedDate;
+                                  });
+                                }
+                              },
+                            ),
+                          ],
+                        ),
 
-                      TextFormField(
-                        controller: _workoutController,
-                        decoration: const InputDecoration(
-                          labelText: 'Workout (eg: Chest, Legs, Bak)',
-                          labelStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter workout eg: Legs...';
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(color: Colors.white),
-                      ),
+                        _buildFormTextFormField(
+                            controller: _workoutController,
+                            lable: 'Workout (eg: Chest, Legs, Bak)',
+                            validatorText: 'Please enter workout eg: Legs...'),
 
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        controller: _exerciseController,
-                        decoration: const InputDecoration(
-                          labelText:
-                              'Exercises eg: (Benchpress, comma separated)',
-                          labelStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter exercise eg: Benchpress';
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 10),
-                      // Weight input
-                      TextFormField(
-                        controller: _weightController,
-                        decoration: const InputDecoration(
-                          labelText: 'Weight (kg, comma separated)',
-                          labelStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter weight in kg';
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 10),
-                      // Reps input
-                      TextFormField(
-                        controller: _repsController,
-                        decoration: const InputDecoration(
-                          labelText: 'Reps',
-                          labelStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter reps (comma separated)';
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 10),
-                      // Sets input
-                      TextFormField(
-                        controller: _setsController,
-                        decoration: const InputDecoration(
-                          labelText: 'Sets',
-                          labelStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter sets (comma separated)';
-                          }
+                        _buildFormTextFormField(
+                            controller: _exerciseController,
+                            lable:
+                                'Exercises eg: (Benchpress, comma separated)',
+                            validatorText:
+                                'Please enter exercise eg: Benchpress...'),
+                        _buildFormTextFormField(
+                            controller: _weightController,
+                            lable: 'Weight (kg, comma separated)',
+                            validatorText: 'Please enter weight in kg...'),
 
-                          return null;
-                        },
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ],
+                        _buildFormTextFormField(
+                            controller: _repsController,
+                            lable: 'Reps (comma separated)',
+                            validatorText:
+                                'Please enter reps (comma separated)...'),
+
+                        _buildFormTextFormField(
+                            controller: _setsController,
+                            lable: 'Sets (comma separated)',
+                            validatorText:
+                                'Please enter sets (comma separated)'),
+                      ],
+                    ),
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 8.0),
-              // Submit button
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: _saveTrainingData,
-                  text: 'Save Workout'),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  text: 'Back')
-            ],
+                const SizedBox(height: 8.0),
+                // Submit button
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: _saveTrainingData,
+                    text: 'Save Workout'),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    text: 'Back')
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFormTextFormField({
+    required TextEditingController controller,
+    required String lable,
+    required String validatorText,
+    bool isNumeric = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: lable,
+        filled: true,
+        fillColor: Colors.black54,
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return validatorText;
+        }
+        if (isNumeric && int.tryParse(value) == null) {
+          return 'Please enter a valid number';
+        }
+        return null;
+      },
     );
   }
 }

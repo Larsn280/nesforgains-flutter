@@ -33,18 +33,20 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
     workoutService = WorkoutService(widget.isar);
   }
 
-  Future<void> _fetchWorkout() async {
+  Future<Workout> _fetchWorkout() async {
     try {
       final fetchedWorkout =
           await workoutService.fetchWorkoutById(widget.workout.id);
+      return fetchedWorkout;
     } catch (e, stackTrace) {
       logger.e(e, stackTrace: stackTrace);
+      throw Exception(e);
     }
   }
 
   void _navigateToEditWorkout(Workout workout) async {
     try {
-      final updatedWorkout = await Navigator.push<Workout>(
+      final result = await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => EditWorkoutScreen(
@@ -53,7 +55,8 @@ class _DisplayWorkoutDetailsState extends State<DisplayWorkoutDetailsScreen> {
           ),
         ),
       );
-      if (updatedWorkout != null) {
+      final updatedWorkout = await _fetchWorkout();
+      if (result == true) {
         setState(() {
           this.workout = updatedWorkout;
         });
