@@ -87,6 +87,7 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
     );
     if (result != null) {
       CustomSnackbar.showSnackBar(message: result);
+      setState(() {});
     }
   }
 

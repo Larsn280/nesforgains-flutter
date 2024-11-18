@@ -88,145 +88,109 @@ class _AddDishScreenState extends State<AddDishScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(AppConstants.appbackgroundimage),
-              fit: BoxFit.cover),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const CustomAppbar(
-                title: 'Add dish',
-              ),
-              const SizedBox(height: 40.0),
-              CustomCards.buildFormCard(
-                context: context,
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Dish name:',
-                          hintText: 'Dish name',
-                          filled: true,
-                          fillColor: Colors.black54,
+      body: SizedBox.expand(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(AppConstants.appbackgroundimage),
+                fit: BoxFit.cover),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomAppbar(
+                  title: 'Add dish',
+                ),
+                const SizedBox(height: 40.0),
+                CustomCards.buildFormCard(
+                  context: context,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 16.0),
+                        _buildFormTextFormField(
+                            controller: _nameController,
+                            lable: 'Dish',
+                            hint: 'Dish',
+                            validatorText: 'Please enter a dish name'),
+                        _buildFormTextFormField(
+                          controller: _caloriesController,
+                          lable: 'Calories',
+                          hint: 'Calories',
+                          validatorText: 'Please enter calories',
+                          isNumeric: true,
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a dish name';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _caloriesController,
-                        decoration: const InputDecoration(
-                          labelText: 'Calories:',
-                          hintText: 'Calories',
-                          filled: true,
-                          fillColor: Colors.black54,
+                        _buildFormTextFormField(
+                            controller: _proteinController,
+                            lable: 'Protein',
+                            hint: 'Protein',
+                            validatorText: 'Please enter protein',
+                            isNumeric: true),
+                        _buildFormTextFormField(
+                          controller: _caloriesController,
+                          lable: 'Carbohydrates:',
+                          hint: 'Carbohydrates:',
+                          validatorText: 'Please enter carbohydrates',
+                          isNumeric: true,
                         ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter calories';
-                          }
-                          final n = int.tryParse(value);
-                          if (n == null || n < 0) {
-                            return 'Please enter a valid positive number';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _proteinController,
-                        decoration: const InputDecoration(
-                          labelText: 'Protein:',
-                          hintText: 'Protein',
-                          filled: true,
-                          fillColor: Colors.black54,
+                        _buildFormTextFormField(
+                          controller: _fatController,
+                          lable: 'Fat',
+                          hint: 'Fat',
+                          validatorText: 'Please enter fat',
+                          isNumeric: true,
                         ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter protein';
-                          }
-                          final n = int.tryParse(value);
-                          if (n == null || n < 0) {
-                            return 'Please enter a valid positive number';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _carbsController,
-                        decoration: const InputDecoration(
-                          labelText: 'Carbohydrates:',
-                          hintText: 'Carbohydrates',
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter carbohydrates';
-                          }
-                          final n = int.tryParse(value);
-                          if (n == null || n < 0) {
-                            return 'Please enter a valid positive number';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _fatController,
-                        decoration: const InputDecoration(
-                          labelText: 'Fat:',
-                          hintText: 'Fat',
-                          filled: true,
-                          fillColor: Colors.black54,
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter fat';
-                          }
-                          final n = int.tryParse(value);
-                          if (n == null || n < 0) {
-                            return 'Please enter a valid positive number';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 30.0,
-              ),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: _submitNewDish,
-                  text: 'Save Dish'),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'Go back'),
-            ],
+                const SizedBox(
+                  height: 30.0,
+                ),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: _submitNewDish,
+                    text: 'Save Dish'),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    text: 'Go back'),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFormTextFormField({
+    required TextEditingController controller,
+    required String lable,
+    required String hint,
+    required String validatorText,
+    bool isNumeric = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: lable,
+        hintText: hint,
+        filled: true,
+        fillColor: Colors.black54,
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return validatorText;
+        }
+        if (isNumeric && int.tryParse(value) == null) {
+          return 'Please enter a valid number';
+        }
+        return null;
+      },
     );
   }
 }
