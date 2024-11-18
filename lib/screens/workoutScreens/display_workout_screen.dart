@@ -216,6 +216,12 @@ class _DisplayWorkScreenState extends State<DisplayWorkoutScreen> {
                   _navigateToAddWorkout();
                 },
                 text: 'Add'),
+            CustomButtons.buildElevatedFunctionButton(
+                context: context,
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/');
+                },
+                text: 'Home'),
             const SizedBox(height: 20.0),
           ],
         ),

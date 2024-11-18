@@ -130,6 +130,12 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                     Navigator.pushNamed(context, '/addrecipeScreen');
                   },
                   text: 'Add'),
+              CustomButtons.buildElevatedFunctionButton(
+                  context: context,
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/');
+                  },
+                  text: 'Home'),
               const SizedBox(
                 height: 20.0,
               )

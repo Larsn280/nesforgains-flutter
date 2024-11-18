@@ -99,7 +99,8 @@ class _BookOfExusesScreenState extends State<BookOfExuses> {
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, '/');
                     },
-                    text: 'Exit')
+                    text: 'Home'),
+                const SizedBox(height: 8.0)
               ],
             ),
           ),
