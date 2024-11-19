@@ -1,3 +1,4 @@
+import 'package:lottie/lottie.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:nes_for_gains/constants.dart';
@@ -14,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final String randomGifUrl = "https://i.gifer.com/Chc3.gif";
   late String userName;
 
   @override
@@ -50,30 +50,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(20.0),
                         side: const BorderSide(color: Colors.white, width: 1.0),
                       ),
-                      child: Image.network(
-                        randomGifUrl,
-                        fit: BoxFit.contain, // Adjust to fit the container
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      (loadingProgress.expectedTotalBytes ?? 1)
-                                  : null,
-                            ),
-                          );
-                        },
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Text('Failed to load GIF'),
+                      child: Image.asset(
+                        'assets/animations/Chc3.gif',
+                        key: const ValueKey('animation'),
+                        fit: BoxFit.cover,
                       ),
                     ),
                     const Positioned(
                       bottom: 10.0,
                       child: Text(
                         'Benchpress!!!',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0,
