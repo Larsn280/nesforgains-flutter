@@ -35,7 +35,7 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
     try {
       final response = await nutritionService
           .fetchAllDishesById(AuthProvider.of(context).id);
-      return response ?? [];
+      return response;
     } catch (e) {
       logger.e('Error fetching dishes', error: e);
       return [];
