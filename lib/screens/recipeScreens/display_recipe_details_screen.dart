@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
+import 'package:nes_for_gains/logger.dart';
+import 'package:nes_for_gains/screens/recipeScreens/edit_recipe_screen.dart';
+import 'package:nes_for_gains/service/recipe_service.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
+import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class DisplayRecipeDetailsScreen extends StatefulWidget {
+  final Isar isar;
   final Recipe recipe;
-  const DisplayRecipeDetailsScreen({super.key, required this.recipe});
+  const DisplayRecipeDetailsScreen(
+      {super.key, required this.recipe, required this.isar});
 
   @override
   State<DisplayRecipeDetailsScreen> createState() =>
@@ -15,6 +22,65 @@ class DisplayRecipeDetailsScreen extends StatefulWidget {
 }
 
 class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
+  late RecipeService recipeService;
+  late Recipe recipe;
+
+  @override
+  void initState() {
+    super.initState();
+    recipe = widget.recipe;
+    recipeService = RecipeService(widget.isar);
+  }
+
+  Future<Recipe> _fetchRecipe() async {
+    try {
+      final fetchedRecipe =
+          await recipeService.fetchRecipeById(widget.recipe.id);
+      return fetchedRecipe;
+    } catch (e, stackTrace) {
+      logger.e(e, stackTrace: stackTrace);
+      throw Exception('$e ,$stackTrace');
+    }
+  }
+
+  void _handleDeleteRecipe(Recipe recipe) async {
+    try {
+      final result = await recipeService.deleteRecipe(recipe);
+
+      if (result.checksuccess == true) {
+        if (mounted) {
+          Navigator.pop(context, true);
+        }
+      }
+      CustomSnackbar.showSnackBar(message: result.message);
+    } catch (e, stackTrace) {
+      logger.e('An error occurred while deleting the recipe: $e',
+          stackTrace: stackTrace);
+
+      CustomSnackbar.showSnackBar(
+          message:
+              'An error occurred while deleting the recipe. Please try again.');
+    }
+  }
+
+  void _navigateToEditRecipe(Recipe recipe) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditRecipeScreen(
+          recipe: recipe,
+          isar: widget.isar,
+        ),
+      ),
+    );
+    if (result == true) {
+      final updatedRecipe = await _fetchRecipe();
+      setState(() {
+        this.recipe = updatedRecipe;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,15 +100,15 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
               CustomCards.buildListCard(
                   context: context,
                   child: SingleChildScrollView(
-                    child: _buildRecipeDetails(widget.recipe),
+                    child: _buildRecipeDetails(recipe),
                   )),
               const SizedBox(height: 8.0),
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, true);
                   },
-                  text: 'Go back'),
+                  text: 'Back'),
             ],
           ),
         ),
@@ -54,28 +120,40 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
     final ingredients = recipe.ingredients.map((i) => i).toList();
     final stages = recipe.stage.map((i) => i.instruction).toList();
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.recipe.title,
-          style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        Row(
+          children: [
+            Text(
+              recipe.title,
+              style:
+                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+            ),
+            const Spacer(),
+            IconButton(
+              icon: const Icon(Icons.edit, color: Colors.greenAccent),
+              onPressed: () {
+                _navigateToEditRecipe(recipe);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.redAccent),
+              onPressed: () {
+                _handleDeleteRecipe(recipe);
+              },
+            ),
+          ],
         ),
         const SizedBox(
           height: 20.0,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              'Duration: ${widget.recipe.duration} min',
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            Text(
-              'Difficulty: ${widget.recipe.difficulty}',
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-          ],
+        Text(
+          'Duration: ${recipe.duration} min',
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+        ),
+        Text(
+          'Difficulty: ${recipe.difficulty}',
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
         ),
         const SizedBox(
           height: 30.0,

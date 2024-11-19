@@ -111,11 +111,10 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
         final response =
             await recipeService.editRecipe(recipe, ingredientsList, stageList);
 
-        if (response.checksuccess == true) {
-          if (mounted) {
-            Navigator.pop(context, true);
-          }
+        if (mounted) {
+          Navigator.pop(context, true);
         }
+
         CustomSnackbar.showSnackBar(message: response.message);
       }
     } catch (e, stackTrace) {

@@ -180,7 +180,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                 CustomButtons.buildElevatedFunctionButton(
                     context: context,
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.pop(context, true);
                     },
                     text: 'Back')
               ],

@@ -145,4 +145,23 @@ class RecipeService {
       throw Exception('Error while retriving recipes');
     }
   }
+
+  Future<Recipe> fetchRecipeById(int recipeId) async {
+    try {
+      final recipeToFetch =
+          await _isar.recipes.filter().idEqualTo(recipeId).findFirst();
+
+      if (recipeToFetch == null) {
+        throw Exception('Recipe not found for ID $recipeId');
+      }
+
+      await recipeToFetch.stage.load();
+      await recipeToFetch.ingredients.load();
+
+      return recipeToFetch;
+    } catch (e, stackTrace) {
+      logger.e('Error fetching recipe: $e', stackTrace: stackTrace);
+      throw Exception('Failed to fetch recipe: $e');
+    }
+  }
 }

@@ -3,13 +3,12 @@ import 'package:isar/isar.dart';
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/database/collections/recipe.dart';
 import 'package:nes_for_gains/logger.dart';
+import 'package:nes_for_gains/screens/recipeScreens/add_recipe_screen.dart';
 import 'package:nes_for_gains/screens/recipeScreens/display_recipe_details_screen.dart';
-import 'package:nes_for_gains/screens/recipeScreens/edit_recipe_screen.dart';
 import 'package:nes_for_gains/service/recipe_service.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
-import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class DisplayRecipeScreen extends StatefulWidget {
   final Isar isar;
@@ -40,30 +39,11 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
     }
   }
 
-  void _handleDeleteRecipe(Recipe recipe) async {
-    try {
-      final result = await recipeService.deleteRecipe(recipe);
-
-      if (result.checksuccess == true) {
-        setState(() {});
-      }
-      CustomSnackbar.showSnackBar(message: result.message);
-    } catch (e, stackTrace) {
-      logger.e('An error occurred while deleting the recipe: $e',
-          stackTrace: stackTrace);
-
-      CustomSnackbar.showSnackBar(
-          message:
-              'An error occurred while deleting the recipe. Please try again.');
-    }
-  }
-
-  void _navigateToEditRecipe(Recipe recipe) async {
+  void _navigateToAddRecipe() async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditRecipeScreen(
-          recipe: recipe,
+        builder: (context) => AddRecipeScreen(
           isar: widget.isar,
         ),
       ),
@@ -80,10 +60,16 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => DisplayRecipeDetailsScreen(
+          isar: widget.isar,
           recipe: recipe,
         ),
       ),
     );
+    if (result == true) {
+      setState(() {
+        _fetchAllRecipes();
+      });
+    }
   }
 
   @override
@@ -127,7 +113,7 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
               CustomButtons.buildElevatedFunctionButton(
                   context: context,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/addrecipeScreen');
+                    _navigateToAddRecipe();
                   },
                   text: 'Add'),
               CustomButtons.buildElevatedFunctionButton(
@@ -158,34 +144,28 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeScreen> {
                     itemBuilder: (context, index) {
                       final recipe = recipes[index];
 
-                      return ListTile(
-                        title: Text(
-                            style: const TextStyle(color: Colors.white),
-                            recipe.title), // Display recipe title
-                        subtitle: Text(
-                            style: const TextStyle(color: Colors.white),
-                            'Duration: ${recipe.duration} mins, Difficulty: ${recipe.difficulty}'),
+                      return GestureDetector(
                         onTap: () {
                           _navigateToRecipeDetails(recipe);
                         },
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit,
-                                  color: Colors.greenAccent),
-                              onPressed: () {
-                                _navigateToEditRecipe(recipe);
-                              },
+                        child: Card(
+                          color: Colors.black54,
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: const BorderSide(
+                                  color: Colors.white, width: 1.0)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              title: Text(
+                                  style: const TextStyle(color: Colors.white),
+                                  recipe.title), // Display recipe title
+                              subtitle: Text(
+                                  style: const TextStyle(color: Colors.white),
+                                  'Duration: ${recipe.duration} mins, Difficulty: ${recipe.difficulty}'),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete,
-                                  color: Colors.redAccent),
-                              onPressed: () {
-                                _handleDeleteRecipe(recipe);
-                              },
-                            ),
-                          ],
+                          ),
                         ),
                       );
                     },
