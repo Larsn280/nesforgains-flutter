@@ -140,7 +140,7 @@ class _DisplayDishesScreenState extends State<DisplayDishesScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                text: 'Go back'),
+                text: 'Back'),
             const SizedBox(height: 8.0),
           ],
         ),

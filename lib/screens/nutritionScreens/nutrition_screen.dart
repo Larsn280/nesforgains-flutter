@@ -1,6 +1,5 @@
 import 'package:nes_for_gains/constants.dart';
 import 'package:nes_for_gains/logger.dart';
-import 'package:nes_for_gains/screens/dishScreens/add_dish_screen.dart';
 import 'package:nes_for_gains/service/auth_service.dart';
 import 'package:nes_for_gains/service/dish_service.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:nes_for_gains/service/nutrition_service.dart';
 import 'package:nes_for_gains/widgets/custom_appbar.dart';
 import 'package:nes_for_gains/widgets/custom_buttons.dart';
 import 'package:nes_for_gains/widgets/custom_cards.dart';
-import 'package:nes_for_gains/widgets/custom_snackbar.dart';
 
 class NutritionScreen extends StatefulWidget {
   final Isar isar;
@@ -80,8 +78,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
     try {
       final response = await nutritionService.postDailyDish(
           dish, AuthProvider.of(context).id);
-      _searchController.clear();
-      _fetchDailyIntake();
+      if (response.checksuccess == true) {
+        _searchController.clear();
+        _fetchDailyIntake();
+      }
     } catch (e) {
       logger.e('Error posting', error: e);
     }
@@ -91,7 +91,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
     try {
       final response = await nutritionService.putDailyDish(
           dish, AuthProvider.of(context).id);
-      _fetchDailyIntake();
+      if (response.checksuccess == true) {
+        _searchController.clear();
+        _fetchDailyIntake();
+      }
     } catch (e) {
       logger.e('Error puting:', error: e);
     }
