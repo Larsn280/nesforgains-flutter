@@ -39,35 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 12.0,
                 ),
-                Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Card(
-                      color: Colors.black54,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: const BorderSide(color: Colors.white, width: 1.0),
-                      ),
-                      child: Image.asset(
-                        'assets/animations/Chc3.gif',
-                        key: const ValueKey('animation'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const Positioned(
-                      bottom: 10.0,
-                      child: Text(
-                        'Benchpress!!!',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 const SizedBox(height: 28.0),
                 Card(
                   color: Colors.black54,
@@ -76,16 +47,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(20.0),
                     side: const BorderSide(color: Colors.white, width: 1.0),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 20.0),
-                        Text('Welcome to NESForGains!',
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Image.asset(
+                              'assets/animations/Chc3.gif',
+                              key: const ValueKey('animation'),
+                              fit: BoxFit.cover,
+                            ),
+                            const Positioned(
+                              bottom: 10.0,
+                              child: Text(
+                                'Benchpress!!!',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20.0),
+                        const Text('Welcome to NESForGains!',
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        SizedBox(height: 8.0),
-                        Text(
+                        const SizedBox(height: 8.0),
+                        const Text(
                           'NESForGains is your personal companion on the journey to better health and fitness. '
                           'Track your workouts, monitor your nutrition, and discover new recipes—all in one place. '
                           'With NESForGains, you can effortlessly log your progress, helping you stay focused and motivated every step of the way.\n\n'
@@ -101,12 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 30.0,
                 ),
-                CustomButtons.buildElevatedFunctionButton(
-                    context: context,
-                    onPressed: () {
-                      AuthProvider.of(context).logout();
-                    },
-                    text: 'Logout'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

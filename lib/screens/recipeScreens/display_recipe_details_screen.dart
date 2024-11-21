@@ -91,25 +91,27 @@ class _DisplayRecipeScreenState extends State<DisplayRecipeDetailsScreen> {
                 image: AssetImage(AppConstants.appbackgroundimage),
                 fit: BoxFit.cover),
           ),
-          child: Column(
-            children: [
-              const CustomAppbar(title: 'Recipe Details'),
-              const SizedBox(
-                height: 40.0,
-              ),
-              CustomCards.buildListCard(
-                  context: context,
-                  child: SingleChildScrollView(
-                    child: _buildRecipeDetails(recipe),
-                  )),
-              const SizedBox(height: 8.0),
-              CustomButtons.buildElevatedFunctionButton(
-                  context: context,
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  text: 'Back'),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomAppbar(title: 'Recipe Details'),
+                const SizedBox(
+                  height: 40.0,
+                ),
+                CustomCards.buildListCard(
+                    context: context,
+                    child: SingleChildScrollView(
+                      child: _buildRecipeDetails(recipe),
+                    )),
+                const SizedBox(height: 8.0),
+                CustomButtons.buildElevatedFunctionButton(
+                    context: context,
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    text: 'Back'),
+              ],
+            ),
           ),
         ),
       ),
