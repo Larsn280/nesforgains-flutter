@@ -169,26 +169,13 @@ class CustomNavigationMenuState extends State<CustomNavigationMenu> {
                               _removeOverlay();
                             },
                           ),
-                          InkWell(
-                            onTap: () {
+                          buildMenuOption(
+                            icon: Icons.book_sharp,
+                            label: 'Logout',
+                            onPressed: () {
                               AuthProvider.of(context).logout();
+                              _removeOverlay();
                             },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                              color: Colors.black,
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Logout',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ),
                         ],
                       ),
