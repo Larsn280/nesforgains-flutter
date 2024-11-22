@@ -27,6 +27,17 @@ android {
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
+    signingConfigs {
+    release {
+        storeFile file("nesforgain-release-key.jks")
+        storePassword "e1520E422!"
+        keyAlias "nesforgains-key"
+        keyPassword "e1520E422!"
+    }
+}
+
+(SHA384withRSA
+)
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
